@@ -1,0 +1,182 @@
+
+admin_courses_index:
+  pattern: /courses
+  defaults: { _controller: SmirikCourseBundle:AdminCourse:index, page: 1 }
+
+admin_courses_list:
+  pattern: /courses/{page}
+  defaults: { _controller: SmirikCourseBundle:AdminCourse:index, page: 1 }
+  requirements:
+    page:   \d+
+
+admin_courses_edit:
+  pattern: /courses/{id}/edit
+  defaults: { _controller: SmirikCourseBundle:AdminCourse:edit }
+  requirements:
+    id:   \d+
+
+admin_courses_delete:
+  pattern: /courses/{id}/delete
+  defaults: { _controller: SmirikCourseBundle:AdminCourse:delete }
+  requirements:
+    id:   \d+
+
+admin_courses_new:
+  pattern: /courses/new
+  defaults: { _controller: SmirikCourseBundle:AdminCourse:new }
+
+admin_lessons_index:
+  pattern: /lessons
+  defaults: { _controller: SmirikCourseBundle:AdminLesson:index, page: 1 }
+
+admin_lessons_list:
+  pattern: /lessons/{page}
+  defaults: { _controller: SmirikCourseBundle:AdminLesson:index, page: 1 }
+  requirements:
+    page:   \d+
+
+admin_lessons_edit:
+  pattern: /lessons/{id}/edit
+  defaults: { _controller: SmirikCourseBundle:AdminLesson:edit }
+  requirements:
+    id:   \d+
+
+admin_lessons_delete:
+  pattern: /lessons/{id}/delete
+  defaults: { _controller: SmirikCourseBundle:AdminLesson:delete }
+  requirements:
+    id:   \d+
+
+admin_lessons_new:
+  pattern: /lessons/new
+  defaults: { _controller: SmirikCourseBundle:AdminLesson:new }
+
+admin_lessons_questions_index:
+  pattern: /lessons_questions
+  defaults: { _controller: SmirikCourseBundle:AdminLessonQuestion:index, page: 1 }
+
+admin_lessons_questions_list:
+  pattern: /lessons_questions/{page}
+  defaults: { _controller: SmirikCourseBundle:AdminLessonQuestion:index, page: 1 }
+  requirements:
+    page:   \d+
+
+admin_lessons_questions_edit:
+  pattern: /lessons_questions/{id}/edit
+  defaults: { _controller: SmirikCourseBundle:AdminLessonQuestion:edit }
+  requirements:
+    id:   \d+
+
+admin_lessons_questions_delete:
+  pattern: /lessons_questions/{id}/delete
+  defaults: { _controller: SmirikCourseBundle:AdminLessonQuestion:delete }
+  requirements:
+    id:   \d+
+
+admin_lessons_questions_new:
+  pattern: /lessons_questions/new
+  defaults: { _controller: SmirikCourseBundle:AdminLessonQuestion:new }
+
+admin_lessons_answers_index:
+  pattern: /lessons_answers
+  defaults: { _controller: SmirikCourseBundle:AdminLessonAnswer:index, page: 1 }
+
+admin_lessons_answers_list:
+  pattern: /lessons_answers/{page}
+  defaults: { _controller: SmirikCourseBundle:AdminLessonAnswer:index, page: 1 }
+  requirements:
+    page:   \d+
+
+admin_lessons_answers_edit:
+  pattern: /lessons_answers/{id}/edit
+  defaults: { _controller: SmirikCourseBundle:AdminLessonAnswer:edit }
+  requirements:
+    id:   \d+
+
+admin_lessons_answers_delete:
+  pattern: /lessons_answers/{id}/delete
+  defaults: { _controller: SmirikCourseBundle:AdminLessonAnswer:delete }
+  requirements:
+    id:   \d+
+
+admin_lessons_answers_new:
+  pattern: /lessons_answers/new
+  defaults: { _controller: SmirikCourseBundle:AdminLessonAnswer:new }
+
+admin_tasks_index:
+  pattern: /tasks
+  defaults: { _controller: SmirikCourseBundle:AdminTask:index, page: 1 }
+
+admin_tasks_list:
+  pattern: /tasks/{page}
+  defaults: { _controller: SmirikCourseBundle:AdminTask:index, page: 1 }
+  requirements:
+    page:   \d+
+
+admin_tasks_edit:
+  pattern: /tasks/{id}/edit
+  defaults: { _controller: SmirikCourseBundle:AdminTask:edit }
+  requirements:
+    id:   \d+
+
+admin_tasks_delete:
+  pattern: /tasks/{id}/delete
+  defaults: { _controller: SmirikCourseBundle:AdminTask:delete }
+  requirements:
+    id:   \d+
+
+admin_tasks_new:
+  pattern: /tasks/new
+  defaults: { _controller: SmirikCourseBundle:AdminTask:new }
+
+admin_users_tasks_index:
+  pattern: /users_tasks
+  defaults: { _controller: SmirikCourseBundle:AdminUserTask:index, page: 1 }
+
+admin_users_tasks_list:
+  pattern: /users_tasks/{page}
+  defaults: { _controller: SmirikCourseBundle:AdminUserTask:index, page: 1 }
+  requirements:
+    page:   \d+
+
+admin_users_tasks_edit:
+  pattern: /users_tasks/{id}/edit
+  defaults: { _controller: SmirikCourseBundle:AdminUserTask:edit }
+  requirements:
+    id:   \d+
+
+admin_users_tasks_delete:
+  pattern: /users_tasks/{id}/delete
+  defaults: { _controller: SmirikCourseBundle:AdminUserTask:delete }
+  requirements:
+    id:   \d+
+
+admin_users_tasks_new:
+  pattern: /users_tasks/new
+  defaults: { _controller: SmirikCourseBundle:AdminUserTask:new }
+
+admin_users_tasks_reviews_index:
+  pattern: /users_tasks_reviews
+  defaults: { _controller: SmirikCourseBundle:AdminUserTaskReview:index, page: 1 }
+
+admin_users_tasks_reviews_list:
+  pattern: /users_tasks_reviews/{page}
+  defaults: { _controller: SmirikCourseBundle:AdminUserTaskReview:index, page: 1 }
+  requirements:
+    page:   \d+
+
+admin_users_tasks_reviews_edit:
+  pattern: /users_tasks_reviews/{id}/edit
+  defaults: { _controller: SmirikCourseBundle:AdminUserTaskReview:edit }
+  requirements:
+    id:   \d+
+
+admin_users_tasks_reviews_delete:
+  pattern: /users_tasks_reviews/{id}/delete
+  defaults: { _controller: SmirikCourseBundle:AdminUserTaskReview:delete }
+  requirements:
+    id:   \d+
+
+admin_users_tasks_reviews_new:
+  pattern: /users_tasks_reviews/new
+  defaults: { _controller: SmirikCourseBundle:AdminUserTaskReview:new }

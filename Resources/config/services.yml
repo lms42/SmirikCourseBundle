@@ -1,0 +1,9 @@
+services:
+  course.manager:
+    class: Smirik\CourseBundle\Model\CourseManager
+    
+  courses.configure_menu_listener:
+      class: Smirik\CourseBundle\Listener\ConfigureMenuListener
+      tags:
+        - { name: kernel.event_listener, event: smirik_admin.menu_configure, method: onMenuConfigure }
+          

@@ -1,0 +1,71 @@
+{% extends 'SmirikCourseBundle::layout.html.twig' %}
+
+{% block content %}
+<h2>{{ course.title}} <small>{{ ''|trans }}</small></h2>
+<blockquote>
+  {{ course.description|raw }}
+</blockquote>
+
+{% if not has_course %}
+  <p>
+  <a href="{{ path('course_start', {"id": course.id }) }}" class="btn btn-large btn-primary">{{ 'Start course'|trans }}</a>
+  </p>
+{% endif %}
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>{{ 'N'|trans }}</th>
+      <th>{{ 'Title'|trans }}</th>
+      <th>{{ 'Status'|trans }}</th>
+      <th>{{ 'Action'|trans }}</th>
+    </tr>
+  </thead>
+  {% for lesson in lessons %}
+    {% if lesson.id == last_avaliable_id %}
+      {% set count = 1 %}
+    {% endif %}
+    {% if count == -1 %}
+      {% set count = 2 %}
+    {% endif %}
+    <tr {% if lesson.id in users_lessons|keys and users_lessons[lesson.id] == 3 %}class="success"{% elseif lesson.id in users_lessons|keys and users_lessons[lesson.id] == 1 %}class="info"{% endif %}>
+      <td>{{ loop.index }}</td>
+      <td>{{ lesson.title }}</td>
+      <td>
+        {% if lesson.id in users_lessons|keys %}
+          {% if users_lessons[lesson.id] == 1 %}
+            {{ 'Started'|trans }}
+          {% elseif users_lessons[lesson.id] == 2 %}
+            {{ 'Finished'|trans }}
+          {% else %}
+            {{ 'Passed'|trans }}
+          {% endif %}
+        {% else %}
+          {{ 'Not started'|trans }}
+        {% endif %}
+      </td>
+      <td>
+        {% if has_course %}
+          {% if lesson.id in users_lessons|keys and users_lessons[lesson.id] == 3 %}
+            <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Repeat'|trans }}</a>
+          {% elseif lesson.id in users_lessons|keys %}
+            <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Continue'|trans }}</a>
+          {% elseif count == 2 %}
+            <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Start lesson'|trans }}</a>
+          {% elseif course.type == 0 %}
+            <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Go to lesson'|trans }}</a>
+          {% else %}
+            {{ 'Cannot start now'|trans }}
+          {% endif %}
+        {% else %}
+          {{ 'Need assign to course'|trans }}
+        {% endif %}
+      </td>
+      {% if count > 0 %}
+        {% set count = count + 1 %}
+      {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

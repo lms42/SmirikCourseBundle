@@ -1,0 +1,101 @@
+admin.courses.menu: Курсы
+admin.lessons.menu: Уроки
+admin.lessons_questions.menu: Вопросы
+admin.lessons_answers.menu: Ответы
+admin.tasks.menu: Задания
+admin.users_tasks.menu: Решения
+admin.users_tasks_reviews.menu: Рецензии
+
+Quiz was assigned to the lesson: Тест был добавлен в урок
+Assign quiz: Добавить тест
+to lesson: к уроку
+tasks: задания
+Avaliable courses: Доступные курсы
+Courses: Курсы
+Course: Курс
+Text: Текст
+avaliable: доступные
+My courses: Мои курсы
+Quizes: Тесты
+lessons_questions: вопросов для уроков
+Started at: Начато
+avaliable: доступно
+lessons_answers: ответов на вопросы
+Visible: Опубликовано
+Accepted: Засчитано
+Lesson: Урок
+Tasks: Задания
+Task: Задание
+Mark: Оценка
+User: Пользователь
+Save: Сохранить
+Done: Готово
+Pending: На проверке
+Accepted: Принято
+Reviews: Рецензия
+Your Answer: Ваш ответ
+users_tasks: решения
+Reject: Отклонить
+Accept: Принять
+Back: Назад
+user_task: задание
+courses: курсов
+Type: Тип
+Public: Публичный
+lessons: уроков
+Assign quiz to lesson: Добавить тест в урок
+Private: Приватный
+users_tasks_reviews: рецензий на ответы
+Rejected: Отклонено
+Sent: Отправлено
+Draft: Черновик
+Closed: Закрыт
+  
+Title: Название
+Description: Описание
+Status: Статус
+Action: Действие
+Start: Начать
+Start course: Записаться на курс
+Go to lesson: Перейти к уроку
+Need assign to course: Сначала запишитесь на курс
+Finish tasks to complete the lesson: Закончите все задания перед завершением курса
+Not avaliable: Недоступно
+Your question will be added after moderation: Ваш вопрос будет добавлен после рассмотрения модератором.
+Your answer will be added after moderation:   Ваш ответ будет добавлен после рассмотрения модератором.
+
+Repeat: Повторить
+Continue: Продолжить
+Passed: Выполнен
+Started: Начат
+Not started: Не начат
+Finished: Закончен
+Cannot start now: Пока недоступен
+Start lesson: Начать урок
+Finish lesson: Закончить урок
+Close lesson: Закрыть урок
+
+Back to course: Назад к курсу
+Go to: Перейти
+Base content: Основной текст
+Additional materials: Дополнительно
+Related links: Ссылки на сайты
+Related questions: Вопросы и ответы
+Questions: Вопросы
+Answers: Ответы
+
+Add question: Задать вопрос
+Add answer: Ответить
+Add: Добавить
+Close: Закрыть
+
+General: Основное
+Texts: Текстовые материалы
+Urls: Полезные ссылки
+Slideshare: SlideShare.Net
+
+Quiz is completed: Тест завершён
+Manual assign is forbidden: Сейчас недоступен
+Answer: Ответ
+No answers avaliable: Ответов пока нет
+Question: Вопрос

@@ -1,0 +1,28 @@
+<div class="tab-pane" id="quiz">
+  <h3>{{ 'Quiz'|trans }}</h3>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>{{ 'Title'|trans }}</th>
+        <th>{{ 'Status'|trans }}</th>
+      </tr>
+    </thead>
+    {% for item in quiz %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ item.title }}</td>
+        <td>
+          {% if item.id in users_quiz %}
+            {{ 'Quiz is completed'|trans }}
+          {% elseif (item.isOpened) %}
+            <a href="{{ path('lesson_quiz', {"id": lesson.id, 'quiz_id': item.id }) }}" class="btn">{{ 'Start'|trans }}</a>
+          {% else %}
+            {{ 'Manual assign is forbidden'|trans }}
+          {% endif %}
+          
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>

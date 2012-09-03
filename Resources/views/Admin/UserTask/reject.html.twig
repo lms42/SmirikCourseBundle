@@ -1,0 +1,18 @@
+{% extends 'SmirikAdminBundle::layout.html.twig' %}
+
+{% block title %}{{ 'Reject user_task'|trans }}{% endblock %}
+
+{% block header %}
+<h1>{{ 'Reject'|trans }} <small>{{ 'user_task'|trans }}</small></h1>
+{% endblock %}
+
+{% block body %}
+  <form action="{{ path('admin_users_tasks_reject', {'id': id }) }}" method="post" class="form-horizontal">
+    {{ form_row(form.text) }}
+    {{ form_rest(form) }}
+    <div class="well">
+      <a href="{{ path('admin_users_tasks_index') }}" class="btn">{{ 'Back'|trans }}</a>
+      <button type="submit" class="btn btn-primary">{{ 'Save'|trans }}</button>
+    </div>
+  </form>
+{% endblock %}

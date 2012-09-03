@@ -1,0 +1,8 @@
+<div class="tab-pane" id="urls">
+  <h3>{{ 'Related links'|trans }}</h3><a name="urls"></a>
+  <ul>
+  {% for url in urls %}
+    <li><a href="{{ url.url }}">{{ url.title }}</a></li>
+  {% endfor %}
+  </ul>
+</div>

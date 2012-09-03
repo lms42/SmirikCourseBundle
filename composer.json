@@ -1,0 +1,25 @@
+{
+    "name": "smirik/course-bundle",
+    "description": "Course and lesson management for LMS.",
+    "keywords": ["course", "lesson", "lms"],
+    "homepage": "https://4xxi.com",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgeny Smirnov",
+            "email": "smirik@gmail.com",
+            "homepage": "http://4xxi.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*"
+    },
+    "suggest": {
+        "symfony/twig-bundle": "2.*"
+    },
+    "autoload": {
+        "psr-0": { "Smirik\\CourseBundle": "" }
+    },
+    "target-dir": "Smirik/CourseBundle"
+}

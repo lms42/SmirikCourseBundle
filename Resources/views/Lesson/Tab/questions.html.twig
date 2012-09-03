@@ -1,0 +1,114 @@
+{% if questions|length > 0 %}
+<div class="tab-pane" id="questions" class="accordion">
+  <h3>{{ 'Questions'|trans }}</h3>
+  {% for question in questions %}
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#questions" href="#collapse{{ question.id }}">
+          <strong>{{ question.title }}</strong>
+        </a>
+      </div>
+      <div id="collapse{{ question.id }}" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <blockquote>{{ question.text }}</blockquote>
+          {% if question.hasVisibleAnswers %}
+            <hr />
+            <h4>{{ 'Answers'|trans }}</h4>
+            {% for answer in question.visibleAnswers %}
+              <div class="alert alert-block {% if answer.isAccepted %}alert-success{% else %}alert-info{% endif %}">
+                {{ answer.text }} / {{ answer.user.username }}
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>{{ 'No answers avaliable'|trans }}</p>
+          {% endif %}
+          <a href="#answer_modal{{ question.id }}" role="button" class="btn" data-toggle="modal">{{ 'Add answer'|trans }}</a>
+          
+          
+          <div class="modal hide fade" id="answer_modal{{ question.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="myModalLabel{{ question.id }}">{{ 'Add answer'|trans }}</h3>
+            </div>
+            <div class="modal-body">
+              <p>
+                {{ 'Your answer will be added after moderation'|trans }}.
+              </p>
+              <form id="answer{{ question.id }}" class="form-horizontal" action="{{ path('lesson_add_answer', {'id': question.lessonId, 'question_id': question.id}) }}">
+                <div class="control-group">
+                  <label class="control-label" for="inputEmail">{{ 'Answer'|trans }}</label>
+                  <div class="controls">
+                    <textarea name="text" style="width: 300px; height: 200px;" id="text{{ question.id }}" class="textarea" required="required"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</button>
+              <a href="#" data-form-id="answer{{ question.id }}" class="btn btn-primary add_answer">{{ 'Add'|trans }}</a>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<script language="JavaScript">
+$(document).ready(function() {
+	$('a.add_answer').click(function (e) {
+    var form = $('#' + $(this).data('form-id'));
+    $.post(form.attr('action'), form.serialize(),function(data){
+      if(data.status){
+        $('button[data-dismiss="modal"]').trigger('click');
+      };
+    }, 'json');
+  });
+});
+</script>
+
+{% endif %}
+
+<div class="modal hide fade" id="add_question" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="questionModalLabel">{{ 'Add question'|trans }}</h3>
+  </div>
+  <div class="modal-body">
+    <p>
+      {{ 'Your question will be added after moderation'|trans }}.
+    </p>
+    <form id="add_question_form" class="form-horizontal" action="{{ path('lesson_add_question', {'id': lesson_id}) }}">
+      <div class="control-group">
+        <label class="control-label" for="title">{{ 'Title'|trans }}</label>
+        <div class="controls">
+          <input name="title" type="text" style="width: 300px;" required="required">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="text">{{ 'Question'|trans }}</label>
+        <div class="controls">
+          <textarea name="text" style="width: 300px; height: 200px;" class="textarea"  required="required"></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</button>
+    <a href="#" data-form-id="add_question_form" class="btn btn-primary add_question">{{ 'Add'|trans }}</a>
+  </div>
+</div>
+
+<script language="JavaScript">
+$(document).ready(function() {
+	$('a.add_question').click(function (e) {
+    var form = $('#' + $(this).data('form-id'));
+    $.post(form.attr('action'), form.serialize(),function(data){
+      if(data.status){
+        $('button[data-dismiss="modal"]').trigger('click');
+      };
+    }, 'json');
+  });
+});
+</script>
