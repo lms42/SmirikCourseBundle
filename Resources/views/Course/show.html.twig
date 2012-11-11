@@ -45,14 +45,14 @@
         {% endif %}
       </td>
       <td>
-        {% if has_course %}
+        {% if has_course or course.isPublic %}
           {% if lesson.id in users_lessons|keys and users_lessons[lesson.id] == 3 %}
             <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Repeat'|trans }}</a>
           {% elseif lesson.id in users_lessons|keys %}
             <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Continue'|trans }}</a>
-          {% elseif count == 2 %}
+          {% elseif count == 2 and user_id and has_course %}
             <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Start lesson'|trans }}</a>
-          {% elseif course.type == 0 %}
+          {% elseif course.isPublic and course.type == 0 %}
             <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Go to lesson'|trans }}</a>
           {% else %}
             {{ 'Cannot start now'|trans }}

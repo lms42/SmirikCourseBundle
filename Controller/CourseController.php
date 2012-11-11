@@ -10,6 +10,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Smirik\CourseBundle\Model\CourseQuery;
 use Smirik\CourseBundle\Model\UserCourseQuery;
+use Smirik\CourseBundle\Model\LessonQuery;
 
 /**
  * @Route("/courses")
@@ -57,26 +58,41 @@ class CourseController extends Controller
 	/**
 	 * @Route("/{id}/show", name="course_show")
 	 * @Template()
-	 * @Secure(roles="ROLE_USER")
 	 */
 	public function showAction($id)
 	{
 		$user = $this->get('security.context')->getToken()->getUser();
 		$cm   = $this->get('course.manager');
 		
+		$user_id = false;
+		if (is_object($user))
+		{
+		    $user_id = $user->getId();
+		}
+		
 		$course = CourseQuery::create()->findPk($id);
 		
+		if (!$course->getIsPublic() && !$this->get('security.context').isGranted('ROLE_USER'))
+		{
+		    return $this->redirect($this->generateUrl('homepage'));
+		}
+		
 		$user_course = UserCourseQuery::create()
-			->filterByUserId($user->getId())
+			->filterByUserId($user_id)
 			->filterByCourseId($course->getId())
 			->findOne();
 			
 		$lessons = $course->getLessons();
 			
-		$has_course        = $cm->hasUserStartedCourse($user->getId(), $course->getId());
-		$finish_course     = $cm->hasUserFinishedCourse($user->getId(), $course->getId());
-		$users_lessons     = $cm->getLessonsForUser($user->getId(), $course->getId());
-		$last_avaliable_id = $cm->getLastAvaliableLessonNumber($course, $lessons, $user->getId());
+		$has_course        = $cm->hasUserStartedCourse($user_id, $course->getId());
+		$finish_course     = $cm->hasUserFinishedCourse($user_id, $course->getId());
+		$users_lessons     = $cm->getLessonsForUser($user_id, $course->getId());
+		$last_avaliable    = $cm->getLastAvaliableLessonNumber($course->getId(), $user_id);
+		$last_avaliable_id = false;
+		if ($last_avaliable)
+		{
+    		$last_avaliable_id = $last_avaliable->getId();
+		}
 
 		$count = 0;
 		if (is_null($last_avaliable_id) || !$last_avaliable_id)
@@ -91,7 +107,8 @@ class CourseController extends Controller
 			'finish_course'     => $finish_course,
 			'users_lessons'     => $users_lessons,
 			'last_avaliable_id' => $last_avaliable_id,
-			'count'						  => $count,
+			'count'             => $count,
+			'user_id'           => $user_id,
 		);
 	}
 	
@@ -119,6 +136,54 @@ class CourseController extends Controller
 		
 		$cm->startCourse($course->getId(), $user->getId());
 		return $this->redirect($this->generateUrl('course_show', array('id' => $id)));
+	}
+	
+	/**
+	 * @Route("/results", name="course_results")
+	 * @Template()
+	 * @Secure(roles="ROLE_USER")
+	 */
+	public function resultsAction()
+	{
+	    $user = $this->get('security.context')->getToken()->getUser();
+		$cm   = $this->get('course.manager');
+		$qm   = $this->get('quiz.manager');
+		
+		$users_courses = UserCourseQuery::create('uc')
+			->filterByUserId($user->getId())
+			->leftJoin('uc.Course')
+			->find();
+		
+		$courses_lessons = array();
+		$tasks_data      = array();
+		$questions_data  = array();
+		foreach ($users_courses as $user_course)
+		{
+			$lessons = LessonQuery::create('l')
+				->filterByCourseId($user_course->getCourseId())
+				->useUserLessonQuery()
+				    ->filterByUserId($user->getId())
+				->endUse()
+				->joinWith('l.UserLesson')
+				->orderBySortableRank()
+				->find();
+			
+			$lessons_ids = array_map(function($v){return $v['Id'];}, $lessons->toArray());
+			$tasks_data[$user_course->getCourseId()] = $cm->getUserTasksForLesson($lessons_ids, $user->getId());
+			$questions_data[$user_course->getCourseId()] = $cm->getUserQuestionsForLesson($lessons_ids, $user->getId());
+			$courses_lessons[$user_course->getCourseId()] = $lessons;
+		}
+		
+		$user_quiz = $qm->getQuizesForUser($user->getId());
+		
+		return array(
+			'user'            => $user,
+			'courses_lessons' => $courses_lessons,
+			'users_courses'   => $users_courses,
+			'tasks_data'      => $tasks_data,
+			'questions_data'  => $questions_data,
+			'user_quizes'     => $user_quiz,
+		);
 	}
 	
 }

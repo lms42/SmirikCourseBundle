@@ -1,6 +1,19 @@
 <?php
 
-namespace Smirik\CourseBundle\Model;
+namespace Smirik\CourseBundle\Manager;
+
+use Smirik\CourseBundle\Model\UserCourseQuery;
+use Smirik\CourseBundle\Model\UserLessonQuery;
+use Smirik\CourseBundle\Model\LessonQuery;
+use Smirik\CourseBundle\Model\LessonQuizQuery;
+use Smirik\CourseBundle\Model\TaskQuery;
+use Smirik\CourseBundle\Model\UserTaskQuery;
+use Smirik\CourseBundle\Model\LessonQuestionQuery;
+
+use Smirik\CourseBundle\Model\UserLesson;
+use Smirik\CourseBundle\Model\UserTask;
+use Smirik\CourseBundle\Model\UserCourse;
+use Smirik\CourseBundle\Model\LessonQuiz;
 
 class CourseManager
 {
@@ -59,21 +72,26 @@ class CourseManager
 		return $array;
 	}
 	
-	public function getLastAvaliableLessonNumber($course, $lessons, $user_id)
+	public function getLastAvaliableLessonNumber($course_id, $user_id, $join_courses = false, $join_user_lesson = false)
 	{
 		$last_lesson = LessonQuery::create()
-			->select('Id')
 			->useUserLessonQuery()
 				->filterByUserId($user_id)
-				->filterByCourseId($course->getId())
+				->filterByCourseId($course_id)
 				->filterByIsPassed(true)
 				->filterByIsClosed(true)
 			->endUse()
+			->_if($join_courses)
+			    ->joinCourse()
+			->_endIf()
+			->_if($join_user_lesson)
+			    ->joinUserLesson()
+			->_endIf()
 			->orderBySortableRank('desc')
 			->findOne();
 		return $last_lesson;
 	}
-	
+
 	public function startCourse($course_id, $user_id)
 	{
 		$uc = new UserCourse();

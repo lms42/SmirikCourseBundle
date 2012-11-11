@@ -16,7 +16,9 @@
             <h4>{{ 'Answers'|trans }}</h4>
             {% for answer in question.visibleAnswers %}
               <div class="alert alert-block {% if answer.isAccepted %}alert-success{% else %}alert-info{% endif %}">
-                {{ answer.text }} / {{ answer.user.username }}
+                  {% if answer.user.username is defined %}
+                      {{ answer.text|raw }} / {{ answer.user.username }}
+                  {% endif %}
               </div>
             {% endfor %}
           {% else %}

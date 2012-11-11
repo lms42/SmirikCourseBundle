@@ -6,7 +6,7 @@
 <h1>{{ 'Reject'|trans }} <small>{{ 'user_task'|trans }}</small></h1>
 {% endblock %}
 
-{% block body %}
+{% block content %}
   <form action="{{ path('admin_users_tasks_reject', {'id': id }) }}" method="post" class="form-horizontal">
     {{ form_row(form.text) }}
     {{ form_rest(form) }}

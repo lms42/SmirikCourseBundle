@@ -5,52 +5,57 @@
 {% endblock %}
 
 {% block content %}
-  {% if avaliable_courses|length > 0 %}
-  <h3>{{ 'Avaliable courses'|trans }}</h3>
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>{{ 'N'|trans }}</th>
-        <th>{{ 'Title'|trans }}</th>
-        <th>{{ 'Description'|trans }}</th>
-        <th></th>
-      </tr>
-    </thead>
-    {% for course in avaliable_courses %}
-      <tr>
-        <td>{{ course.id }}</td>
-        <td>{{ course.title }}</td>
-        <td>{{ course.description|raw }}</td>
-        <td><a href="{{ path('course_show', { "id": course.id }) }}" class="btn">{{ 'Start'|trans }}</a></td>
-    {% endfor %}
-  </table>
-  {% endif %}
-  
-  {% if my_courses|length > 0 %}
-  <h3>{{ 'My courses'|trans }}</h3>
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>{{ 'N'|trans }}</th>
-        <th>{{ 'Title'|trans }}</th>
-        <th>{{ 'Description'|trans }}</th>
-        <th>{{ 'Started at'|trans }}</th>
-        <th></th>
-      </tr>
-    </thead>
+{% if my_courses|length > 0 %}
+    <h3>{{ 'My courses'|trans }}</h3>
+    <div class="accordion" id="accordion1">
     {% for course in my_courses %}
-      {% for item in course.usercourses %}
-        <tr class="{% if item.isPassed %}success{% endif %}">
-          <td>{{ course.id }}</td>
-          <td>{{ course.title }}</td>
-          <td>{{ course.description|raw }}</td>
-          <td>{{ item.startedAt('Y-m-d H:i') }}</td>
-          <td>{% if not item.isPassed %}<a href="{{ path('course_show', { "id": course.id }) }}" class="btn">{{ 'Continue'|trans }}</a>{% endif %}</td>
-        </tr>
-      {% endfor %}
+        {% for item in course.usercourses %}
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#my_courses_{{ course.id }}">
+                    {{ course.title }}
+                    </a>
+                </div>
+                <div id="my_courses_{{ course.id }}" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        {{ course.description|raw }}
+                        {% if not item.isPassed %}
+                        <p>
+                            <strong>Дата начала</strong>: {{ item.startedAt('Y-m-d H:i') }}
+                        </p>
+                        {% endif %}
+                        
+                        {% if not item.isPassed %}<a href="{{ path('course_show', { "id": course.id }) }}" class="btn">{{ 'Continue'|trans }}</a>{% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     {% endfor %}
-  </table>
-  {% endif %}
-  
+    </div>
+{% endif %}
+ 
+{% if avaliable_courses|length > 0 %}
+  <h3>{{ 'Avaliable courses'|trans }}</h3>
+  <div class="accordion" id="accordion2">
+  {% for course in avaliable_courses %}
+      <div class="accordion-group">
+          <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#my_courses_{{ course.id }}">
+              {{ course.title }}
+              </a>
+          </div>
+          <div id="my_courses_{{ course.id }}" class="accordion-body collapse">
+              <div class="accordion-inner">
+                  <p>
+                  {{ course.description|raw }}
+                  </p>
+                  <a href="{{ path('course_show', { "id": course.id }) }}" class="btn">{{ 'Start'|trans }}</a>
+              </div>
+          </div>
+      </div>
+  {% endfor %}
+  </div>
+{% endif %}
+
   
 {% endblock %}

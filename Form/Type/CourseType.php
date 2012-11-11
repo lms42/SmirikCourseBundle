@@ -14,7 +14,7 @@ class CourseType extends AbstractType
       ->add('title')
       ->add('description')
       ->add('type', 'choice', array(
-      	'choices' => array(0 => 'Public', 1 => 'Private')
+      	'choices' => array(0 => 'Randomly', 1 => 'Сoherently')
       ))
       ->add('file')
       ->add('is_public')

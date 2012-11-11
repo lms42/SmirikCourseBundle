@@ -12,6 +12,7 @@ use Smirik\PropelAdminBundle\Column\Column;
 use Smirik\PropelAdminBundle\Column\CollectionColumn;
 use Smirik\PropelAdminBundle\Action\Action;
 use Smirik\PropelAdminBundle\Action\ObjectAction;
+use Smirik\PropelAdminBundle\Action\AjaxObjectAction;
 use Smirik\PropelAdminBundle\Action\SingleAction;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -76,8 +77,8 @@ class AdminUserTaskController extends AbstractController
 											 'filterable' => true))
 		                 ),
 		                 array('new' => new SingleAction('New', 'new', 'admin_users_tasks_new', true),
-											'accept' => new ObjectAction('Accept', 'accept', 'admin_users_tasks_accept', true),
-											'reject' => new ObjectAction('Reject', 'reject', 'admin_users_tasks_reject', true),
+	                                        'accept' => new AjaxObjectAction(array(0 => 'В работе', 1 => 'Проверить', 2 => 'Отклонено', '3' => 'Принято', 'default' => 'Отклонить'), 'status', 'admin_users_tasks_accept', true),
+                                            // 'reject' => new ObjectAction('Reject', 'reject', 'admin_users_tasks_reject', true),
 											'edit' => new ObjectAction('Edit', 'edit', 'admin_users_tasks_edit', true),
 											'delete' => new ObjectAction('Delete', 'delete', 'admin_users_tasks_delete', true, true))
 		                );
