@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h3>{{ 'Proccess user task'|trans }}</h3>
+</div>
+<div class="modal-body">
+    <p>
+        <h4>{{ 'Task'|trans }}</h4>
+        <b>{{ user_task.task.title }}</b>
+        <blockquote>{{ user_task.task.text|striptags|e }}</blockquote>
+        <h4>{{ 'Answer'|trans }}</h4>
+        <p>
+            {{ user_task.text|striptags('<br>')|raw }}
+        </p>
+    </p>
+</div>
+<div class="modal-footer">
+    <form action="{{ path('admin_users_tasks_save_review', {'id': id }) }}" method="post" class="form user-task-review">
+        <textarea name="comment" placeholder="{{ 'Enter your comment'|trans }}" class="input-block-level"></textarea>
+        <div class="controls controls-row pull-right">
+            <input type="number" name="mark" class="span1" value="5">
+            <input type="hidden" name="action" value="accept">
+            <input name="accept" type="submit" class="span2 btn btn-primary user-task-review-action-type" value="{{ 'Accept'|trans }}">
+            <input name="reject" type="submit" class="span2 btn btn-warning user-task-review-action-type" value="{{ 'Reject'|trans }}">
+            <a href="#" class="btn span1 btn-close" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</a>
+        </div>
+    </form>
+</div>
