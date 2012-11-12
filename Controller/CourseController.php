@@ -72,7 +72,7 @@ class CourseController extends Controller
 		
 		$course = CourseQuery::create()->findPk($id);
 		
-		if (!$course->getIsPublic() && !$this->get('security.context').isGranted('ROLE_USER'))
+		if (!$course->getIsPublic() && !$this->get('security.context')->isGranted('ROLE_USER'))
 		{
 		    return $this->redirect($this->generateUrl('homepage'));
 		}
