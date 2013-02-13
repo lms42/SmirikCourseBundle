@@ -37,20 +37,26 @@
             </a></li>
         {% endfor %}
         <li class="divider"></li>
-
     </ul>
-    {% if status == 2 %}
-        <a href="{{ path('lesson_action', {'action': 'finish', 'id': lesson.id }) }}" class="btn">{{ 'Finish lesson'|trans }}</a><br/>
+
+    {% if status in (0..4) %}
+        <hr>
+        <div class="well">
+            {% if status == 2 %}
+                <a href="{{ path('lesson_action', {'action': 'finish', 'id': lesson.id }) }}" class="btn btn-large">{{ 'Finish lesson'|trans }}</a><br/>
+            {% endif %}
+            {% if status == 3 %}
+                {{ 'Finish tasks to complete the lesson'|trans }}
+            {% endif %}
+            {% if status == 4 %}
+                <a href="{{ path('lesson_action', {'action': 'close', 'id': lesson.id }) }}" class="btn btn-large">{{ 'Close lesson'|trans }}</a>
+            {% endif %}
+            {% if status > -1 and status < 2 %}
+                <a href="{{ path('lesson_action', {'action': 'start', 'id': lesson.id }) }}" class="btn btn-primary btn-large">{{ 'Start lesson'|trans }}</a><br/>
+            {% endif %}
+        </div>
     {% endif %}
-    {% if status == 3 %}
-        {{ 'Finish tasks to complete the lesson'|trans }}
-    {% endif %}
-    {% if status == 4 %}
-        <a href="{{ path('lesson_action', {'action': 'close', 'id': lesson.id }) }}" class="btn">{{ 'Close lesson'|trans }}</a>
-    {% endif %}
-    {% if status > -1 and status < 2 %}
-        <a href="{{ path('lesson_action', {'action': 'start', 'id': lesson.id }) }}" class="btn btn-primary">{{ 'Start lesson'|trans }}</a><br/>
-    {% endif %}
+
 {% endblock %}
 
 {% block content %}

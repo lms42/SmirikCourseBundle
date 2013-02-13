@@ -24,7 +24,7 @@ class CourseController extends Controller
 	 */
 	public function indexAction()
 	{
-		$user = $this->get('security.context')->getToken()->getUser();
+		$user = $this->getUser();
 
 		$my_courses = CourseQuery::create()
 			->useUserCourseQuery()
@@ -61,7 +61,7 @@ class CourseController extends Controller
 	 */
 	public function showAction($id)
 	{
-		$user = $this->get('security.context')->getToken()->getUser();
+		$user = $this->getUser();
 		$cm   = $this->get('course.manager');
 		
 		$user_id = false;
@@ -119,7 +119,7 @@ class CourseController extends Controller
 	 */
 	public function startAction($id)
 	{
-		$user   = $this->get('security.context')->getToken()->getUser();
+		$user   = $this->getUser();
 		$course = CourseQuery::create()->findPk($id);
 		$cm     = $this->get('course.manager');
 		
@@ -145,7 +145,7 @@ class CourseController extends Controller
 	 */
 	public function resultsAction()
 	{
-	    $user = $this->get('security.context')->getToken()->getUser();
+	    $user = $this->getUser();
 		$cm   = $this->get('course.manager');
 		$qm   = $this->get('quiz.manager');
 		

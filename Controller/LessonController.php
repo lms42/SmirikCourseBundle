@@ -12,7 +12,6 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Smirik\CourseBundle\Model\LessonQuery;
 use Smirik\CourseBundle\Model\LessonQuestionQuery;
 use Smirik\CourseBundle\Model\LessonQuizQuery;
-use Smirik\CourseBundle\Model\UserLesson;
 use Smirik\CourseBundle\Model\UserLessonQuery;
 use Smirik\CourseBundle\Model\LessonQuestion;
 use Smirik\CourseBundle\Model\TaskQuery;
@@ -33,7 +32,7 @@ class LessonController extends Controller
 	 */
 	public function addQuestionAction($id)
 	{
-		$user = $this->get('security.context')->getToken()->getUser();
+		$user = $this->getUser();
 		$lesson = LessonQuery::create()->findPk($id);
 		
 		$title = $this->getRequest()->request->get('title', false);
@@ -56,7 +55,7 @@ class LessonController extends Controller
 	 */
 	public function indexAction($id)
 	{
-		$user   = $this->get('security.context')->getToken()->getUser();
+		$user   = $this->getUser();
 		$lesson = LessonQuery::create()->findPk($id);
 		$cm     = $this->get('course.manager');
 		
@@ -221,7 +220,7 @@ class LessonController extends Controller
 	 */
 	public function taskAction($id, $task_id)
 	{
-		$user    = $this->get('security.context')->getToken()->getUser();
+		$user    = $this->getUser();
 		$request = $this->getRequest();
 		
 		$user_task = UserTaskQuery::create()
@@ -276,7 +275,7 @@ class LessonController extends Controller
 	 */
 	public function actionAction($id, $action)
 	{
-		$user   = $this->get('security.context')->getToken()->getUser();
+		$user   = $this->getUser();
 		$lesson = LessonQuery::create()->findPk($id);
 		$cm     = $this->get('course.manager');
 		
@@ -324,7 +323,7 @@ class LessonController extends Controller
 	 */
 	public function quizAction($id, $quiz_id)
 	{
-		$user   = $this->get('security.context')->getToken()->getUser();
+		$user   = $this->getUser();
 		$lesson = LessonQuery::create()->findPk($id);
 		$quiz		= QuizQuery::create()->findPk($quiz_id);
 		$cm     = $this->get('course.manager');
@@ -378,7 +377,7 @@ class LessonController extends Controller
 	 */
 	public function addAnswerAction($id, $question_id)
 	{
-		$user = $this->get('security.context')->getToken()->getUser();
+		$user = $this->getUser();
 		$lesson = LessonQuery::create()->findPk($id);
 		$question = LessonQuestionQuery::create()->findPk($question_id);
 		

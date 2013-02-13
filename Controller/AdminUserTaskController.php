@@ -105,7 +105,7 @@ class AdminUserTaskController extends AbstractController
 	 */
 	public function rejectAction($id)
 	{
-		$user = $this->get('security.context')->getToken()->getUser();
+		$user = $this->getUser();
 		$user_task = UserTaskQuery::create()->findPk($id);
 		$request   = $this->getRequest();
 		
@@ -169,7 +169,7 @@ class AdminUserTaskController extends AbstractController
 		    $mark    = $this->getRequest()->request->get('mark', 5);
 		    $comment = $this->getRequest()->request->get('comment', false);
 		    $action  = $this->getRequest()->request->get('action', false);
-		    $user = $this->get('security.context')->getToken()->getUser();
+		    $user = $this->getUser();
     		$user_task = UserTaskQuery::create()->findPk($id);
 		    if ($comment && $comment != '')
 		    {
