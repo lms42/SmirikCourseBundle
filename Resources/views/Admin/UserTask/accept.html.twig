@@ -6,7 +6,7 @@
     <p>
         <h4>{{ 'Task'|trans }}</h4>
         <b>{{ user_task.task.title }}</b>
-        <blockquote>{{ user_task.task.text|striptags|e }}</blockquote>
+        <blockquote>{{ user_task.task.text|striptags|raw }}</blockquote>
         <h4>{{ 'Answer'|trans }}</h4>
         <p>
             {{ user_task.text|striptags('<br>')|raw }}

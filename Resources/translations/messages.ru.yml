@@ -29,7 +29,8 @@ Task: Задание
 Mark: Оценка
 User: Пользователь
 Save: Сохранить
-Done: Готово
+Send task: Отправить на проверку
+Fail task: Совсем не знаю 
 Pending: На проверке
 Accepted: Принято
 Reviews: Рецензия
@@ -112,3 +113,5 @@ Randomly: В любом порядке
 Сoherently: Последовательно
 Proccess user task: Проверка задания
 Enter your comment: Введите комментарий
+
+Answer is saved: Текущий ответ сохранён

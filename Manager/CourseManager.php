@@ -63,6 +63,7 @@ class CourseManager
             }
             $array[$lesson->getLessonId()] = $status;
         }
+
         return $array;
     }
 
@@ -83,6 +84,7 @@ class CourseManager
             ->_endIf()
             ->orderBySortableRank('desc')
             ->findOne();
+
         return $last_lesson;
     }
 
@@ -96,8 +98,8 @@ class CourseManager
 
     /**
      * Find or create user quiz related to parameters
-     * @param integer $quiz_id
-     * @param Smirik\CourseBundle\Model\Lesson $lesson
+     * @param  integer                              $quiz_id
+     * @param  Smirik\CourseBundle\Model\Lesson     $lesson
      * @return Smirik\CourseBundle\Model\LessonQuiz
      */
     public function findOrCreateLessonQuiz($quiz_id, $lesson)
@@ -113,13 +115,14 @@ class CourseManager
             $lesson_quiz->setLessonId($lesson->getId());
             $lesson_quiz->save();
         }
+
         return $lesson_quiz;
     }
 
     /**
      * Create user lesson (start button)
-     * @param integer $user_id
-     * @param Smirik\CourseBundle\Model\Lesson $lesson
+     * @param  integer                          $user_id
+     * @param  Smirik\CourseBundle\Model\Lesson $lesson
      * @return boolean
      */
     public function createUserLesson($user_id, $lesson)
@@ -128,13 +131,14 @@ class CourseManager
         $user_lesson->setUserId($user_id);
         $user_lesson->setLessonId($lesson->getId());
         $user_lesson->setCourseId($lesson->getCourseId());
+
         return $user_lesson->save();
     }
 
     /**
      * Creates user tasks for given lesson
-     * @param integer $user_id
-     * @param integer $lesson_id
+     * @param  integer $user_id
+     * @param  integer $lesson_id
      * @return void
      */
     public function generateUserTaskForUser($user_id, $lesson_id)
@@ -200,6 +204,7 @@ class CourseManager
                 $count[$user_task->getLessonId()]++;
             }
         }
+
         return array(
             'tasks' => $tasks,
             'marks' => $marks,

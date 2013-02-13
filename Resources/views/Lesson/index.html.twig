@@ -33,7 +33,7 @@
         <li class="nav-header">{{ 'Tasks'|trans }}</li>
         {% for task in tasks %}
             <li><a href="#task{{ task.id }}" data-toggle="tab"><i class="icon-tasks"></i>
-                {% if task.id in users_tasks|keys and users_tasks[task.id].status == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
+                {% if task.id in user_tasks|keys and user_tasks[task.id].status == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
             </a></li>
         {% endfor %}
         <li class="divider"></li>
@@ -80,7 +80,7 @@
         {% include 'SmirikCourseBundle:Lesson/Tab:urls.html.twig' with {"urls": lesson.urlcontents } %}
         {% include 'SmirikCourseBundle:Lesson/Tab:questions.html.twig' with {"questions": questions, "lesson_id": lesson.id } %}
         {% include 'SmirikCourseBundle:Lesson/Tab:quiz.html.twig' with {"quiz": quiz, "users_quiz": users_quiz, "lesson": lesson } %}
-        {% include 'SmirikCourseBundle:Lesson/Tab:tasks.html.twig' with {"tasks": tasks, 'tasks_forms': tasks_forms, 'users_tasks': users_tasks, "lesson": lesson } %}
+        {% include 'SmirikCourseBundle:Lesson/Tab:tasks.html.twig' with {"tasks": tasks, 'tasks_forms': tasks_forms, 'user_tasks': user_tasks, "lesson": lesson } %}
 
 
     </div>

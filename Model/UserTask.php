@@ -12,4 +12,10 @@ class UserTask extends BaseUserTask
 		return (string)$this->getUser()->getUsername().':'.$this->getTask()->getTitle();
 	}
 	
+	public function fail()
+	{
+	    $this->setStatus(3);
+	    $this->setMark(1);
+	}
+	
 }
