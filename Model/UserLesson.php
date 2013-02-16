@@ -35,4 +35,25 @@ class UserLesson extends BaseUserLesson
 		}
 	}
 	
+	/**
+	 * Close currect lesson for user
+	 * @return void
+	 */
+	public function close()
+	{
+	    $this->setIsClosed(true);
+        $this->setStoppedAt(time());
+        $this->save();
+	}
+
+	/**
+	 * Finish currect lesson for user
+	 * @return void
+	 */
+	public function finish()
+	{
+	    $this->setIsPassed(true);
+        $this->save();
+	}
+	
 }

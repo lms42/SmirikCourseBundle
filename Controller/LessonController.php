@@ -10,11 +10,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Smirik\CourseBundle\Model\LessonQuery;
-use Smirik\CourseBundle\Model\LessonQuizQuery;
-use Smirik\CourseBundle\Model\UserLessonQuery;
-use Smirik\CourseBundle\Model\UserTaskQuery;
-use Smirik\CourseBundle\Form\Type\UserTaskAnswerType;
 use Smirik\QuizBundle\Model\QuizQuery;
+
+use Smirik\CourseBundle\Form\Type\UserTaskAnswerType;
 
 /**
  * @Route("/lessons")
@@ -133,38 +131,10 @@ class LessonController extends Controller
     {
         $user   = $this->getUser();
         $lesson = LessonQuery::create()->findPk($id);
-        $cm     = $this->get('course.manager');
+        $lm     = $this->get('lesson.manager');
+        $ulm    = $this->get('user_lesson.manager');
 
-        $user_lesson = UserLessonQuery::create()
-            ->filterByUserId($user->getId())
-            ->filterByLessonId($lesson->getId())
-            ->findOne();
-
-        if ($user_lesson && is_object($user_lesson)) {
-            if ($action == 'finish') {
-                /**
-                 * @todo Check quizes
-                 */
-                $user_lesson->setIsPassed(true);
-                $user_lesson->save();
-            } elseif ($action == 'close') {
-                if ($lesson->canBeClosedByUser($user->getId())) {
-                    $user_lesson->setIsClosed(true);
-                    $user_lesson->setStoppedAt(time());
-                    $user_lesson->save();
-                }
-            }
-        } else {
-            if ($action == 'start' && $lesson->canBeStartedByUser($user->getId())) {
-                $cm->createUserLesson($user->getId(), $lesson);
-                /**
-                 * Generate user tasks
-                 */
-                $cm->generateUserTaskForUser($user->getId(), $lesson->getId());
-
-            }
-        }
-
+        $ulm->action($user, $lesson, $action);
         return $this->redirect($this->generateUrl('lesson_index', array('id' => $id)));
     }
 
@@ -194,9 +164,10 @@ class LessonController extends Controller
     {
         $user   = $this->getUser();
         $lesson = LessonQuery::create()->findPk($id);
-        $quiz		= QuizQuery::create()->findPk($quiz_id);
-        $cm     = $this->get('course.manager');
+        $quiz	= QuizQuery::create()->findPk($quiz_id);
         $qm     = $this->get('quiz.manager');
+        $ulm    = $this->get('user_lesson.manager');
+        $lm     = $this->get('lesson.manager');
 
         if (!$quiz->getIsOpened()) {
             return $this->redirect($this->generateUrl('lesson_index', array('id' => $id)));
@@ -208,19 +179,12 @@ class LessonController extends Controller
          * 2. This quiz should belong to the lesson.
          * 3. User should not have been already started this quiz.
          */
-        $ul = UserLessonQuery::create()
-            ->filterByUserId($user->getId())
-            ->filterByLessonId($lesson->getId())
-            ->findOne();
+        $ul = $ulm->hasUser($user, $lesson);
         if (!$ul || !is_object($ul)) {
             return $this->redirect($this->generateUrl('lesson_index', array('id' => $id)));
         }
 
-        $lq = LessonQuizQuery::create()
-            ->filterByLessonId($lesson->getId())
-            ->filterByQuizId($quiz->getId())
-            ->findOne();
-
+        $lq = $lm->hasQuiz($lesson, $quiz);
         if (!$lq || !is_object($lq)) {
             return $this->redirect($this->generateUrl('lesson_index', array('id' => $id)));
         }

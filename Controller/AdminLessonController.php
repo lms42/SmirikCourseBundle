@@ -110,7 +110,7 @@ class AdminLessonController extends AbstractController
 	public function assignAction($id)
 	{
 		$lesson = $this->getQuery()->findPk($id);
-		$cm     = $this->get('course.manager');
+        $lm     = $this->get('lesson.manager');
 		
 		if ($this->getRequest()->isXmlHttpRequest())
 		{
@@ -119,7 +119,7 @@ class AdminLessonController extends AbstractController
 			{
 				foreach ($ids as $uid)
 				{
-					$cm->findOrCreateLessonQuiz($uid, $lesson);
+					$lm->findOrCreateLessonQuiz($uid, $lesson);
 				}
 			}
 			$tmp = LessonQuizQuery::create()

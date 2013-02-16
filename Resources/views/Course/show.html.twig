@@ -22,7 +22,7 @@
     </tr>
   </thead>
   {% for lesson in lessons %}
-    {% if lesson.id == last_avaliable_id %}
+    {% if lesson.id == last_available_id %}
       {% set count = 1 %}
     {% endif %}
     {% if count == -1 %}

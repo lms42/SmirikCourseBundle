@@ -1,12 +1,20 @@
 services:
     course.manager:
         class: Smirik\CourseBundle\Manager\CourseManager
+        calls:
+            - [ setManagers, [ "@lesson.manager", "@quiz.manager", "@user_task.manager" ] ]
     question.manager:
         class: Smirik\CourseBundle\Manager\QuestionManager
     lesson.manager:
         class: Smirik\CourseBundle\Manager\LessonManager
     task.manager:
         class: Smirik\CourseBundle\Manager\TaskManager
+    user_task.manager:
+        class: Smirik\CourseBundle\Manager\UserTaskManager
+    user_lesson.manager:
+        class: Smirik\CourseBundle\Manager\UserLessonManager
+        calls:
+            - [ setManagers, [ "@user_task.manager" ] ]
 
     courses.configure_menu_listener:
         class: Smirik\CourseBundle\Listener\ConfigureMenuListener

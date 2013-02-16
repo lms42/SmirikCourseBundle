@@ -7,7 +7,13 @@ use Smirik\CourseBundle\Model\UserTask;
 
 class TaskManager
 {
-    
+
+    /**
+     * @param \Smirik\CourseBundle\Model\Lesson $lesson
+     * @param \Smirik\CourseBundle\Model\Task $task
+     * @param $user
+     * @return \Smirik\CourseBundle\Model\UserTask|UserTask
+     */
     public function findOrCreate($lesson, $task, $user)
     {
         $user_task = UserTaskQuery::create()
@@ -25,7 +31,11 @@ class TaskManager
         
         return $user_task;
     }
-    
+
+    /**
+     * @param array $array
+     * @return \Smirik\CourseBundle\Model\LessonQuestion
+     */
     public function add($array)
     {
         $question = new LessonQuestion();
