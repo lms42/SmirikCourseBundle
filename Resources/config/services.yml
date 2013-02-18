@@ -2,7 +2,7 @@ services:
     course.manager:
         class: Smirik\CourseBundle\Manager\CourseManager
         calls:
-            - [ setManagers, [ "@lesson.manager", "@quiz.manager", "@user_task.manager" ] ]
+            - [ setManagers, [ "@lesson.manager", "@user_quiz.manager", "@user_task.manager" ] ]
     question.manager:
         class: Smirik\CourseBundle\Manager\QuestionManager
     lesson.manager:

@@ -85,7 +85,7 @@
                   });
                   return false;
                 });
-                $('.form-content-'+name+' a.delete').live('click', function (e) {
+                $(document).on('click', '.form-content-' + name + ' a.delete', function (e) {
                   $(this).parent().remove();
                   return false;
                 });

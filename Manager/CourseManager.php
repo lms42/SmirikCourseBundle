@@ -10,13 +10,13 @@ class CourseManager
 {
 
     protected $lesson_manager;
-    protected $quiz_manager;
+    protected $user_quiz_manager;
     protected $user_task_manager;
 
-    public function setManagers($lesson_manager, $quiz_manager, $user_task_manager)
+    public function setManagers($lesson_manager, $user_quiz_manager, $user_task_manager)
     {
         $this->lesson_manager    = $lesson_manager;
-        $this->quiz_manager      = $quiz_manager;
+        $this->user_quiz_manager = $user_quiz_manager;
         $this->user_task_manager = $user_task_manager;
     }
 
@@ -128,7 +128,7 @@ class CourseManager
             $courses_lessons[$user_course->getCourseId()] = $lessons;
         }
 
-        $user_quiz = $this->quiz_manager->getQuizesForUser($user->getId());
+        $user_quiz = $this->user_quiz_manager->get($user);
 
         return array(
             'user' => $user,
