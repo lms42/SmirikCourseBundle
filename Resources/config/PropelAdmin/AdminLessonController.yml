@@ -30,20 +30,12 @@ columns:
             sortable: true
             filterable: true
 actions:
-    assign:
-        label:   Assign
-        name:    assign
-        route:   admin_lessons_assign
-        builder: object
-        options:
-            route_with_id: true
-            confirmation:  false
     create:
         route: admin_lessons_new
-        template: create
+        extends: create
     edit:
         route: admin_lessons_edit
-        template: edit
+        extends: edit
     delete:
         route: admin_lessons_delete
-        template: delete
+        extends: delete

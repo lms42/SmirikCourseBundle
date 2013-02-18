@@ -50,7 +50,7 @@ columns:
             sortable: true
             filterable: true
     is_public:
-        label: Is public
+        label: 'Is public'
         name: is_public
         type: boolean
         builder: simple
@@ -60,7 +60,7 @@ columns:
             sortable: true
             filterable: true
     is_active:
-        label: Is active
+        label: 'Is active'
         name: is_active
         type: boolean
         builder: simple
@@ -72,10 +72,10 @@ columns:
 actions:
     create:
         route: admin_courses_new
-        template: create
+        extends: create
     edit:
         route: admin_courses_edit
-        template: edit
+        extends: edit
     delete:
         route: admin_courses_delete
-        template: delete
+        extends: delete

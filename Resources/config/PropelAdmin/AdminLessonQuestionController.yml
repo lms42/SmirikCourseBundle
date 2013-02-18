@@ -50,7 +50,7 @@ columns:
             sortable: true
             filterable: true
     is_answered:
-        label: Is Answered
+        label: 'Is Answered'
         name: is_answered
         type: boolean
         builder: simple
@@ -62,10 +62,10 @@ columns:
 actions:
     create:
         route: admin_lessons_questions_new
-        template: create
+        extends: create
     edit:
         route: admin_lessons_questions_edit
-        template: edit
+        extends: edit
     delete:
         route: admin_lessons_questions_delete
-        template: delete
+        extends: delete

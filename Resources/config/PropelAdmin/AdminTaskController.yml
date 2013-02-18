@@ -52,10 +52,10 @@ columns:
 actions:
     create:
         route: admin_tasks_new
-        template: create
+        extends: create
     edit:
         route: admin_tasks_edit
-        template: edit
+        extends: edit
     delete:
         route: admin_tasks_delete
-        template: delete
+        extends: delete

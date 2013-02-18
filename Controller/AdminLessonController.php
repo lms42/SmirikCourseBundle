@@ -2,36 +2,16 @@
 
 namespace Smirik\CourseBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
-use Smirik\PropelAdminBundle\Controller\AdminAbstractController as AbstractController;
+use Smirik\CourseBundle\Controller\Base\AdminLessonController as BaseController;
 
 use Smirik\CourseBundle\Model\LessonQuizQuery;
 
-class AdminLessonController extends AbstractController
+class AdminLessonController extends BaseController
 {
-
-    public $layout = 'SmirikAdminBundle::layout.html.twig';
-    public $name = 'lessons';
-    public $bundle = 'SmirikCourseBundle';
-
-    public function getQuery()
-    {
-        return \Smirik\CourseBundle\Model\LessonQuery::create();
-    }
-
-    public function getForm()
-    {
-        return new \Smirik\CourseBundle\Form\Type\LessonType;
-    }
-
-    public function getObject()
-    {
-        return new \Smirik\CourseBundle\Model\Lesson;
-    }
 
     /**
      * @Template("SmirikCourseBundle:Admin/Lesson:edit.html.twig")
