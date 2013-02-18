@@ -39,3 +39,6 @@ actions:
     delete:
         route: admin_lessons_delete
         extends: delete
+templates:
+    form:
+        edit: SmirikCourseBundle:Admin/Lesson:edit.html.twig
