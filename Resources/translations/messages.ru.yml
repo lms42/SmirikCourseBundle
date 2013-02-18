@@ -6,6 +6,10 @@ admin.tasks.menu: Задания
 admin.users_tasks.menu: Решения
 admin.users_tasks_reviews.menu: Рецензии
 
+Is Answered: Отвечено
+Is answered: Отвечено
+Is visible: Опубликовано
+
 Quiz was assigned to the lesson: Тест был добавлен в урок
 Assign quiz: Добавить тест
 to lesson: к уроку
@@ -18,6 +22,7 @@ avaliable: доступные
 My courses: Мои курсы
 Quizes: Тесты
 lessons_questions: вопросов для уроков
+Lesson question: Вопрос
 Started at: Начато
 avaliable: доступно
 lessons_answers: ответов на вопросы

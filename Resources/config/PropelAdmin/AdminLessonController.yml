@@ -1,0 +1,49 @@
+columns:
+    id:
+        label: Id
+        name: id
+        type: integer
+        builder: simple
+        options:
+            listable: true
+            editable: false
+            sortable: true
+            filterable: true
+    course:
+        label: Course
+        name: course
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    title:
+        label: Title
+        name: title
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+actions:
+    assign:
+        label:   Assign
+        name:    assign
+        route:   admin_lessons_assign
+        builder: object
+        options:
+            route_with_id: true
+            confirmation:  false
+    create:
+        route: admin_lessons_new
+        template: create
+    edit:
+        route: admin_lessons_edit
+        template: edit
+    delete:
+        route: admin_lessons_delete
+        template: delete

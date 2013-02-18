@@ -1,0 +1,81 @@
+columns:
+    id:
+        label: Id
+        name: id
+        type: integer
+        builder: simple
+        options:
+            listable: true
+            editable: false
+            sortable: true
+            filterable: true
+    title:
+        label: Title
+        name: title
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    description:
+        label: Description
+        name: description
+        type: text
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: true
+            filterable: true
+    type:
+        label: Type
+        name: type
+        type: boolean
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    file:
+        label: File
+        name: file
+        type: string
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: true
+            filterable: true
+    is_public:
+        label: Is public
+        name: is_public
+        type: boolean
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    is_active:
+        label: Is active
+        name: is_active
+        type: boolean
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+actions:
+    create:
+        route: admin_courses_new
+        template: create
+    edit:
+        route: admin_courses_edit
+        template: edit
+    delete:
+        route: admin_courses_delete
+        template: delete

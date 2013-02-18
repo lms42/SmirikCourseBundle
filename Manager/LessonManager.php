@@ -10,6 +10,7 @@ use Smirik\CourseBundle\Model\TaskQuery;
 use Smirik\CourseBundle\Model\UserTaskQuery;
 use Smirik\CourseBundle\Model\LessonQuery;
 use Smirik\CourseBundle\Model\LessonQuizQuery;
+use Smirik\CourseBundle\Model\LessonQuiz;
 
 class LessonManager
 {

@@ -1,298 +1,298 @@
 <database name="default" namespace="Smirik\CourseBundle\Model" defaultIdMethod="native">
-  <table name="courses" phpName="Course" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="pid" type="integer" required="false"/>
-    <column name="title" type="varchar" size="200" required="true"/>
-    <column name="description" type="longvarchar" required="true"/>
-    <column name="type" type="integer" required="false" default="1" />
-    <column name="file" type="varchar" size="100" required="false" />
-    <column name="is_public" type="boolean" size="1" required="false"/>
-    <column name="is_active" type="boolean" size="1" required="false"/>
-    <behavior name="timestampable" />
-    <foreign-key foreignTable="courses">
-      <reference local="pid" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="pid"/>
-    </index>
-  </table>
-  
-  <table name="lessons" phpName="Lesson" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="course_id" type="integer" required="false"/>
-    <column name="title" type="varchar" size="255" required="true"/>
-    <behavior name="timestampable" />
-    <behavior name="sortable">
-      <parameter name="use_scope" value="true" />
-      <parameter name="scope_column" value="course_id" />
-    </behavior>
-    <foreign-key foreignTable="courses" onDelete="cascade">
-      <reference local="course_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="course_id"/>
-    </index>
-  </table>
-  
-  <table name="users_courses" phpName="UserCourse" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="user_id" type="integer" required="true"/>
-    <column name="course_id" type="integer" required="true"/>
-    <column name="started_at" type="timestamp" required="false"/>
-    <column name="stopped_at" type="timestamp" required="false"/>
-    <column name="is_passed" type="boolean" required="false" default="false"/>
-    <behavior name="timestampable">
-      <parameter name="create_column" value="started_at" />
-    </behavior>
-    <foreign-key foreignTable="fos_user" onDelete="cascade">
-      <reference local="user_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="courses" onDelete="cascade">
-      <reference local="course_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="user_id"/>
-    </index>
-    <index>
-      <index-column name="course_id"/>
-    </index>
-  </table>
-  
-  <table name="users_lessons" phpName="UserLesson" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="user_id" type="integer" required="true"/>
-    <column name="course_id" type="integer" required="true"/>
-    <column name="lesson_id" type="integer" required="true"/>
-    <column name="started_at" type="timestamp" required="false"/>
-    <column name="stopped_at" type="timestamp" required="false"/>
-    <column name="is_passed" type="boolean" required="false" default="false"/>
-    <column name="is_closed" type="boolean" required="false" default="false"/>
-    <behavior name="timestampable">
-      <parameter name="create_column" value="started_at" />
-    </behavior>
-    <foreign-key foreignTable="fos_user" onDelete="cascade">
-      <reference local="user_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="lessons" onDelete="cascade">
-      <reference local="lesson_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="courses" onDelete="cascade">
-      <reference local="course_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="user_id"/>
-    </index>
-  </table>
-  
-  <table name="lessons_quizes" phpName="LessonQuiz" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="lesson_id" type="integer" required="true"/>
-    <column name="quiz_id" type="integer" required="true"/>
-    <behavior name="sortable">
-      <parameter name="use_scope" value="true" />
-      <parameter name="scope_column" value="lesson_id" />
-    </behavior>
-    <foreign-key foreignTable="lessons" onDelete="cascade">
-      <reference local="lesson_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="quiz" onDelete="cascade">
-      <reference local="quiz_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="lesson_id"/>
-    </index>
-    <index>
-      <index-column name="quiz_id"/>
-    </index>
-  </table>
-  
-  <table name="lessons_questions" phpName="LessonQuestion" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="user_id" type="integer" required="true"/>
-    <column name="lesson_id" type="integer" required="true"/>
-    <column name="title" type="varchar" size="200" required="true"/>
-    <column name="text" type="longvarchar" required="false"/>
-    <column name="is_visible" type="boolean" required="false" default="false"/>
-    <column name="is_answered" type="boolean" required="false" default="false"/>
-    <behavior name="timestampable" />
-    <behavior name="sortable">
-      <parameter name="use_scope" value="true" />
-      <parameter name="scope_column" value="lesson_id" />
-    </behavior>
-    <foreign-key foreignTable="fos_user" onDelete="cascade">
-      <reference local="user_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="lessons" onDelete="cascade">
-      <reference local="lesson_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="user_id"/>
-    </index>
-    <index>
-      <index-column name="lesson_id"/>
-    </index>
-  </table>
+    <table name="courses" phpName="Course" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="pid" type="integer" required="false"/>
+        <column name="title" type="varchar" size="200" required="true"/>
+        <column name="description" type="longvarchar" required="true"/>
+        <column name="type" type="integer" required="false" default="1"/>
+        <column name="file" type="varchar" size="100" required="false"/>
+        <column name="is_public" type="boolean" size="1" required="false"/>
+        <column name="is_active" type="boolean" size="1" required="false"/>
+        <behavior name="timestampable"/>
+        <foreign-key foreignTable="courses">
+            <reference local="pid" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="pid"/>
+        </index>
+    </table>
 
-  <table name="lessons_answers" phpName="LessonAnswer" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="user_id" type="integer" required="true"/>
-    <column name="lesson_id" type="integer" required="true"/>
-    <column name="question_id" type="integer" required="true"/>
-    <column name="text" type="longvarchar" required="false"/>
-    <column name="is_visible" type="boolean" required="false" default="false"/>
-    <column name="is_accepted" type="boolean" required="false" default="false"/>
-    <column name="accepted_by" type="integer" required="false"/>
-    <behavior name="timestampable" />
-    <foreign-key foreignTable="lessons" onDelete="cascade">
-      <reference local="lesson_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="lessons_questions" onDelete="cascade">
-      <reference local="question_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="fos_user" onDelete="cascade">
-      <reference local="user_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="user_id"/>
-    </index>
-    <index>
-      <index-column name="lesson_id"/>
-    </index>
-    <index>
-      <index-column name="question_id"/>
-    </index>
-  </table>
-  
-  <table name="lessons_content" phpName="Content" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="lesson_id" type="integer" required="false"/>
-    <column name="title" type="varchar" size="200" required="true"/>
-    <column name="description" type="longvarchar" required="false"/>
-    <behavior name="timestampable" />
-    <behavior name="sortable">
-      <parameter name="use_scope" value="true" />
-      <parameter name="scope_column" value="lesson_id" />
-    </behavior>
-    <foreign-key foreignTable="lessons" onDelete="cascade">
-      <reference local="lesson_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="lesson_id"/>
-    </index>
-  </table>
-  
-  <table name="lessons_content_files" phpName="ContentFile" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="lesson_content_id" type="integer" required="false"/>
-    <column name="file" type="varchar" size="255" required="true"/>
-    <column name="type" type="varchar" size="50" required="true"/>
-    <column name="title" type="varchar" size="200" required="false"/>
-    <column name="caption" type="longvarchar" required="false"/>
-    <behavior name="timestampable" />
-    <foreign-key foreignTable="lessons_content" onDelete="cascade">
-      <reference local="lesson_content_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="lesson_content_id"/>
-    </index>
-  </table>
-  
-  <table name="lessons_content_texts" phpName="TextContent" idMethod="native">
-    <column name="text" type="longvarchar" required="false"/>
-    <behavior name="concrete_inheritance">
-      <parameter name="extends" value="lessons_content" />
-    </behavior>
-  </table>
-  
-  <table name="lessons_content_urls" phpName="UrlContent" idMethod="native">
-    <column name="url" type="varchar" size="255" required="true"/>
-    <behavior name="concrete_inheritance">
-      <parameter name="extends" value="lessons_content" />
-    </behavior>
-  </table>
-  
-  <table name="lessons_content_youtube" phpName="YoutubeContent" idMethod="native">
-    <column name="url" type="varchar" size="255" required="true"/>
-    <behavior name="concrete_inheritance">
-      <parameter name="extends" value="lessons_content" />
-    </behavior>
-  </table>
+    <table name="lessons" phpName="Lesson" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="course_id" type="integer" required="false"/>
+        <column name="title" type="varchar" size="255" required="true"/>
+        <behavior name="timestampable"/>
+        <behavior name="sortable">
+            <parameter name="use_scope" value="true"/>
+            <parameter name="scope_column" value="course_id"/>
+        </behavior>
+        <foreign-key foreignTable="courses" onDelete="cascade">
+            <reference local="course_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="course_id"/>
+        </index>
+    </table>
 
-  <table name="lessons_content_slideshare" phpName="SlideshareContent" idMethod="native">
-    <column name="url" type="varchar" size="255" required="true"/>
-    <behavior name="concrete_inheritance">
-      <parameter name="extends" value="lessons_content" />
-    </behavior>
-  </table>
-  
-  <table name="tasks" phpName="Task" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="lesson_id" type="integer" required="true"/>
-    <column name="title" type="varchar" size="200" required="true"/>
-    <column name="text" type="longvarchar" required="false"/>
-    <column name="file" type="varchar" size="200" required="false"/>
-    <behavior name="timestampable" />
-    <behavior name="sortable">
-      <parameter name="use_scope" value="true" />
-      <parameter name="scope_column" value="lesson_id" />
-    </behavior>
-    <foreign-key foreignTable="lessons" onDelete="cascade">
-      <reference local="lesson_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="lesson_id"/>
-    </index>
-  </table>
-  
-  <table name="users_tasks" phpName="UserTask" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="lesson_id" type="integer" required="true"/>
-    <column name="task_id" type="integer" required="true"/>
-    <column name="user_id" type="integer" required="true"/>
-    <column name="text" type="longvarchar" required="false"/>
-    <column name="url" type="varchar" size="200" required="false"/>
-    <column name="file" type="varchar" size="200" required="false"/>
-    <column name="status" type="integer" required="false" default="0" />
-    <column name="mark" type="integer" required="false"/>
-    <behavior name="timestampable" />
-    <foreign-key foreignTable="lessons" onDelete="cascade">
-      <reference local="lesson_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="fos_user" onDelete="cascade">
-      <reference local="user_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="tasks" onDelete="cascade">
-      <reference local="task_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="lesson_id"/>
-    </index>
-    <index>
-      <index-column name="user_id"/>
-    </index>
-    <index>
-      <index-column name="task_id"/>
-    </index>
-  </table>
-    
-  <table name="users_tasks_reviews" phpName="UserTaskReview" idMethod="native">
-    <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="user_task_id" type="integer" required="true"/>
-    <column name="user_id" type="integer" required="true"/>
-    <column name="text" type="longvarchar" required="false"/>
-    <behavior name="timestampable" />
-    <foreign-key foreignTable="users_tasks" onDelete="cascade">
-      <reference local="user_task_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="fos_user" onDelete="cascade">
-      <reference local="user_id" foreign="id"/>
-    </foreign-key>
-    <index>
-      <index-column name="user_id"/>
-    </index>
-    <index>
-      <index-column name="user_task_id"/>
-    </index>
-  </table>
-    
+    <table name="users_courses" phpName="UserCourse" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="user_id" type="integer" required="true"/>
+        <column name="course_id" type="integer" required="true"/>
+        <column name="started_at" type="timestamp" required="false"/>
+        <column name="stopped_at" type="timestamp" required="false"/>
+        <column name="is_passed" type="boolean" required="false" default="false"/>
+        <behavior name="timestampable">
+            <parameter name="create_column" value="started_at"/>
+        </behavior>
+        <foreign-key foreignTable="fos_user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="courses" onDelete="cascade">
+            <reference local="course_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="user_id"/>
+        </index>
+        <index>
+            <index-column name="course_id"/>
+        </index>
+    </table>
+
+    <table name="users_lessons" phpName="UserLesson" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="user_id" type="integer" required="true"/>
+        <column name="course_id" type="integer" required="true"/>
+        <column name="lesson_id" type="integer" required="true"/>
+        <column name="started_at" type="timestamp" required="false"/>
+        <column name="stopped_at" type="timestamp" required="false"/>
+        <column name="is_passed" type="boolean" required="false" default="false"/>
+        <column name="is_closed" type="boolean" required="false" default="false"/>
+        <behavior name="timestampable">
+            <parameter name="create_column" value="started_at"/>
+        </behavior>
+        <foreign-key foreignTable="fos_user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="lessons" onDelete="cascade">
+            <reference local="lesson_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="courses" onDelete="cascade">
+            <reference local="course_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="user_id"/>
+        </index>
+    </table>
+
+    <table name="lessons_quizes" phpName="LessonQuiz" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="lesson_id" type="integer" required="true"/>
+        <column name="quiz_id" type="integer" required="true"/>
+        <behavior name="sortable">
+            <parameter name="use_scope" value="true"/>
+            <parameter name="scope_column" value="lesson_id"/>
+        </behavior>
+        <foreign-key foreignTable="lessons" onDelete="cascade">
+            <reference local="lesson_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="quiz" onDelete="cascade">
+            <reference local="quiz_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="lesson_id"/>
+        </index>
+        <index>
+            <index-column name="quiz_id"/>
+        </index>
+    </table>
+
+    <table name="lessons_questions" phpName="LessonQuestion" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="user_id" type="integer" required="true"/>
+        <column name="lesson_id" type="integer" required="true"/>
+        <column name="title" type="varchar" size="200" required="true"/>
+        <column name="text" type="longvarchar" required="false"/>
+        <column name="is_visible" type="boolean" required="false" default="false"/>
+        <column name="is_answered" type="boolean" required="false" default="false"/>
+        <behavior name="timestampable"/>
+        <behavior name="sortable">
+            <parameter name="use_scope" value="true"/>
+            <parameter name="scope_column" value="lesson_id"/>
+        </behavior>
+        <foreign-key foreignTable="fos_user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="lessons" onDelete="cascade">
+            <reference local="lesson_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="user_id"/>
+        </index>
+        <index>
+            <index-column name="lesson_id"/>
+        </index>
+    </table>
+
+    <table name="lessons_answers" phpName="LessonAnswer" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="user_id" type="integer" required="true"/>
+        <column name="lesson_id" type="integer" required="true"/>
+        <column name="question_id" type="integer" required="true"/>
+        <column name="text" type="longvarchar" required="false"/>
+        <column name="is_visible" type="boolean" required="false" default="false"/>
+        <column name="is_accepted" type="boolean" required="false" default="false"/>
+        <column name="accepted_by" type="integer" required="false"/>
+        <behavior name="timestampable"/>
+        <foreign-key foreignTable="lessons" onDelete="cascade">
+            <reference local="lesson_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="lessons_questions" onDelete="cascade">
+            <reference local="question_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="fos_user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="user_id"/>
+        </index>
+        <index>
+            <index-column name="lesson_id"/>
+        </index>
+        <index>
+            <index-column name="question_id"/>
+        </index>
+    </table>
+
+    <table name="lessons_content" phpName="Content" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="lesson_id" type="integer" required="false"/>
+        <column name="title" type="varchar" size="200" required="true"/>
+        <column name="description" type="longvarchar" required="false"/>
+        <behavior name="timestampable"/>
+        <behavior name="sortable">
+            <parameter name="use_scope" value="true"/>
+            <parameter name="scope_column" value="lesson_id"/>
+        </behavior>
+        <foreign-key foreignTable="lessons" onDelete="cascade">
+            <reference local="lesson_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="lesson_id"/>
+        </index>
+    </table>
+
+    <table name="lessons_content_files" phpName="ContentFile" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="lesson_content_id" type="integer" required="false"/>
+        <column name="file" type="varchar" size="255" required="true"/>
+        <column name="type" type="varchar" size="50" required="true"/>
+        <column name="title" type="varchar" size="200" required="false"/>
+        <column name="caption" type="longvarchar" required="false"/>
+        <behavior name="timestampable"/>
+        <foreign-key foreignTable="lessons_content" onDelete="cascade">
+            <reference local="lesson_content_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="lesson_content_id"/>
+        </index>
+    </table>
+
+    <table name="lessons_content_texts" phpName="TextContent" idMethod="native">
+        <column name="text" type="longvarchar" required="false"/>
+        <behavior name="concrete_inheritance">
+            <parameter name="extends" value="lessons_content"/>
+        </behavior>
+    </table>
+
+    <table name="lessons_content_urls" phpName="UrlContent" idMethod="native">
+        <column name="url" type="varchar" size="255" required="true"/>
+        <behavior name="concrete_inheritance">
+            <parameter name="extends" value="lessons_content"/>
+        </behavior>
+    </table>
+
+    <table name="lessons_content_youtube" phpName="YoutubeContent" idMethod="native">
+        <column name="url" type="varchar" size="255" required="true"/>
+        <behavior name="concrete_inheritance">
+            <parameter name="extends" value="lessons_content"/>
+        </behavior>
+    </table>
+
+    <table name="lessons_content_slideshare" phpName="SlideshareContent" idMethod="native">
+        <column name="url" type="varchar" size="255" required="true"/>
+        <behavior name="concrete_inheritance">
+            <parameter name="extends" value="lessons_content"/>
+        </behavior>
+    </table>
+
+    <table name="tasks" phpName="Task" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="lesson_id" type="integer" required="true"/>
+        <column name="title" type="varchar" size="200" required="true"/>
+        <column name="text" type="longvarchar" required="false"/>
+        <column name="file" type="varchar" size="200" required="false"/>
+        <behavior name="timestampable"/>
+        <behavior name="sortable">
+            <parameter name="use_scope" value="true"/>
+            <parameter name="scope_column" value="lesson_id"/>
+        </behavior>
+        <foreign-key foreignTable="lessons" onDelete="cascade">
+            <reference local="lesson_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="lesson_id"/>
+        </index>
+    </table>
+
+    <table name="users_tasks" phpName="UserTask" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="lesson_id" type="integer" required="true"/>
+        <column name="task_id" type="integer" required="true"/>
+        <column name="user_id" type="integer" required="true"/>
+        <column name="text" type="longvarchar" required="false"/>
+        <column name="url" type="varchar" size="200" required="false"/>
+        <column name="file" type="varchar" size="200" required="false"/>
+        <column name="status" type="integer" required="false" default="0"/>
+        <column name="mark" type="integer" required="false"/>
+        <behavior name="timestampable"/>
+        <foreign-key foreignTable="lessons" onDelete="cascade">
+            <reference local="lesson_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="fos_user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="tasks" onDelete="cascade">
+            <reference local="task_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="lesson_id"/>
+        </index>
+        <index>
+            <index-column name="user_id"/>
+        </index>
+        <index>
+            <index-column name="task_id"/>
+        </index>
+    </table>
+
+    <table name="users_tasks_reviews" phpName="UserTaskReview" idMethod="native">
+        <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="user_task_id" type="integer" required="true"/>
+        <column name="user_id" type="integer" required="true"/>
+        <column name="text" type="longvarchar" required="false"/>
+        <behavior name="timestampable"/>
+        <foreign-key foreignTable="users_tasks" onDelete="cascade">
+            <reference local="user_task_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="fos_user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="user_id"/>
+        </index>
+        <index>
+            <index-column name="user_task_id"/>
+        </index>
+    </table>
+
 </database>

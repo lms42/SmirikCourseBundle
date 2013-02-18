@@ -1,0 +1,71 @@
+columns:
+    id:
+        label: Id
+        name: id
+        type: integer
+        builder: simple
+        options:
+            listable: true
+            editable: false
+            sortable: true
+            filterable: true
+    lesson:
+        label: Lesson
+        name: lesson
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    lesson_question:
+        label: Lesson question
+        name: lesson_question
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    text:
+        label: Text
+        name: text
+        type: text
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: true
+            filterable: true
+    is_visible:
+        label: 'Is visible'
+        name: is_visible
+        type: boolean
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    is_accepted:
+        label: 'Accepted'
+        name: is_accepted
+        type: boolean
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+actions:
+    create:
+        route: admin_lessons_answers_new
+        template: create
+    edit:
+        route: admin_lessons_answers_edit
+        template: edit
+    delete:
+        route: admin_lessons_answers_delete
+        template: delete
