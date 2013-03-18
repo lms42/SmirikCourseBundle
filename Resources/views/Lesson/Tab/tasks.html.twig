@@ -1,9 +1,14 @@
 {% for task in tasks %}
   <div class="tab-pane" id="task{{ task.id }}">
     <div id="save-alert-{{ task.id }}" class="alert alert-success hide">
-        {{ 'Answer is saved!'|trans }}
+        {{ 'Answer is saved'|trans }}!
     </div>
-    <h3>{{ task.title }}</h3>
+    <h3>
+        {{ task.title }} 
+            {% if task.id in user_tasks|keys %}
+                {% if user_tasks[task.id].status == 1 %}<span class="label label-warning">{{ 'Pending'|trans }}</span>{% elseif user_tasks[task.id].status == 2 %}<span class="label label-success">{{ 'Accepted'|trans }}</span>{% elseif user_tasks[task.id].status == 0 %}<span class="label label-info">{{ 'In progress'|trans }}</span>{% elseif user_tasks[task.id].status == 3 %}<span class="label label-danger">{{ 'Rejected'|trans }}</span>{% else %}<span class="label label-info">{{ 'Failed'|trans }}</span>{% endif %}
+            {% endif %}
+    </h3>
     <blockquote>{{ task.text|raw }}</blockquote>
     <hr>
     {% if task.id in user_tasks|keys %}
@@ -23,19 +28,17 @@
           </form>
         {% else %}
           <div>
-            <p>
-            <strong>{{ 'Status'|trans }}</strong>: {% if user_tasks[task.id].status == 1 %}{{ 'Pending'|trans }}{% else %}{{ 'Accepted'|trans }}{% endif %} <br />
-            <strong>{{ 'Your Answer'|trans }}</strong>: 
-            <div class="well">
-              {{ user_tasks[task.id].text|raw }}<br />
-            </div>
-            <strong>{{ 'Url'|trans }}</strong>: {{ user_tasks[task.id].url }}
-            </p>
-            {% if user_tasks[task.id].status == 3 %}
-              <p>
-              <strong>{{ 'Mark'|trans }}</strong>: {{ user_tasks[task.id].mark }}
-              </p>
-            {% endif %}
+                <strong>{{ 'Your Answer'|trans }}</strong>: 
+                <div class="well">
+                  {{ user_tasks[task.id].text|raw }}<br />
+                </div>
+                <strong>{{ 'Url'|trans }}</strong>: {{ user_tasks[task.id].url }}
+                </p>
+                {% if user_tasks[task.id].status == 3 %}
+                  <p>
+                  <strong>{{ 'Mark'|trans }}</strong>: {{ user_tasks[task.id].mark }}
+                  </p>
+                {% endif %}
           </div>
         {% endif %}
       </div>

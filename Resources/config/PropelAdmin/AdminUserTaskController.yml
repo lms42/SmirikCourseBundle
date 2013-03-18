@@ -79,6 +79,9 @@ columns:
             editable: true
             sortable: true
             filterable: true
+        templates:
+            filter: SmirikCourseBundle:Admin/Filter:status.html.twig
+            list: SmirikCourseBundle:Admin/Column:status.html.twig
     mark:
         label: Mark
         name: mark

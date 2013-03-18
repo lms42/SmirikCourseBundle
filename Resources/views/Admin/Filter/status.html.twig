@@ -1,0 +1,7 @@
+<select name="filter[{{ column.name }}]" data-name="{{ column.name }}" class="input-block-level filter-{{ column.name }} filter-{{ column.type }}" {% if filter_raw[column.name] is defined %}value="{{ filter_raw[column.name] }}"{% endif %}>
+    <option value="0" {% if filter_raw[column.name] is defined and filter_raw[column.name] == 0 %}selected{% endif %}>{{ 'In Progress'|trans }}</option>
+    <option value="1" {% if filter_raw[column.name] is defined and filter_raw[column.name] == 1 %}selected{% endif %}>{{ 'Pending'|trans }}</option>
+    <option value="2" {% if filter_raw[column.name] is defined and filter_raw[column.name] == 2 %}selected{% endif %}>{{ 'Accepted'|trans }}</option>
+    <option value="3" {% if filter_raw[column.name] is defined and filter_raw[column.name] == 3 %}selected{% endif %}>{{ 'Failed'|trans }}</option>
+    <option value="-1" {% if filter_raw[column.name] is defined and filter_raw[column.name] == -1 %}selected{% endif %}>{{ 'Rejected'|trans }}</option>
+</select>

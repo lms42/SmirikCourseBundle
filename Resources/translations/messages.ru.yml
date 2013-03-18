@@ -37,9 +37,11 @@ User: Пользователь
 Save: Сохранить
 Send task: Отправить на проверку
 Fail task: Совсем не знаю 
-In progress: Делается
-Pending: На проверке
+In progress: В работе
+In Progress: В работе
+Pending: Проверяется
 Accepted: Принято
+Failed: Провалено
 Reviews: Рецензия
 Your Answer: Ваш ответ
 users_tasks: решения

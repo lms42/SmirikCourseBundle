@@ -22,3 +22,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: admin.menu_configure, method: onMenuConfigure }
             - { name: kernel.event_listener, event: main.menu_configure, method: onMainMenuConfigure }
+    smirik.course.twig.extension:
+        class: Smirik\CourseBundle\Twig\Extension\CourseExtension
+        calls:
+            - [ setCourseManager, ["@course.manager"] ]
+            - [ setContext,       ["@security.context"] ]
+        tags:
+            - { name: twig.extension }

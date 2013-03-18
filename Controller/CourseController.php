@@ -39,6 +39,7 @@ class CourseController extends Controller
 	/**
 	 * @Route("/{id}/show", name="course_show")
 	 * @Template()
+	 * @Secure(roles="ROLE_USER")
 	 */
 	public function showAction($id)
 	{
