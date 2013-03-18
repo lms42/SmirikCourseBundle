@@ -1,0 +1,118 @@
+columns:
+    id:
+        label: Id
+        name: id
+        type: integer
+        builder: simple
+        options:
+            listable: true
+            editable: false
+            sortable: true
+            filterable: true
+    lesson:
+        label: Lesson
+        name: lesson
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    task:
+        label: Task
+        name: task
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    user:
+        label: User
+        name: user
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    text:
+        label: Text
+        name: text
+        type: text
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: true
+            filterable: true
+    url:
+        label: Url
+        name: url
+        type: string
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: true
+            filterable: true
+    file:
+        label: File
+        name: file
+        type: string
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: true
+            filterable: true
+    status:
+        label: Status
+        name: status
+        type: integer
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    mark:
+        label: Mark
+        name: mark
+        type: integer
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+actions:
+    accept:
+        label:   Process
+        name:    process
+        builder: ajax_object
+        route:   admin_users_tasks_accept
+        options:
+            route_with_id: true
+            confirmation: false
+        getter:  getStatus
+        data:
+            - { key: 0, text: 'In progress' }
+            - { key: 1, text: 'Pending' }
+            - { key: 2, text: 'Rejected' }
+            - { key: 3, text: 'Accepted' }
+            - { key: default, text: 'Reject' }
+        
+# 'accept' => new AjaxObjectAction(array(0 => 'В работе', 1 => 'Проверить', 2 => 'Отклонено', '3' => 'Принято', 'default' => 'Отклонить'), 'status', 'admin_users_tasks_accept', true),
+    create:
+        route: admin_users_tasks_new
+        extends: create
+    edit:
+        route: admin_users_tasks_edit
+        extends: edit
+    delete:
+        route: admin_users_tasks_delete
+        extends: delete

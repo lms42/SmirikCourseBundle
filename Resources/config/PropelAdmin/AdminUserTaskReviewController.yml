@@ -1,0 +1,41 @@
+columns:
+    id:
+        label: Id
+        name: id
+        type: integer
+        builder: simple
+        options:
+            listable: true
+            editable: false
+            sortable: true
+            filterable: true
+    user_task:
+        label: 'User task'
+        name: user_task
+        type: string
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+    text:
+        label: Text
+        name: text
+        type: text
+        builder: simple
+        options:
+            listable: true
+            editable: true
+            sortable: true
+            filterable: true
+actions:
+    create:
+        route: admin_users_tasks_reviews_new
+        extends: create
+    edit:
+        route: admin_users_tasks_reviews_edit
+        extends: edit
+    delete:
+        route: admin_users_tasks_reviews_delete
+        extends: delete
