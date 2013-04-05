@@ -54,6 +54,13 @@ class UserTaskQuery extends BaseUserTaskQuery
 				->orderByUsername($order)
 			->endUse();
 	}
+    
+    public function notFinished()
+    {
+        return $this
+            ->filterByStatus(array(3, 4), \Criteria::NOT_IN)
+        ;
+    }
 	
 	
 }

@@ -14,8 +14,35 @@ class UserTask extends BaseUserTask
 	
 	public function fail()
 	{
-	    $this->setStatus(3);
+	    $this->setStatus(4);
 	    $this->setMark(1);
 	}
+    
+    public function isFinished()
+    {
+        if (in_array($this->getStatus(), array(3,4)))
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public function isPending()
+    {
+        if ($this->getStatus() == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public function isRejected()
+    {
+        if ($this->getStatus() == 2)
+        {
+            return true;
+        }
+        return false;
+    }
 	
 }

@@ -33,7 +33,10 @@
         <li class="nav-header">{{ 'Tasks'|trans }}</li>
         {% for task in tasks %}
             <li><a href="#task{{ task.id }}" data-toggle="tab"><i class="icon-tasks"></i>
-                {% if task.id in user_tasks|keys and user_tasks[task.id].status == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
+                {% if task.id in user_tasks|keys and user_tasks[task.id].finished == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
+                {% if user_tasks[task.id].rejected %}<span class="badge badge-important">{{ '!'|trans }}</span>
+                {% elseif (user_tasks[task.id].pending) %}<span class="badge badge-warning"><i class="icon-time"> </i></span>
+                {% endif %}
             </a></li>
         {% endfor %}
         <li class="divider"></li>

@@ -14,11 +14,10 @@
     </p>
 </div>
 <div class="modal-footer">
-    <form action="{{ path('admin_users_tasks_save_review', {'id': id }) }}" method="post" class="form user-task-review">
+    <form action="{{ path('admin_users_tasks_save_review', {'id': id }) }}" method="post" class="form user-task-review" id="user-task-review-form">
         <textarea name="comment" placeholder="{{ 'Enter your comment'|trans }}" class="input-block-level"></textarea>
         <div class="controls controls-row pull-right">
             <input type="number" name="mark" class="span1" value="5">
-            <input type="hidden" name="action" value="accept">
             <input name="accept" type="submit" class="span2 btn btn-primary user-task-review-action-type" value="{{ 'Accept'|trans }}">
             <input name="reject" type="submit" class="span2 btn btn-warning user-task-review-action-type" value="{{ 'Reject'|trans }}">
             <a href="#" class="btn span1 btn-close" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</a>

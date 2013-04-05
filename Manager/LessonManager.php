@@ -133,11 +133,11 @@ class LessonManager
      */
     public function getContent($lesson, $user)
     {
-        $text_response = $this->getText($lesson);
+        $text_response       = $this->getText($lesson);
         $slideshare_response = $this->getSlideshare($lesson);
-        $questions_response = $this->getQuestions($lesson);
-        $quiz_response = $this->getQuiz($lesson, $user);
-        $tasks_response = $this->getTasks($lesson, $user);
+        $questions_response  = $this->getQuestions($lesson);
+        $quiz_response       = $this->getQuiz($lesson, $user);
+        $tasks_response      = $this->getTasks($lesson, $user);
 
         $response = array_merge($text_response, $slideshare_response, $questions_response, $quiz_response, $tasks_response);
         return $response;

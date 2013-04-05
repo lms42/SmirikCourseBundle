@@ -6,7 +6,7 @@
     <h3>
         {{ task.title }} 
             {% if task.id in user_tasks|keys %}
-                {% if user_tasks[task.id].status == 1 %}<span class="label label-warning">{{ 'Pending'|trans }}</span>{% elseif user_tasks[task.id].status == 2 %}<span class="label label-success">{{ 'Accepted'|trans }}</span>{% elseif user_tasks[task.id].status == 0 %}<span class="label label-info">{{ 'In progress'|trans }}</span>{% elseif user_tasks[task.id].status == 3 %}<span class="label label-danger">{{ 'Rejected'|trans }}</span>{% else %}<span class="label label-info">{{ 'Failed'|trans }}</span>{% endif %}
+                {% if user_tasks[task.id].status == 1 %}<span class="label label-warning">{{ 'Pending'|trans }}</span>{% elseif user_tasks[task.id].status == 3 %}<span class="label label-success">{{ 'Accepted'|trans }}</span>{% elseif user_tasks[task.id].status == 0 %}<span class="label label-info">{{ 'In progress'|trans }}</span>{% elseif user_tasks[task.id].status == 2 %}<span class="label label-danger">{{ 'Rejected'|trans }}</span>{% else %}<span class="label label-info">{{ 'Failed'|trans }}</span>{% endif %}
             {% endif %}
     </h3>
     <blockquote>{{ task.text|raw }}</blockquote>

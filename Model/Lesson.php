@@ -135,7 +135,7 @@ class Lesson extends BaseLesson
 			$ut = UserTaskQuery::create()
 				->filterByUserId($user_id)
 				->filterByLessonId($this->getId())
-				->filterByStatus(3, \Criteria::NOT_EQUAL)
+                ->notFinished()
 				->count();
 			
 			if ($ut > 0)

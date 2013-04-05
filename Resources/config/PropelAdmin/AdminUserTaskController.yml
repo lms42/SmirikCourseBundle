@@ -107,6 +107,7 @@ actions:
             - { key: 1, text: 'Pending' }
             - { key: 2, text: 'Rejected' }
             - { key: 3, text: 'Accepted' }
+            - { key: 4, text: 'Failed' }
             - { key: default, text: 'Reject' }
         
 # 'accept' => new AjaxObjectAction(array(0 => 'В работе', 1 => 'Проверить', 2 => 'Отклонено', '3' => 'Принято', 'default' => 'Отклонить'), 'status', 'admin_users_tasks_accept', true),

@@ -1,8 +1,13 @@
 $(document).on('ready', function(e){
-    $(document).on("submit", "form.user-task-review", function (e) {
+    $(document).on("click", ".user-task-review-action-type", function (e) {
         e.preventDefault();
-        var form = $(e.target);
-        $.post(form.attr('action'), form.serialize(), function (data) {
+        
+        var button = $(e.target);
+        var form = $('#user-task-review-form');
+        
+        url_data = form.serialize() + '&action=' + button.attr('name');
+        
+        $.post(form.attr('action'), url_data, function (data) {
             if (data.result && $('#object' + data.result).length > 0) {
                 $('#object' + data.result).hide();
             }
