@@ -45,6 +45,21 @@ class UserTask extends BaseUserTask
         return false;
     }
     
+    public function accepted()
+    {
+        $this->setStatus(3);
+    }
+
+    public function rejected()
+    {
+        $this->setStatus(2);
+    }
+
+    public function failed()
+    {
+        $this->setStatus(4);
+    }
+    
     public function getName()
     {
         return $this->getUser()->getName();

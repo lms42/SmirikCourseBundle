@@ -114,9 +114,9 @@ actions:
     create:
         route: admin_users_tasks_new
         extends: create
-    edit:
-        route: admin_users_tasks_edit
-        extends: edit
+    # edit:
+    #     route: admin_users_tasks_edit
+    #     extends: edit
     delete:
         route: admin_users_tasks_delete
         extends: delete
