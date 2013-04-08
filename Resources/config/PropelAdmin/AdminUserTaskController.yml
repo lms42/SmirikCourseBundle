@@ -31,7 +31,7 @@ columns:
             filterable: true
     user:
         label: User
-        name: user
+        name: name
         type: string
         builder: simple
         options:

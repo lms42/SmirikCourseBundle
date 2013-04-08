@@ -44,5 +44,10 @@ class UserTask extends BaseUserTask
         }
         return false;
     }
+    
+    public function getName()
+    {
+        return $this->getUser()->getName();
+    }
 	
 }
