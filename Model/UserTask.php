@@ -50,7 +50,7 @@ class UserTask extends BaseUserTask
         $this->setStatus(3);
     }
 
-    public function rejected()
+    public function setRejected()
     {
         $this->setStatus(2);
     }

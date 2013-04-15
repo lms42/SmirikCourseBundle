@@ -60,11 +60,11 @@ class AdminUserTaskController extends BaseController
             
 		    if ($action == 'accept')
 		    {
-		        $user_task->accepted();
+		        $user_task->setAccepted();
 		        $user_task->setMark($mark);
 		    } elseif ($action == 'reject')
 		    {
-		        $user_task->rejected();
+		        $user_task->setRejected();
 		    }
 		    $user_task->save();
 		    
