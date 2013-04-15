@@ -45,7 +45,7 @@ class UserTask extends BaseUserTask
         return false;
     }
     
-    public function accepted()
+    public function setAccepted()
     {
         $this->setStatus(3);
     }
@@ -55,7 +55,7 @@ class UserTask extends BaseUserTask
         $this->setStatus(2);
     }
 
-    public function failed()
+    public function setFailed()
     {
         $this->setStatus(4);
     }
