@@ -37,7 +37,6 @@ class LessonController extends Controller
 
     /**
      * @Route("/{id}", name="lesson_index")
-     * @Secure(roles="ROLE_USER")
      * @ParamConverter("lesson", options={ "mapping"={ "id" : "id" }})
      * @Template()
      */
@@ -45,6 +44,12 @@ class LessonController extends Controller
     {
         $user = $this->getUser();
         $cm   = $this->get('course.manager');
+        
+        $user_id = false;
+        if (is_object($user))
+        {
+            $user_id = $user->getId();
+        }
 
         $course = $lesson->getCourse();
 
@@ -56,8 +61,8 @@ class LessonController extends Controller
         }
 
         $lesson_manager = $this->get('lesson.manager');
-        $content        = $lesson_manager->getContent($lesson, $user);
-        $status         = $lesson_manager->getStatus($lesson, $user);
+        $content        = $lesson_manager->getContent($lesson, $user_id);
+        $status         = $lesson_manager->getStatus($lesson, $user_id);
 
         if ($status == -2) {
             return $this->redirect($this->generateUrl('course_show', array('id' => $lesson->getCourseId())));

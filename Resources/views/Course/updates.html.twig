@@ -1,0 +1,15 @@
+{% for lesson in lessons %}
+<h4><a href="{{ path('lesson_index', {'id': lesson.id }) }}">{{ lesson.course.title }} / {{ lesson.title }}</a>
+    <small class="muted">{{ lesson.createdAt('d.m.Y')}}</small>
+</h4>
+{% if lesson.tasks|length %}
+<p><strong>{{ 'Tasks'|trans }}:</strong>
+    <ol>
+        {% for task in lesson.tasks %}
+           <li>{{ task.title }}</li> 
+        {% endfor %}
+    </ol>
+</p>
+{% endif %}
+<hr>
+{% endfor %}

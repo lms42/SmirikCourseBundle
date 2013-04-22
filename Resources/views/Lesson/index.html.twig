@@ -1,5 +1,7 @@
 {% extends 'SmirikCourseBundle::layout.html.twig' %}
 
+{% block title %}{{ lesson.title}} - {{ lesson.course.title }}{% endblock %}
+
 {% block header %}
     <a name="content"></a>
     <h1>{{ lesson.title }}
@@ -34,8 +36,10 @@
         {% for task in tasks %}
             <li><a href="#task{{ task.id }}" data-toggle="tab"><i class="icon-tasks"></i>
                 {% if task.id in user_tasks|keys and user_tasks[task.id].finished == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
-                {% if user_tasks[task.id].rejected %}<span class="badge badge-important">{{ '!'|trans }}</span>
-                {% elseif (user_tasks[task.id].pending) %}<span class="badge badge-warning"><i class="icon-time"> </i></span>
+                {% if user_tasks[task.id] is defined %}
+                    {% if user_tasks[task.id].rejected %}<span class="badge badge-important">{{ '!'|trans }}</span>
+                    {% elseif (user_tasks[task.id].pending) %}<span class="badge badge-warning"><i class="icon-time"> </i></span>
+                    {% endif %}
                 {% endif %}
             </a></li>
         {% endfor %}

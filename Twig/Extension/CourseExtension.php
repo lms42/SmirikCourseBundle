@@ -27,7 +27,8 @@ class CourseExtension extends \Twig_Extension
             return $this->course_manager->my($this->getUser());
         } else
         {
-            return false;
+            $courses = $this->course_manager->getAll();
+            return $courses;
         }
     }
     

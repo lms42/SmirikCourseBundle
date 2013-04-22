@@ -14,17 +14,17 @@ Quiz was assigned to the lesson: Тест был добавлен в урок
 Assign quiz: Добавить тест
 to lesson: к уроку
 tasks: задания
-Avaliable courses: Доступные курсы
+All available courses: Все доступные курсы
 Courses: Курсы
 Course: Курс
 Text: Текст
-avaliable: доступные
+available: доступные
 My courses: Мои курсы
 Quizes: Тесты
 lessons_questions: вопросов для уроков
 Lesson question: Вопрос
 Started at: Начато
-avaliable: доступно
+available: доступно
 lessons_answers: ответов на вопросы
 Visible: Опубликовано
 Accepted: Засчитано
@@ -70,7 +70,7 @@ Start course: Записаться на курс
 Go to lesson: Перейти к уроку
 Need assign to course: Сначала запишитесь на курс
 Finish tasks to complete the lesson: Закончите все задания перед завершением курса
-Not avaliable: Недоступно
+Not available: Недоступно
 Your question will be added after moderation: Ваш вопрос будет добавлен после рассмотрения модератором.
 Your answer will be added after moderation:   Ваш ответ будет добавлен после рассмотрения модератором.
 
@@ -107,7 +107,7 @@ Slideshare: SlideShare.Net
 Quiz is completed: Тест завершён
 Manual assign is forbidden: Сейчас недоступен
 Answer: Ответ
-No answers avaliable: Ответов пока нет
+No answers available: Ответов пока нет
 Question: Вопрос
 
 Correct answers: Правильные ответы
@@ -132,3 +132,4 @@ My results: Мои результаты
 List of courses: Список курсов
 
 Process user task: Проверка задания
+Last lessons: Последние уроки

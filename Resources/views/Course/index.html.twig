@@ -1,7 +1,9 @@
 {% extends 'SmirikCourseBundle::layout.html.twig' %}
 
+{% block title %}{{ 'Courses'|trans }} {{ 'available'|trans }}{% endblock %}
+
 {% block header %}
-<h1>{{ 'Courses'|trans }} <small>{{ 'avaliable'|trans }}</small></h1>
+<h1>{{ 'Courses'|trans }} <small>{{ 'available'|trans }}</small></h1>
 {% endblock %}
 
 {% block content %}
@@ -35,7 +37,7 @@
 {% endif %}
  
 {% if avaliable_courses|length > 0 %}
-  <h3>{{ 'Avaliable courses'|trans }}</h3>
+  <h3>{{ 'Available courses'|trans }}</h3>
   <div class="accordion" id="accordion2">
   {% for course in avaliable_courses %}
       <div class="accordion-group">

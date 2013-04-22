@@ -34,6 +34,17 @@ class CourseManager
                 ->joinWith('UserCourse')
                 ->find();
     }
+    
+    /**
+     * @return PropelObjectCollection
+     */
+    public function getAll()
+    {
+        return CourseQuery::create()
+            ->limit(100)
+            ->find()
+        ;
+    }
 
     /**
      * @param $ids

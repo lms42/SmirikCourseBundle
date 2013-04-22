@@ -18,7 +18,6 @@ class CourseController extends Controller
 	/**
 	 * @Route("/", name="course_index")
 	 * @Template()
-	 * @Secure(roles="ROLE_USER")
 	 */
 	public function indexAction()
 	{
@@ -39,7 +38,6 @@ class CourseController extends Controller
 	/**
 	 * @Route("/{id}/show", name="course_show")
 	 * @Template()
-	 * @Secure(roles="ROLE_USER")
 	 */
 	public function showAction($id)
 	{
@@ -64,8 +62,8 @@ class CourseController extends Controller
 			
 		$has_course        = $cm->hasUserStartedCourse($user_id, $course->getId());
 		$finish_course     = $cm->hasUserFinishedCourse($user_id, $course->getId());
-		$users_lessons     = $lm->getForUser($user, $course);
-		$last_avaliable    = $lm->getLastAvaliableNumber($course, $user);
+		$users_lessons     = $lm->getForUser($user_id, $course);
+		$last_avaliable    = $lm->getLastAvaliableNumber($course, $user_id);
 		$last_available_id = false;
 		if ($last_avaliable)
 		{
@@ -127,5 +125,17 @@ class CourseController extends Controller
         $response = $this->get('course.manager')->getResults($user);
         return $response;
 	}
+    
+    /**
+     * @Route("/updates", name="course_updates")
+     * @Template("SmirikCourseBundle:Course:updates.html.twig")
+     */
+    public function updatesAction()
+    {
+        $lessons = $this->get('lesson.manager')->last(5);
+        return array(
+            'lessons' => $lessons,
+        );
+    }
 	
 }

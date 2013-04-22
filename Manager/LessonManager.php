@@ -70,7 +70,7 @@ class LessonManager
      * @param $user
      * @return array
      */
-    private function getQuiz($lesson, $user)
+    private function getQuiz($lesson, $user_id)
     {
         $quiz = QuizQuery::create()
             ->useLessonQuizQuery()
@@ -87,7 +87,7 @@ class LessonManager
 
         $user_quiz = UserQuizQuery::create()
             ->select(array('Id', 'QuizId'))
-            ->filterByUserId($user->getId())
+            ->filterByUserId($user_id)
             ->filterByQuizId($quiz_ids)
             ->find()
             ->toKeyValue('Id', 'QuizId');
@@ -103,21 +103,24 @@ class LessonManager
      * @param $user
      * @return array
      */
-    private function getTasks($lesson, $user)
+    private function getTasks($lesson, $user_id)
     {
         $tasks = TaskQuery::create()
             ->filterByLessonId($lesson->getId())
             ->find();
 
         $user_tasks = UserTaskQuery::create('ut')
-            ->filterByUserId($user->getId())
+            ->filterByUserId($user_id)
             ->filterByLessonId($lesson->getId())
             ->leftJoin('ut.UserTaskReview')
             ->find();
 
         $ut = array();
-        foreach ($user_tasks as $user_task) {
-            $ut[$user_task->getTaskId()] = $user_task;
+        if (count($user_tasks) > 0)
+        {
+            foreach ($user_tasks as $user_task) {
+                $ut[$user_task->getTaskId()] = $user_task;
+            }
         }
 
         return array(
@@ -131,13 +134,13 @@ class LessonManager
      * @param $user
      * @return array
      */
-    public function getContent($lesson, $user)
+    public function getContent($lesson, $user_id)
     {
         $text_response       = $this->getText($lesson);
         $slideshare_response = $this->getSlideshare($lesson);
         $questions_response  = $this->getQuestions($lesson);
-        $quiz_response       = $this->getQuiz($lesson, $user);
-        $tasks_response      = $this->getTasks($lesson, $user);
+        $quiz_response       = $this->getQuiz($lesson, $user_id);
+        $tasks_response      = $this->getTasks($lesson, $user_id);
 
         $response = array_merge($text_response, $slideshare_response, $questions_response, $quiz_response, $tasks_response);
         return $response;
@@ -149,10 +152,10 @@ class LessonManager
      * @param $user
      * @return int
      */
-    public function getStatus($lesson, $user)
+    public function getStatus($lesson, $user_id)
     {
         $user_lesson = UserLessonQuery::create()
-            ->filterByUserId($user->getId())
+            ->filterByUserId($user_id)
             ->filterByLessonId($lesson->getId())
             ->findOne();
 
@@ -162,14 +165,14 @@ class LessonManager
                 $status = 5;
             } elseif ($user_lesson->getIsPassed()) {
                 $status = 3;
-                if ($lesson->canBeClosedByUser($user->getId())) {
+                if ($lesson->canBeClosedByUser($user_id)) {
                     $status = 4;
                 }
             } else {
                 $status = 2;
             }
         } else {
-            if ($lesson->canBeStartedByUser($user->getId())) {
+            if ($lesson->canBeStartedByUser($user_id)) {
                 $status = 1;
             } else {
                 if ($lesson->getCourse()->getType() == 1) {
@@ -188,10 +191,10 @@ class LessonManager
      * @param \Smirik\CourseBundle\Model\Course $course
      * @return array
      */
-    public function getForUser($user, $course)
+    public function getForUser($user_id, $course)
     {
         $lessons = UserLessonQuery::create()
-            ->filterByUserId($user->getId())
+            ->filterByUserId($user_id)
             ->filterByCourseId($course->getId())
             ->orderByStartedAt()
             ->find();
@@ -220,11 +223,11 @@ class LessonManager
      * @param bool $join_user_lesson
      * @return mixed
      */
-    public function getLastAvaliableNumber($course, $user, $join_courses = false, $join_user_lesson = false)
+    public function getLastAvaliableNumber($course, $user_id, $join_courses = false, $join_user_lesson = false)
     {
         $last_lesson = LessonQuery::create()
             ->useUserLessonQuery()
-            ->filterByUserId($user->getId())
+            ->filterByUserId($user_id)
             ->filterByCourseId($course->getId())
             ->filterByIsPassed(true)
             ->filterByIsClosed(true)
@@ -314,6 +317,11 @@ class LessonManager
                 ->find();
     }
 
+    /**
+     * @param \Smirik\CourseBundle\Model\Lesson $lesson
+     * @param \Smirik\QuizBundle\Model\Quiz $quiz
+     * @return PropelObjectCollection
+     */
     public function hasQuiz($lesson, $quiz)
     {
         return
@@ -324,5 +332,20 @@ class LessonManager
             ;
     }
 
+    /**
+     * Get last N lessons with related data
+     * @param integer $limit
+     * @return PropelObjectCollection
+     */
+    public function last($limit = 10)
+    {
+        return LessonQuery::create()
+            ->orderById('desc')
+            ->leftJoinTask()
+            ->groupBy('Id')
+            ->limit($limit)
+            ->find()
+        ;
+    }
 
 }
