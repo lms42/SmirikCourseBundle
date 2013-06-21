@@ -133,6 +133,7 @@ class CourseController extends Controller
     public function updatesAction()
     {
         $lessons = $this->get('lesson.manager')->last(5);
+        
         return array(
             'lessons' => $lessons,
         );
