@@ -26,10 +26,12 @@ class CourseManager
      */
     public function my($user)
     {
+        $user_id = is_object($user) ? $user->getId() : false;
+
         return
             CourseQuery::create()
                 ->useUserCourseQuery()
-                ->filterByUserId($user->getId())
+                    ->filterByUserId($user_id)
                 ->endUse()
                 ->joinWith('UserCourse')
                 ->find();

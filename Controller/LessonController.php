@@ -44,19 +44,15 @@ class LessonController extends Controller
     {
         $user = $this->getUser();
         $cm   = $this->get('course.manager');
-        
-        $user_id = false;
-        if (is_object($user))
-        {
-            $user_id = $user->getId();
-        }
+
+        $user_id = is_object($user) ? $user->getId() : false;
 
         $course = $lesson->getCourse();
 
         /**
          * Deny access for private courses
          */
-        if (!$course->getIsPublic() && (!$cm->hasUserStartedCourse($user->getId(), $course->getId()))) {
+        if ( ! $course->getIsPublic() && ( ! $cm->hasUserStartedCourse($user_id, $course->getId()))) {
             return $this->redirect($this->generateUrl('course_index'));
         }
 
@@ -73,7 +69,6 @@ class LessonController extends Controller
         /**
          * @todo Check is it allowed to see this lesson
          */
-
         return array(
             'lesson'           => $lesson,
             'maintext'         => $content['main_text'],
@@ -110,7 +105,7 @@ class LessonController extends Controller
         $form = $this->createForm(new UserTaskAnswerType('UserTaskAnswer'.$task->getId()), $user_task);
 
         if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
+            $form->submit($request);
             if ($form->isValid()) {
                 $user_task->save();
                 if ($this->getRequest()->isXmlHttpRequest()) {
