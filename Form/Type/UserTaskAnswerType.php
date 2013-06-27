@@ -4,6 +4,7 @@ namespace Smirik\CourseBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserTaskAnswerType extends AbstractType
 {
@@ -20,14 +21,15 @@ class UserTaskAnswerType extends AbstractType
         $builder
             ->add('text')
             ->add('url')
-            ->add('file', 'file', array('required' => false))
-        ;
+            ->add('file', 'file', array('required' => false));
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'Smirik\CourseBundle\Model\UserTask',
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Smirik\CourseBundle\Model\UserTask'
+            )
         );
     }
 

@@ -4,10 +4,10 @@ namespace Smirik\CourseBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class LessonAnswerType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -17,16 +17,18 @@ class LessonAnswerType extends AbstractType
     	    ->add('lesson_question', 'model', array(
     	    	'class' => 'Smirik\CourseBundle\Model\LessonQuestion',
     	    ))
-            ->add('text')
+            ->add('text', 'ckeditor')
             ->add('is_visible')
             ->add('is_accepted')
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'Smirik\CourseBundle\Model\LessonAnswer',
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Smirik\CourseBundle\Model\LessonAnswer'
+            )
         );
     }
 

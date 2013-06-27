@@ -80,9 +80,6 @@
                                 newFormDiv.prepend(deleteLink);
                                 $(parent).append(newFormDiv);
                                 $(parent).append(this);
-                                $(parent).find('textarea').wysihtml5({
-                                    "html":true,
-                                });
                                 return false;
                             });
                             $(document).on('click', '.form-content-' + name + ' a.delete', function (e) {
