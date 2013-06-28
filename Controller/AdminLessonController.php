@@ -12,7 +12,6 @@ use Smirik\CourseBundle\Model\LessonQuizQuery;
 
 class AdminLessonController extends BaseController
 {
-
     /**
      * @Route("/admin/lessons/{id}/assign", name="admin_lessons_assign")
      * @Template("SmirikCourseBundle:Admin/Lesson:assign.html.twig")

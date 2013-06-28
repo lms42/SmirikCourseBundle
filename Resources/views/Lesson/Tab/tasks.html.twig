@@ -60,17 +60,10 @@
 
 <script language="Javascript">
 $(document).ready(function() {
-  $('form.task-form textarea').each(function(key, value){
-		$(value).wysihtml5({
-			"html": true, 
-		});
-	});
-	
 	$('a.task_form_submit').click(function (e) {
         var form = $('#' + $(this).data('form-id'));
         $.post(form.attr('action'), form.serialize(),function(data){}, 'json');
         $('#save-alert-'+$(this).data('id')).show();
 	});
-
 });
 </script>

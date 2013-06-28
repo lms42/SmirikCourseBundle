@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Smirik\CourseBundle\Model\LessonQuestionQuery;
@@ -47,9 +48,11 @@ class QuestionController extends Controller
         $text = $this->getRequest()->request->get('text', false);
         
         $question = LessonQuestionQuery::create()->findPk($question_id);
-        $question->addAnswer($user->getId(), $text);
-        
-        return new Response('{"status": 1 }');
+        $answer = $question->addAnswer($user->getId(), $text);
+
+        return new JsonResponse(array(
+            'success' => is_object($answer)
+        ));
     }
     
 }

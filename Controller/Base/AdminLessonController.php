@@ -10,7 +10,7 @@ use Smirik\PropelAdminBundle\Controller\AdminAbstractController as AbstractContr
 
 class AdminLessonController extends AbstractController
 {
-	
+
 	public $layout = 'SmirikAdminBundle::layout.html.twig';
 	public $name   = 'lessons';
 	public $bundle = 'SmirikCourseBundle';

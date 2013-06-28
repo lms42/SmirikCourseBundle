@@ -4,14 +4,14 @@ namespace Smirik\CourseBundle\Form\Type\Base;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CourseType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                  ->add('title')
+            ->add('title')
             ->add('description')
             ->add('type')
             ->add('file')
@@ -20,10 +20,12 @@ class CourseType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'Smirik\CourseBundle\Model\Course',
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Smirik\CourseBundle\Model\Course'
+            )
         );
     }
 
