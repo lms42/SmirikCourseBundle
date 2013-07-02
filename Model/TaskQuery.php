@@ -6,7 +6,6 @@ use Smirik\CourseBundle\Model\om\BaseTaskQuery;
 
 class TaskQuery extends BaseTaskQuery
 {
-	
 	public function filterByLesson($lesson, $scope = null)
 	{
 		return $this

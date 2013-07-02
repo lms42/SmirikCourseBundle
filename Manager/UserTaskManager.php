@@ -91,4 +91,55 @@ class UserTaskManager
         );
     }
 
+    /**
+     * Filter a tasks which need to perform (In Progress, Rejected)
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  \Smirik\CourseBundle\Model\Course|null  $course  (!) Not implemented
+     * @param  \Smirik\CourseBundle\Model\Lesson|null  $lesson
+     * @return \ModelCriteria|\Smirik\CourseBundle\Model\UserTaskQuery
+     */
+    public function filterTodo($user, $course = null, $lesson = null)
+    {
+        return
+            UserTaskQuery::create()
+                ->joinTask()
+                ->filterByStatus([0,2], \Criteria::IN) // In Progress, Rejected
+                ->_if($user)
+                ->filterByUserId(is_object($user) ? $user->getId() : $user)
+                ->_endif()
+                ->_if($lesson)
+                ->filterByUserId(is_object($lesson) ? $lesson->getId() : $lesson)
+                ->_endif()
+            ;
+    }
+
+    /**
+     * Get a tasks which need to perform - to do (In Progress, Rejected)
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  \Smirik\CourseBundle\Model\Course|null  $course  (!) Not implemented
+     * @param  \Smirik\CourseBundle\Model\Lesson|null  $lesson
+     * @return \ModelCriteria|\Smirik\CourseBundle\Model\TaskQuery
+     */
+    public function todo($user, $course = null, $lesson = null)
+    {
+        return $this->filterTodo($user, $course = null, $lesson = null)->find();
+    }
+
+    /**
+     * Get a tasks which need to perform - to do (In Progress, Rejected)
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  integer  $limit
+     * @return \ModelCriteria|\Smirik\CourseBundle\Model\TaskQuery
+     */
+    public function latestUserTodo($user, $limit = null)
+    {
+        return $this->filterTodo($user, $course = null, $lesson = null)
+                ->orderByUpdatedAt(\Criteria::DESC)
+                ->limit($limit)
+                ->find()
+            ;
+    }
 }

@@ -19,7 +19,6 @@ use Smirik\CourseBundle\Form\Type\UserTaskAnswerType;
  */
 class LessonController extends Controller
 {
-
     private function createTaskAnswersForms($content)
     {
         $forms = array();
