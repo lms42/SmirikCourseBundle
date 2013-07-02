@@ -4,8 +4,11 @@
     {% endif %}
 
     <div class="span4">
-        <h4>{{ lesson.title }}</h4>
+        <h4 style="text-align: center;">{{ lesson.title }}</h4>
         <h6 style="text-align: right">{{ lesson.course.title }}</h6>
+        <div class="overflow-hidden">
+            <img alt="" src="{{ asset('/bundles/smirikcore/unify/img/carousel/'~random(4)~'.jpg') }}">
+        </div>
         <p>Краткое описание курса, основные темы и моменты, которые будут обсуждаться, может какие-то ключевые теги, области и соседствующие технологии.</p>
         <a href="{{ path('lesson_index', {'id': lesson.id }) }}" class="btn-u btn-u-small">Смотреть курс</a>
         <small class="muted" style="float: right">{{ lesson.createdAt('d.m.Y')}}</small>

@@ -1,0 +1,27 @@
+{% for course in my_courses %}
+    {% if loop.index0 is divisibleby(3) or loop.index == 1 %}
+        <ul class="thumbnails">
+    {% endif %}
+
+    {% for item in course.usercourses %}
+        <li class="span4">
+            <div class="thumbnail thumbnail-kenburn">
+                <div class="overflow-hidden">
+                    <img alt="" src="{{ asset('/bundles/smirikcore/unify/img/carousel/'~random(4)~'.jpg') }}">
+                </div>
+                <div class="caption">
+                    <h3>{{ course.title }}</h3>
+                    <p>{{ course.description|raw }}</p>
+                    {% if not item.isPassed %}
+                        <p><strong>Дата начала</strong>: {{ item.startedAt('Y-m-d H:i') }}</p>
+                        <p><a class="btn-u" href="{{ path('course_show', { "id": course.id }) }}">{{ 'Continue'|trans }}</a></p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+    {% if loop.index is divisibleby(3) or loop.last %}
+        </ul>
+    {% endif %}
+{% endfor %}
