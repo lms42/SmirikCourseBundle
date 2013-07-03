@@ -92,6 +92,38 @@ class UserTaskManager
     }
 
     /**
+     * Get latest completed tasks
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  int  [$limit=null]
+     * @return \Smirik\CourseBundle\Model\UserTask[]|\PropelObjectCollection
+     */
+    public function lastCompleted($user, $limit = null)
+    {
+        return $this->filterTasks($user)
+            ->filterByStatus(3)
+            ->orderByUpdatedAt(\Criteria::DESC)
+            ->limit($limit)
+            ->find();
+    }
+
+    /**
+     * Get latest completed tasks
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  int  [$limit=null]
+     * @return \Smirik\CourseBundle\Model\UserTask[]|\PropelObjectCollection
+     */
+    public function lastPending($user, $limit = null)
+    {
+        return $this->filterTasks($user)
+            ->filterByStatus(1)
+            ->orderByUpdatedAt(\Criteria::DESC)
+            ->limit($limit)
+            ->find();
+    }
+
+    /**
      * Filter a tasks which need to perform (In Progress, Rejected)
      *
      * @param  \FOS\UserBundle\Propel\User|int         $user
@@ -99,17 +131,16 @@ class UserTaskManager
      * @param  \Smirik\CourseBundle\Model\Lesson|null  $lesson
      * @return \ModelCriteria|\Smirik\CourseBundle\Model\UserTaskQuery
      */
-    public function filterTodo($user, $course = null, $lesson = null)
+    public function filterTasks($user, $course = null, $lesson = null)
     {
         return
             UserTaskQuery::create()
                 ->joinTask()
-                ->filterByStatus([0,2], \Criteria::IN) // In Progress, Rejected
                 ->_if($user)
-                ->filterByUserId(is_object($user) ? $user->getId() : $user)
+                    ->filterByUserId(is_object($user) ? $user->getId() : $user)
                 ->_endif()
                 ->_if($lesson)
-                ->filterByUserId(is_object($lesson) ? $lesson->getId() : $lesson)
+                    ->filterByUserId(is_object($lesson) ? $lesson->getId() : $lesson)
                 ->_endif()
             ;
     }
@@ -124,7 +155,9 @@ class UserTaskManager
      */
     public function todo($user, $course = null, $lesson = null)
     {
-        return $this->filterTodo($user, $course = null, $lesson = null)->find();
+        return $this->filterTasks($user, $course, $lesson)
+            ->filterByStatus([0,2], \Criteria::IN) // In Progress, Rejected
+            ->find();
     }
 
     /**
@@ -136,7 +169,8 @@ class UserTaskManager
      */
     public function latestUserTodo($user, $limit = null)
     {
-        return $this->filterTodo($user, $course = null, $lesson = null)
+        return $this->filterTasks($user, $course = null)
+                ->filterByStatus([0,2], \Criteria::IN) // In Progress, Rejected
                 ->orderByUpdatedAt(\Criteria::DESC)
                 ->limit($limit)
                 ->find()

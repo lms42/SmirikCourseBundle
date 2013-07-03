@@ -6,7 +6,6 @@ use Smirik\CourseBundle\Model\om\BaseUserTask;
 
 class UserTask extends BaseUserTask
 {
-	
 	public function __toString()
 	{
 		return (string)$this->getUser()->getUsername().':'.$this->getTask()->getTitle();
@@ -64,5 +63,5 @@ class UserTask extends BaseUserTask
     {
         return $this->getUser()->getName();
     }
-	
+
 }
