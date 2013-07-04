@@ -3,42 +3,18 @@
 {% block title %}{{ 'Courses'|trans }} {{ 'available'|trans }}{% endblock %}
 
 {% block header %}
-    <h1>{{ 'Courses'|trans }}
-        <small>{{ 'available'|trans }}</small>
-    </h1>
+    {{ 'Courses'|trans }} <small>{{ 'available'|trans }}</small>
 {% endblock %}
 
 {% block content %}
     {% if my_courses|length > 0 %}
         <h3>{{ 'My courses'|trans }}</h3>
-        {% include "SmirikCourseBundle:Course/parts:courses.cards.html.twig" %}
+        {% include "SmirikCourseBundle:Course:_my_courses.cards.html.twig" with {courses: my_courses} %}
     {% endif %}
 
     {% if avaliable_courses|length > 0 %}
         <h3>{{ 'Available courses'|trans }}</h3>
-        <div class="accordion" id="accordion2">
-            {% for course in avaliable_courses %}
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse"
-                           data-parent="#accordion2"
-                           href="#my_courses_{{ course.id }}">
-                            {{ course.title }}
-                        </a>
-                    </div>
-                    <div id="my_courses_{{ course.id }}"
-                         class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            <p>
-                                {{ course.description|raw }}
-                            </p>
-                            <a href="{{ path('course_show', { "id": course.id }) }}"
-                               class="btn">{{ 'Start'|trans }}</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+        {% include "SmirikCourseBundle:Course:_available_courses.cards.html.twig" with {courses: avaliable_courses} %}
     {% endif %}
 
 {% endblock %}

@@ -26,7 +26,6 @@ class CourseController extends Controller
 
 		$my_courses = $cm->my($user);
 		$ids = $my_courses->getPrimaryKeys();
-
 		$avaliable_courses = $cm->avaliable($ids);
 
 		return array(

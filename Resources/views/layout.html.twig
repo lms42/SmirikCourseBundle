@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block javascripts %}
-{% javascripts '@SmirikCourseBundle/Resources/public/js/*' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
+    {% javascripts '@SmirikCourseBundle/Resources/public/js/*' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

@@ -5,45 +5,41 @@ admin.lessons_answers.menu: Ответы
 admin.tasks.menu: Задания
 admin.users_tasks.menu: Решения
 admin.users_tasks_reviews.menu: Рецензии
-
-Is Answered: Отвечено
-Is answered: Отвечено
-Is visible: Опубликовано
-
-Quiz was assigned to the lesson: Тест был добавлен в урок
-Assign quiz: Добавить тест
-to lesson: к уроку
+'Is Answered': Отвечено
+'Is answered': Отвечено
+'Is visible': Опубликовано
+'Quiz was assigned to the lesson': 'Тест был добавлен в урок'
+'Assign quiz': 'Добавить тест'
+'to lesson': 'к уроку'
 tasks: задания
-All available courses: Все доступные курсы
+'All available courses': 'Все доступные курсы'
 Courses: Курсы
 Course: Курс
 Text: Текст
-available: доступные
-My courses: Мои курсы
-Quizes: Тесты
-lessons_questions: вопросов для уроков
-Lesson question: Вопрос
-Started at: Начато
 available: доступно
-lessons_answers: ответов на вопросы
+'My courses': 'Мои курсы'
+Quizes: Тесты
+lessons_questions: 'вопросов для уроков'
+'Lesson question': Вопрос
+'Started at': Начато
+lessons_answers: 'ответов на вопросы'
 Visible: Опубликовано
-Accepted: Засчитано
+Accepted: Принято
 Lesson: Урок
 Tasks: Задания
-User task: Задание
+'User task': Задание
 Task: Задание
 Mark: Оценка
 User: Пользователь
 Save: Сохранить
-Send task: Отправить на проверку
-Fail task: Совсем не знаю 
-In progress: В работе
-In Progress: В работе
+'Send task': 'Отправить на проверку'
+'Fail task': 'Совсем не знаю'
+'In progress': 'В работе'
+'In Progress': 'В работе'
 Pending: Проверяется
-Accepted: Принято
 Failed: Провалено
 Reviews: Рецензия
-Your Answer: Ваш ответ
+'Your Answer': 'Ваш ответ'
 users_tasks: решения
 Reject: Отклонить
 Accept: Принять
@@ -53,83 +49,85 @@ courses: курсов
 Type: Тип
 Public: Публичный
 lessons: уроков
-Assign quiz to lesson: Добавить тест в урок
+'Assign quiz to lesson': 'Добавить тест в урок'
 Private: Приватный
-users_tasks_reviews: рецензий на ответы
+users_tasks_reviews: 'рецензий на ответы'
 Rejected: Отклонено
 Sent: Отправлено
 Draft: Черновик
 Closed: Закрыт
-  
 Title: Название
 Description: Описание
 Status: Статус
 Action: Действие
 Start: Начать
-Start course: Записаться на курс
-Go to lesson: Перейти к уроку
-Need assign to course: Сначала запишитесь на курс
-Finish tasks to complete the lesson: Закончите все задания перед завершением курса
-Not available: Недоступно
-Your question will be added after moderation: Ваш вопрос будет добавлен после рассмотрения модератором.
-Your answer will be added after moderation:   Ваш ответ будет добавлен после рассмотрения модератором.
-
+'Start course': 'Записаться на курс'
+'Go to lesson': 'Перейти к уроку'
+'Need assign to course': 'Сначала запишитесь на курс'
+'Finish tasks to complete the lesson': 'Закончите все задания перед завершением курса'
+'Not available': Недоступно
+'Your question will be added after moderation': 'Ваш вопрос будет добавлен после рассмотрения модератором.'
+'Your answer will be added after moderation': 'Ваш ответ будет добавлен после рассмотрения модератором.'
 Repeat: Повторить
 Continue: Продолжить
 Passed: Выполнен
 Started: Начат
-Not started: Не начат
+'Not started': 'Не начат'
 Finished: Закончен
-Cannot start now: Пока недоступен
-Start lesson: Начать урок
-Finish lesson: Закончить урок
-Close lesson: Закрыть урок
-
-Back to course: Назад к курсу
-Go to: Перейти
-Base content: Основной текст
-Additional materials: Дополнительно
-Related links: Ссылки на сайты
-Related questions: Вопросы и ответы
+'Cannot start now': 'Пока недоступен'
+'Start lesson': 'Начать урок'
+'Finish lesson': 'Закончить урок'
+'Close lesson': 'Закрыть урок'
+'Back to course': 'Назад к курсу'
+'Go to': Перейти
+'Base content': 'Основной текст'
+'Additional materials': Дополнительно
+'Related links': 'Ссылки на сайты'
+'Related questions': 'Вопросы и ответы'
 Questions: Вопросы
 Answers: Ответы
-
-Add question: Задать вопрос
-Add answer: Ответить
+'Add question': 'Задать вопрос'
+'Add answer': Ответить
 Add: Добавить
 Close: Закрыть
-
 General: Основное
-Texts: Текстовые материалы
-Urls: Полезные ссылки
+Texts: 'Текстовые материалы'
+Urls: 'Полезные ссылки'
 Slideshare: SlideShare.Net
-
-Quiz is completed: Тест завершён
-Manual assign is forbidden: Сейчас недоступен
+'Quiz is completed': 'Тест завершён'
+'Manual assign is forbidden': 'Сейчас недоступен'
 Answer: Ответ
-No answers available: Ответов пока нет
+'No answers available': 'Ответов пока нет'
 Question: Вопрос
-
-Correct answers: Правильные ответы
+'Correct answers': 'Правильные ответы'
 results: результаты
 Date: Дата
-Courses results: Результаты курсов
-My cabinet: Мой кабинет
-All courses: Все курсы
-Public courses: Открытые курсы
-
-Randomly: В любом порядке
+'Courses results': 'Результаты курсов'
+'My cabinet': 'Мой кабинет'
+'All courses': 'Все курсы'
+'Public courses': 'Открытые курсы'
+Randomly: 'В любом порядке'
 Сoherently: Последовательно
-Proccess user task: Проверка задания
-Enter your comment: Введите комментарий
-
-Answer is saved: Текущий ответ сохранён
-
+'Proccess user task': 'Проверка задания'
+'Enter your comment': 'Введите комментарий'
+'Answer is saved': 'Текущий ответ сохранён'
 Updates: Обновления
-project & data: проекта
-
-My results: Мои результаты
-List of courses: Список курсов
-
-Process user task: Проверка задания
-Last lessons: Последние уроки
+'project & data': проекта
+'My results': 'Мои результаты'
+'List of courses': 'Список курсов'
+'Process user task': 'Проверка задания'
+'Last lessons': 'Последние уроки'
+'Visible questions': '__Visible questions'
+'Started At': 'Дата начала'
+'Available courses': 'Доступные курсы'
+N: __N
+'!': !
+Url: Ссылка
+Quiz: Экзамен
+Score: Баллы
+pending: 'В ожидании'
+Success: Засчитано
+Written: __Written
+Assign: Назначить
+Delete: Удалить
+Unknown: Unknown

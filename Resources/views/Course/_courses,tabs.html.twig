@@ -1,0 +1,26 @@
+{% if false and avaliable_courses|length > 0 %}
+    <h3>{{ 'Available courses'|trans }}</h3>
+    <div class="accordion" id="accordion2">
+        {% for course in avaliable_courses %}
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse"
+                       data-parent="#accordion2"
+                       href="#my_courses_{{ course.id }}">
+                        {{ course.title }}
+                    </a>
+                </div>
+                <div id="my_courses_{{ course.id }}"
+                     class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        <p>
+                            {{ course.description|raw }}
+                        </p>
+                        <a href="{{ path('course_show', { "id": course.id }) }}"
+                           class="btn">{{ 'Start'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

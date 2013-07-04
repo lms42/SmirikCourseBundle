@@ -1,8 +1,12 @@
 {% extends 'SmirikCourseBundle::layout.html.twig' %}
 
-{% block title %}{{ course.title}} - {{ 'Course'|trans }}{% endblock %}
+{% block title %}
+    {{ course.title}} - {{ 'Course'|trans }}
+{% endblock %}
 
-{% block header %}<h2>{{ course.title}} <small>{{ ''|trans }}</small></h2>{% endblock %}
+{% block header %}
+    <small>{{ course.title}}</small>
+{% endblock %}
 
 {% block content %}
 <blockquote>
