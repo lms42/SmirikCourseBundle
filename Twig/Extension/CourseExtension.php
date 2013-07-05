@@ -16,9 +16,9 @@ class CourseExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'courses_list'      => new \Twig_Function_Method($this, 'getCoursesList'),
-            'my_courses_list'   => new \Twig_Function_Method($this, 'getMyCoursesList'),
-            'courses_for_study' => new \Twig_Function_Method($this, 'getCoursesForStudy')
+            'courses_list'     => new \Twig_Function_Method($this, 'getCoursesList'),
+            'my_courses_list'  => new \Twig_Function_Method($this, 'getMyCoursesList'),
+            'courses_to_study' => new \Twig_Function_Method($this, 'getCoursesToStudy')
         );
     }
     
@@ -42,9 +42,9 @@ class CourseExtension extends \Twig_Extension
         return $courses;
     }
 
-    public function getCoursesForStudy()
+    public function getCoursesToStudy()
     {
-        $courses = $this->course_manager->getCoursesForStudy($this->getUser());
+        $courses = $this->course_manager->getToStudy($this->getUser());
         return $courses;
     }
     

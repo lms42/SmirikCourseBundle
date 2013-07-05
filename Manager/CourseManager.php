@@ -72,7 +72,7 @@ class CourseManager
      * @param  \FOS\UserBundle\Propel\User|int  $user
      * @return \PropelObjectCollection|Course[]
      */
-    public function getCoursesForStudy($user)
+    public function getToStudy($user)
     {
         $ids = $this->my($user)->toKeyValue('PrimaryKey', 'Id');
         return $this->avaliable($ids);
