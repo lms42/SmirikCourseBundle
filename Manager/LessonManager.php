@@ -202,7 +202,7 @@ class LessonManager
                 ->_endIf()
                 ->useUserLessonQuery()
                     ->filterByUserId(is_object($user) ? $user->getId() : $user)
-                    ->filterByIsClosed(0)
+                    ->filterByOpened()
                 ->endUse()
             ;
     }
