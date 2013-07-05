@@ -156,7 +156,7 @@ class UserTaskManager
     public function todo($user, $course = null, $lesson = null)
     {
         return $this->filterTasks($user, $course, $lesson)
-            ->filterByStatus([0,2], \Criteria::IN) // In Progress, Rejected
+            ->filterByTodo()
             ->find();
     }
 
@@ -170,7 +170,7 @@ class UserTaskManager
     public function latestUserTodo($user, $limit = null)
     {
         return $this->filterTasks($user, $course = null)
-                ->filterByStatus([0,2], \Criteria::IN) // In Progress, Rejected
+                ->filterByTodo()
                 ->orderByUpdatedAt(\Criteria::DESC)
                 ->limit($limit)
                 ->find()

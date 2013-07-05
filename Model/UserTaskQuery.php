@@ -57,9 +57,12 @@ class UserTaskQuery extends BaseUserTaskQuery
     
     public function notFinished()
     {
-        return $this
-            ->filterByStatus(array(3, 4), \Criteria::NOT_IN)
-        ;
+        return $this->filterByStatus(array(3, 4), \Criteria::NOT_IN);
+    }
+
+    public function filterByTodo()
+    {
+        return $this->filterByStatus(array(0, 2), \Criteria::IN); // In Progress, Rejected
     }
 	
 	
