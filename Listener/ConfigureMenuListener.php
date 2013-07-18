@@ -41,7 +41,7 @@ class ConfigureMenuListener
         if ($this->security_context->isGranted('ROLE_USER'))
         {
             $id = $user->getId();
-            $menu->addChild('My cabinet');
+            $menu->addChild('My cabinet', array('route' => 'account_my'));
             $menu['My cabinet']->addChild('All courses', array('route' => 'course_index'));
             $menu['My cabinet']->addChild('Courses results', array('route' => 'course_results'));
             
