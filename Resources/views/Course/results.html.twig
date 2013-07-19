@@ -2,6 +2,16 @@
 
 {% block title %}{{ 'Courses results'|trans }}{% endblock %}
 
+{% block breadcrumbs %}
+    {% include "SmirikCoreBundle:Menu:breadcrumbs.html.twig" with {
+        items: [
+            {},
+            {label: "Мой кабинет", uri: path("account_my")},
+            {label: "Результаты курсов", uri: "#"},
+        ]}
+    %}
+{% endblock %}
+
 {% block header %}
     {{ 'Courses'|trans }} <small>{{ 'results'|trans }}</small>
 {% endblock %}

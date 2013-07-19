@@ -8,6 +8,16 @@
     <small>{{ course.title }}</small>
 {% endblock %}
 
+{% block breadcrumbs %}
+    {% include "SmirikCoreBundle:Menu:breadcrumbs.html.twig" with {
+        items: [
+            {},
+            {label: "Мои курсы", uri: path("course_index")},
+            {label: course.title, uri: "#"},
+        ]}
+    %}
+{% endblock %}
+
 {% block content %}
     <blockquote>
         {{ course.description|raw }}
