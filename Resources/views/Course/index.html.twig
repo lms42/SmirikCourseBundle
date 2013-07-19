@@ -7,14 +7,34 @@
 {% endblock %}
 
 {% block content %}
-    {% if my_courses|length > 0 %}
-        <h3>{{ 'My courses'|trans }}</h3>
-        {% include "SmirikCourseBundle:Course:_my_courses.cards.html.twig" with {courses: my_courses} %}
-    {% endif %}
+    <ul class="nav nav-pills my-courses">
+        <li class="active">
+            <a href="#my-courses" data-toggle="pill">{{ 'My courses'|trans }}({{ my_courses|length }})</a>
+        </li>
+        <li>
+            <a href="#available-courses" data-toggle="pill">{{ 'Available courses'|trans }}({{ avaliable_courses|length }})</a></li>
+    </ul><br>
 
-    {% if avaliable_courses|length > 0 %}
-        <h3>{{ 'Available courses'|trans }}</h3>
-        {% include "SmirikCourseBundle:Course:_available_courses.cards.html.twig" with {courses: avaliable_courses} %}
-    {% endif %}
+    <div class="pill-content">
+        <div id="my-courses" class="pill-pane active">
+        {% if my_courses|length %}
+            {% for course in my_courses %}
+                {% include "SmirikCourseBundle:Course/Block:my_course.html.twig" with {course: course} %}
+            {% endfor %}
+        {% else %}
+            <p>{{ "You have no courses started"|trans }}</p>
+        {% endif %}
+        </div>
+
+        <div id="available-courses" class="pill-pane">
+        {% if avaliable_courses|length > 0 %}
+            {% for course in avaliable_courses %}
+                {% include "SmirikCourseBundle:Course/Block:course.html.twig" with {course: course} %}
+            {% endfor %}
+        {% else %}
+            <p>{{ "No available courses found"|trans }}</p>
+        {% endif %}
+        </div>
+    </div>
 
 {% endblock %}

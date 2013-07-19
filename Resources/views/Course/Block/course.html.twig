@@ -1,0 +1,12 @@
+<div class="booking-blocks">
+    <div class="pull-left booking-img">
+        <img src="{{ asset('/bundles/smirikcourse/images/default.gif')|apply_filter('course_preview') }}" alt="">
+    </div>
+    <div style="overflow:hidden;">
+        <h2><a href="{{ path('course_show', { "id": course.id }) }}" class="blue">{{ course.title }}</a></h2>
+        <p>{{ course.description|raw }}</p>
+            <p class="pull-right clearfix">
+                <a class="btn-u" href="{{ path('course_show', { "id": course.id }) }}">{{ 'Start'|trans }}</a>
+            </p>
+    </div>
+</div>

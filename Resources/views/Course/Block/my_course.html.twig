@@ -1,0 +1,23 @@
+{% for item in course.usercourses %}
+<div class="booking-blocks">
+    <div class="pull-left booking-img">
+        <img src="{{ asset('/bundles/smirikcourse/images/default.gif')|apply_filter('course_preview') }}"
+             class="blue"
+             alt="">
+        {% if not item.isPassed %}
+        <ul class="unstyled">
+            <li><i class="icon-calendar"></i> {{ item.startedAt('Y-m-d H:i') }}</li>
+        </ul>
+        {% endif %}
+    </div>
+    <div style="overflow:hidden;">
+        <h2><a href="{{ path('course_show', { "id": course.id }) }}" class="blue">{{ course.title }}</a></h2>
+        <p>{{ course.description|raw }}</p>
+        {% if not item.isPassed %}
+            <p class="pull-right clearfix">
+                <a class="btn-u" href="{{ path('course_show', { "id": course.id }) }}">{{ 'Continue'|trans }}</a>
+            </p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
