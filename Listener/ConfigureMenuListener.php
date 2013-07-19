@@ -37,13 +37,14 @@ class ConfigureMenuListener
         $menu = $event->getMenu();
         
         $user = $this->security_context->getToken()->getUser();
-        $id = false;
+
         if ($this->security_context->isGranted('ROLE_USER'))
         {
+            $key = 'Results';
+
             $id = $user->getId();
-            $menu->addChild('My cabinet', array('route' => 'account_my'));
-            $menu['My cabinet']->addChild('All courses', array('route' => 'course_index'));
-            $menu['My cabinet']->addChild('Courses results', array('route' => 'course_results'));
+            $menu->addChild($key, array('route' => 'account_my'));
+            $menu[$key]->addChild('Courses results', array('route' => 'course_results'));
             
             $courses = CourseQuery::create()
     			->useUserCourseQuery()
@@ -52,7 +53,7 @@ class ConfigureMenuListener
     			->orderByCreatedAt()
     			->find();
     		
-    		$node = 'My courses';
+    		$node = 'Courses';
         } else
         {
             $courses = CourseQuery::create()
@@ -70,9 +71,10 @@ class ConfigureMenuListener
 		{
 		    $menu[$node]->addChild($course->getTitle(), array('route' => 'course_show', 'routeParameters' => array('id' => $course->getId())));
 		}
-		
-		
-        
+
+        if ($this->security_context->isGranted('ROLE_USER')){
+            $menu[$node]->addChild('All courses', array('route' => 'course_index'));
+        }
     }
     
 }

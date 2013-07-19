@@ -11,7 +11,7 @@
     {% include "SmirikCoreBundle:Menu:breadcrumbs.html.twig" with {
         items: [
             {},
-            {label: "Мои курсы", uri: path("course_index")},
+            {label: "Курсы", uri: path("course_index")},
             {label: lesson.course.title, uri: path("course_show", {id: lesson.course.id})},
             {label: lesson.title, uri: "#"},
         ]}
