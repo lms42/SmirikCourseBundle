@@ -1,2 +1,5 @@
 form.task-form textarea { width: 90%; height: 200px; }
 form.task-form input { width: 90%; }
+.min-w270{
+    min-width: 270px;
+}
