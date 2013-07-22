@@ -171,6 +171,7 @@ class UserTaskManager
     {
         return $this->filterTasks($user, $course = null)
                 ->filterByTodo()
+                ->orderByStatus('desc')
                 ->orderByUpdatedAt(\Criteria::DESC)
                 ->limit($limit)
                 ->find()

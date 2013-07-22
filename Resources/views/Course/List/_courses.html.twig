@@ -1,0 +1,19 @@
+<table class="table table-striped">
+{% for course in my_courses %}
+            <tr>
+                <td width="265">
+                    <a href="#" class="thumbnail">
+                        <img src="{{ asset('/bundles/smirikcourse/images/default.gif')|apply_filter('course_preview') }}" class="blue" alt="">
+                    </a>
+                </td>
+                <td>
+                    <h3><a href="{{ path('course_show', { "id": course.id }) }}" class="blue">{{ course.title }}</a></h3>
+                    <p>{{ course.description|raw }}</p>
+                </td>
+            </tr>
+{% else %}
+<tr><td>
+    <p>{{ "You have no courses started"|trans }}</p>
+</td></tr>
+{% endfor %}
+</table>
