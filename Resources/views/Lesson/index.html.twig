@@ -4,7 +4,7 @@
 
 {% block header %}
     <a name="content"></a>
-    {{ lesson.title }} <small>{{ lesson.course.title }}</small>
+    {{ lesson.title }}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -18,90 +18,98 @@
     %}
 {% endblock %}
 
-{% block left %}
-    <div id="affixed-menu-wrapper" class="min-w270">
-        <ul class="nav nav-list well">
-            <li class="nav-header">{{ 'Go to'|trans }}</li>
-            <li><a href="{{ path('course_show', {"id": lesson.courseId }) }}"><i class="icon-home"></i> {{ 'Back to course'|trans }}</a></li>
-            <li class="active"><a href="#content" data-toggle="tab"><i class="icon-chevron-right"></i> {{ 'Base content'|trans }}</a></li>
-            <li class="divider"></li>
 
-            <li class="nav-header">{{ 'Additional materials'|trans }}</li>
-            {% for text in additional_texts %}
-                <li><a href="#text{{ text.id }}" data-toggle="tab"><i class="icon-align-justify"></i> {{ text.title }}</a></li>
-            {% endfor %}
-            <li><a href="#urls" data-toggle="tab"><i class="icon-bookmark"></i> {{ 'Related links'|trans }}</a></li>
-            <li class="divider"></li>
+{% block container %}
 
-            {% if questions|length > 0 %}
-                <li><a href="#questions" data-toggle="tab"><i class="icon-question-sign"></i> {{ 'Related questions'|trans }}</a></li>
-            {% endif %}
-            <li><a href="#add_question" data-toggle="modal"><i class="icon-question-sign"></i> {{ 'Add question'|trans }}</a></li>
-            <li class="divider"></li>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span3">
 
-            <li><a href="#quiz" data-toggle="tab"><i class="icon-ok"></i> {{ 'Quizes'|trans }}</a></li>
-            <li class="divider"></li>
+                {% block left %}
+                        <ul class="nav nav-list well">
+                            <li class="nav-header">{{ 'Go to'|trans }}</li>
+                            <li><a href="{{ path('course_show', {"id": lesson.courseId }) }}"><i class="icon-home"></i> {{ 'Back to course'|trans }}</a></li>
+                            <li class="active"><a href="#content" data-toggle="tab"><i class="icon-chevron-right"></i> {{ 'Base content'|trans }}</a></li>
+                            <li class="divider"></li>
 
-            <li class="nav-header">{{ 'Tasks'|trans }}</li>
-            {% for task in tasks %}
-                <li><a href="#task{{ task.id }}" data-toggle="tab"><i class="icon-tasks"></i>
-                        {% if task.id in user_tasks|keys and user_tasks[task.id].finished == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
-                        {% if user_tasks[task.id] is defined %}
-                            {% if user_tasks[task.id].rejected %}<span class="badge badge-important">{{ '!'|trans }}</span>
-                            {% elseif (user_tasks[task.id].pending) %}<span class="badge badge-warning"><i class="icon-time"> </i></span>
+                            <li class="nav-header">{{ 'Additional materials'|trans }}</li>
+                            {% for text in additional_texts %}
+                                <li><a href="#text{{ text.id }}" data-toggle="tab"><i class="icon-align-justify"></i> {{ text.title }}</a></li>
+                            {% endfor %}
+                            <li><a href="#urls" data-toggle="tab"><i class="icon-bookmark"></i> {{ 'Related links'|trans }}</a></li>
+                            <li class="divider"></li>
+
+                            {% if questions|length > 0 %}
+                                <li><a href="#questions" data-toggle="tab"><i class="icon-question-sign"></i> {{ 'Related questions'|trans }}</a></li>
                             {% endif %}
+                            <li><a href="#add_question" data-toggle="modal"><i class="icon-question-sign"></i> {{ 'Add question'|trans }}</a></li>
+                            <li class="divider"></li>
+
+                            <li><a href="#quiz" data-toggle="tab"><i class="icon-ok"></i> {{ 'Quizes'|trans }}</a></li>
+                            <li class="divider"></li>
+
+                            <li class="nav-header">{{ 'Tasks'|trans }}</li>
+                            {% for task in tasks %}
+                                <li><a href="#task{{ task.id }}" data-toggle="tab"><i class="icon-tasks"></i>
+                                        {% if task.id in user_tasks|keys and user_tasks[task.id].finished == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
+                                        {% if user_tasks[task.id] is defined %}
+                                            {% if user_tasks[task.id].rejected %}<span class="badge badge-important">{{ '!'|trans }}</span>
+                                            {% elseif (user_tasks[task.id].pending) %}<span class="badge badge-warning"><i class="icon-time"> </i></span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </a></li>
+                            {% endfor %}
+                            <li class="divider"></li>
+                        </ul>
+
+                        {% if status in (0..4) %}
+                            <hr>
+                            <div class="well">
+                                {% if status == 2 %}
+                                    <a href="{{ path('lesson_action', {'action': 'finish', 'id': lesson.id }) }}" class="btn btn-large btn-primary">{{ 'Finish lesson'|trans }}</a><br/>
+                                {% endif %}
+                                {% if status == 3 %}
+                                    {{ 'Finish tasks to complete the lesson'|trans }}
+                                {% endif %}
+                                {% if status == 4 %}
+                                    <a href="{{ path('lesson_action', {'action': 'close', 'id': lesson.id }) }}" class="btn btn-large btn-primary">{{ 'Close lesson'|trans }}</a>
+                                {% endif %}
+                                {% if status > -1 and status < 2 %}
+                                    <a href="{{ path('lesson_action', {'action': 'start', 'id': lesson.id }) }}" class="btn btn-primary btn-large">{{ 'Start lesson'|trans }}</a><br/>
+                                {% endif %}
+                            </div>
                         {% endif %}
-                    </a></li>
-            {% endfor %}
-            <li class="divider"></li>
-        </ul>
-
-        {% if status in (0..4) %}
-            <hr>
-            <div class="well">
-                {% if status == 2 %}
-                    <a href="{{ path('lesson_action', {'action': 'finish', 'id': lesson.id }) }}" class="btn btn-large btn-primary">{{ 'Finish lesson'|trans }}</a><br/>
-                {% endif %}
-                {% if status == 3 %}
-                    {{ 'Finish tasks to complete the lesson'|trans }}
-                {% endif %}
-                {% if status == 4 %}
-                    <a href="{{ path('lesson_action', {'action': 'close', 'id': lesson.id }) }}" class="btn btn-large btn-primary">{{ 'Close lesson'|trans }}</a>
-                {% endif %}
-                {% if status > -1 and status < 2 %}
-                    <a href="{{ path('lesson_action', {'action': 'start', 'id': lesson.id }) }}" class="btn btn-primary btn-large">{{ 'Start lesson'|trans }}</a><br/>
-                {% endif %}
+                {% endblock %}
             </div>
-        {% endif %}
-    </div>
-{% endblock %}
+            <div class="span9">
+                {% block content %}
+                    <div class="tab-content no-border">
+                        <div class="tab-pane active" id="content">
+                            {% if mainslideshare %}
+                                <h3>{{ mainslideshare.title }}</h3>
+                                {{ mainslideshare.html|raw }}
+                            {% endif %}
+                            {% if maintext %}
+                                {% include 'SmirikCourseBundle:Lesson/Content:text.html.twig' with {"text": maintext } %}
+                            {% endif %}
+                        </div>
+                        {% for text in additional_texts %}
+                            <div class="tab-pane" id="text{{ text.id }}">
+                                {% include 'SmirikCourseBundle:Lesson/Content:text.html.twig' with {"text": text } %}
+                            </div>
+                        {% endfor %}
 
-{% block content %}
-    <div class="tab-content no-border">
-        <div class="tab-pane active" id="content">
-            {% if mainslideshare %}
-                <h3>{{ mainslideshare.title }}</h3>
-                {{ mainslideshare.html|raw }}
-            {% endif %}
-            {% if maintext %}
-                {% include 'SmirikCourseBundle:Lesson/Content:text.html.twig' with {"text": maintext } %}
-            {% endif %}
-        </div>
-        {% for text in additional_texts %}
-            <div class="tab-pane" id="text{{ text.id }}">
-                {% include 'SmirikCourseBundle:Lesson/Content:text.html.twig' with {"text": text } %}
+                        {% include 'SmirikCourseBundle:Lesson/Tab:urls.html.twig' with {"urls": lesson.urlcontents } %}
+                        {% include 'SmirikCourseBundle:Lesson/Tab:questions.html.twig' with {"questions": questions, "lesson_id": lesson.id } %}
+                        {% include 'SmirikCourseBundle:Lesson/Tab:quiz.html.twig' with {"quiz": quiz, "users_quiz": users_quiz, "lesson": lesson } %}
+                        {% include 'SmirikCourseBundle:Lesson/Tab:tasks.html.twig' with {"tasks": tasks, 'tasks_forms': tasks_forms, 'user_tasks': user_tasks, "lesson": lesson } %}
+                    </div>
+
+                    <script type="text/javascript">
+                        $(function(){
+                            $("#affixed-menu-wrapper").affix();
+                        })
+                    </script>
+                {% endblock %}
             </div>
-        {% endfor %}
-
-        {% include 'SmirikCourseBundle:Lesson/Tab:urls.html.twig' with {"urls": lesson.urlcontents } %}
-        {% include 'SmirikCourseBundle:Lesson/Tab:questions.html.twig' with {"questions": questions, "lesson_id": lesson.id } %}
-        {% include 'SmirikCourseBundle:Lesson/Tab:quiz.html.twig' with {"quiz": quiz, "users_quiz": users_quiz, "lesson": lesson } %}
-        {% include 'SmirikCourseBundle:Lesson/Tab:tasks.html.twig' with {"tasks": tasks, 'tasks_forms': tasks_forms, 'user_tasks': user_tasks, "lesson": lesson } %}
-    </div>
-
-    <script type="text/javascript">
-        $(function(){
-            $("#affixed-menu-wrapper").affix();
-        })
-    </script>
 {% endblock %}
