@@ -19,9 +19,18 @@
 {% endblock %}
 
 {% block content %}
-    <blockquote>
+    <blockquote class="relative">
         {{ course.description|raw }}
+        {% if has_course %}
+        <a href="#revoke-subscription-modal"
+           role="button"
+           data-toggle="modal"
+           class="btn btn-danger pull-right unsubscribe-from-course">
+            {{ "Unsubscribe course"|trans }}
+        </a>
+        {% endif %}
     </blockquote>
+
 
     {% if not has_course %}
         <p>
@@ -92,4 +101,21 @@
         {% endfor %}
     </table>
 
+    <div class="modal hide fade" role="dialog" id="revoke-subscription-modal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>{{ "Unsubscribe course"|trans }}</h3>
+        </div>
+        <div class="modal-body">
+            <p>{{ "You have chosen to unsubscribe from the course"|trans }}: <strong>{{ course.title }}</strong>.</p>
+            <p>{{ "All your data related to this course (lessons, tasks e.t.c.) would be deleted permanently"|trans }}.
+                {{ "Are you sure"|trans}}?
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">{{ "Cancel"|trans }}</a>
+            <a href="{{ path("course_revoke", {id: course.id}) }}" class="btn btn-primary">
+                {{ "Yes, i'm sure"|trans }}</a>
+        </div>
+    </div>
 {% endblock %}

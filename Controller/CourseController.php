@@ -2,6 +2,12 @@
 
 namespace Smirik\CourseBundle\Controller;
 
+use FOS\UserBundle\Propel\User;
+use Smirik\CourseBundle\Model\Course;
+use Smirik\CourseBundle\Model\UserCourse;
+use Smirik\CourseBundle\Model\UserCourseQuery;
+use Smirik\CourseBundle\Model\UserLessonQuery;
+use Smirik\CourseBundle\Model\UserTaskQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -9,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Smirik\CourseBundle\Model\CourseQuery;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/courses")
@@ -51,6 +58,10 @@ class CourseController extends Controller
 		}
 		
 		$course = CourseQuery::create()->findPk($id);
+
+        if (!$course) {
+            throw new NotFoundHttpException;
+        }
 		
 		if (!$course->getIsPublic() && !$this->get('security.context')->isGranted('ROLE_USER'))
 		{
@@ -136,6 +147,52 @@ class CourseController extends Controller
         return array(
             'lessons' => $lessons,
         );
+    }
+
+    /**
+     * @Route("/{id}/revoke", name="course_revoke")
+     * @Template()
+     * @Secure(roles="ROLE_USER")
+     */
+    public function revokeAction($id)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var Course $course */
+        $course = CourseQuery::create()->findPk($id);
+        if (!$course) {
+            throw new NotFoundHttpException;
+        }
+
+        /** @var UserCourse $userCourse */
+        $userCourse = UserCourseQuery::create()
+            ->filterByCourse($course)
+            ->filterByUser($user)
+            ->findOne();
+        if (!$userCourse) {
+            throw new NotFoundHttpException;
+        }
+
+        $userLessons = UserLessonQuery::create()
+            ->filterByCourseId($course->getId())
+            ->filterByUserId($user->getId())
+            ->find();
+
+        foreach($userLessons as $userLesson) {
+            UserTaskQuery::create()
+                ->filterByUserId($user->getId())
+                ->filterByLessonId($userLesson->getLessonId())
+                ->delete();
+
+            $userLesson->delete();
+        }
+
+        $userCourse->delete();
+
+        $this->container->get('session')->getFlashBag()->add('notice', 'Course revoked');
+
+        return $this->redirect($this->generateUrl('course_index'));
     }
 	
 }

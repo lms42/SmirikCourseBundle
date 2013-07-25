@@ -8,3 +8,13 @@ form.task-form input { width: 90%; }
     font-size: 21px;
     line-height: 25px;
 }
+
+.relative{
+    position: relative;
+}
+
+a.unsubscribe-from-course{
+    position: absolute;
+    top: 0;
+    right: 20px;
+}

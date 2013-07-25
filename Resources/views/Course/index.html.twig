@@ -17,6 +17,10 @@
 {% endblock %}
 
 {% block content %}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert-success">{{ flashMessage|trans }}</div><br>
+    {% endfor %}
+
     <ul class="nav nav-tabs my-courses">
         <li class="active">
             <a href="#my-courses" data-toggle="pill">{{ 'My courses'|trans }} ({{ my_courses|length }})</a>

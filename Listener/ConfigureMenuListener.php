@@ -21,7 +21,6 @@ class ConfigureMenuListener
     public function onMenuConfigure(ConfigureMenuEvent $event)
     {
         $menu = $event->getMenu();
-        $menu = $event->getMenu();
         $menu->addChild('admin.courses.menu');
         $menu['admin.courses.menu']->addChild('admin.courses.menu', array('route' => 'admin_courses_index'));
         $menu['admin.courses.menu']->addChild('admin.lessons.menu', array('route' => 'admin_lessons_index'));
@@ -62,10 +61,8 @@ class ConfigureMenuListener
             $node = 'Public courses';
         }
 
-		if (count($courses) > 0)
-		{
-		    $menu->addChild($node);
-		}
+        $menu->addChild($node);
+
 
 		foreach ($courses as $course)
 		{
