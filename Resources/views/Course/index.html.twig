@@ -17,11 +17,11 @@
 
     <div class="pill-content">
         <div id="my-courses" class="pill-pane active">
-            {% include "SmirikCourseBundle:Course/List:_courses.html.twig" with { 'my_courses': my_courses } %}
+            {% include "SmirikCourseBundle:Course/List:_courses.html.twig" with { 'courses': my_courses } %}
         </div>
 
         <div id="available-courses" class="pill-pane">
-            {% include "SmirikCourseBundle:Course/List:_courses.html.twig" with { 'my_courses': avaliable_courses } %}
+            {% include "SmirikCourseBundle:Course/List:_courses.html.twig" with { 'courses': avaliable_courses } %}
         </div>
     </div>
 

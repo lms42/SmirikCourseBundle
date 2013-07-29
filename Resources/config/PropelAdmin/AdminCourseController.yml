@@ -40,15 +40,16 @@ columns:
             sortable: true
             filterable: true
     file:
-        label: File
-        name: file
-        type: string
-        builder: simple
+        extends: file
+        type: image
+        builder: file
         options:
-            listable: false
-            editable: true
-            sortable: true
-            filterable: true
+            listable:   true
+            editable:   true
+            sortable:   false
+            filterable: false
+            upload_path: /uploads/courses/
+            randomize_name: true
     is_public:
         label: 'Is public'
         name: is_public

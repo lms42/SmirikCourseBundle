@@ -18,10 +18,12 @@ class UserTaskAnswerType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $transformer = new \Smirik\PropelAdminBundle\Form\DataTransformer\FileToTextTransformer();
         $builder
             ->add('text')
             ->add('url')
-            ->add('file', 'file', array('required' => false));
+            ->add($builder->create('file', 'file', array('required' => false))->addModelTransformer($transformer))
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

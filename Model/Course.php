@@ -11,5 +11,15 @@ class Course extends BaseCourse
 	{
 		return $this->getTitle();
 	}
+    
+    public function getLogo()
+    {
+        $file = $this->getFile();
+        
+        if ($file) {
+            return '/uploads/courses/'.$file;
+        }
+        return '/bundles/smirikcourse/images/default.gif';
+    }
 	
 }
