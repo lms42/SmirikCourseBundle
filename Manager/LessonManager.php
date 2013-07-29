@@ -66,7 +66,7 @@ class LessonManager
     }
 
     /**
-     * Get list of avaliable quizes with user data
+     * Get list of available quizes with user data
      * @param \Smirik\CourseBundle\Model\Lesson $lesson
      * @param $user
      * @return array
@@ -255,7 +255,7 @@ class LessonManager
      * @param bool $join_user_lesson
      * @return mixed
      */
-    public function getLastAvaliableNumber($course, $user_id, $join_courses = false, $join_user_lesson = false)
+    public function getLastavailableNumber($course, $user_id, $join_courses = false, $join_user_lesson = false)
     {
         $last_lesson = LessonQuery::create()
             ->useUserLessonQuery()

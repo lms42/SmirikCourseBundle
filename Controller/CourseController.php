@@ -33,10 +33,10 @@ class CourseController extends Controller
 
 		$my_courses = $cm->my($user);
 		$ids = $my_courses->getPrimaryKeys();
-		$avaliable_courses = $cm->avaliable($ids);
+		$available_courses = $cm->available($ids);
 
 		return array(
-			'avaliable_courses' => $avaliable_courses,
+			'available_courses' => $available_courses,
 			'my_courses'        => $my_courses,
 		);
 	}
@@ -73,11 +73,11 @@ class CourseController extends Controller
 		$has_course        = $cm->hasUserStartedCourse($user_id, $course->getId());
 		$finish_course     = $cm->hasUserFinishedCourse($user_id, $course->getId());
 		$users_lessons     = $lm->getForUser($user_id, $course);
-		$last_avaliable    = $lm->getLastAvaliableNumber($course, $user_id);
+		$last_available    = $lm->getLastavailableNumber($course, $user_id);
 		$last_available_id = false;
-		if ($last_avaliable)
+		if ($last_available)
 		{
-    		$last_available_id = $last_avaliable->getId();
+    		$last_available_id = $last_available->getId();
 		}
 
 		$count = 0;
@@ -150,11 +150,11 @@ class CourseController extends Controller
     }
 
     /**
-     * @Route("/{id}/revoke", name="course_revoke")
+     * @Route("/{id}/unsubscribe", name="course_unsubscribe")
      * @Template()
      * @Secure(roles="ROLE_USER")
      */
-    public function revokeAction($id)
+    public function unsubscribeAction($id)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -162,35 +162,11 @@ class CourseController extends Controller
         /** @var Course $course */
         $course = CourseQuery::create()->findPk($id);
         if (!$course) {
-            throw new NotFoundHttpException;
+            throw $this->createNotFoundException('Course not found');
         }
-
-        /** @var UserCourse $userCourse */
-        $userCourse = UserCourseQuery::create()
-            ->filterByCourse($course)
-            ->filterByUser($user)
-            ->findOne();
-        if (!$userCourse) {
-            throw new NotFoundHttpException;
-        }
-
-        $userLessons = UserLessonQuery::create()
-            ->filterByCourseId($course->getId())
-            ->filterByUserId($user->getId())
-            ->find();
-
-        foreach($userLessons as $userLesson) {
-            UserTaskQuery::create()
-                ->filterByUserId($user->getId())
-                ->filterByLessonId($userLesson->getLessonId())
-                ->delete();
-
-            $userLesson->delete();
-        }
-
-        $userCourse->delete();
-
-        $this->container->get('session')->getFlashBag()->add('notice', 'Course revoked');
+        
+        $this->get('user_course.manager')->unsubscribe($user, $course);
+        $this->get('session')->getFlashBag()->add('notice', 'Course revoked');
 
         return $this->redirect($this->generateUrl('course_index'));
     }

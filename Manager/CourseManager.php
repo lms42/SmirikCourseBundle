@@ -15,9 +15,9 @@ class CourseManager
 
     public function setManagers($lesson_manager, $user_quiz_manager, $user_task_manager)
     {
-        $this->lesson_manager    = $lesson_manager;
-        $this->user_quiz_manager = $user_quiz_manager;
-        $this->user_task_manager = $user_task_manager;
+        $this->lesson_manager      = $lesson_manager;
+        $this->user_quiz_manager   = $user_quiz_manager;
+        $this->user_task_manager   = $user_task_manager;
     }
 
     /**
@@ -52,7 +52,7 @@ class CourseManager
      * @param  $except_ids
      * @return \PropelObjectCollection|Course[]
      */
-    public function avaliable($except_ids)
+    public function available($except_ids)
     {
         return
             CourseQuery::create()
@@ -75,7 +75,7 @@ class CourseManager
     public function getToStudy($user)
     {
         $ids = $this->my($user)->toKeyValue('PrimaryKey', 'Id');
-        return $this->avaliable($ids);
+        return $this->available($ids);
     }
 
     /**
@@ -165,5 +165,5 @@ class CourseManager
             'user_quizes' => $user_quiz,
         );
     }
-
+    
 }

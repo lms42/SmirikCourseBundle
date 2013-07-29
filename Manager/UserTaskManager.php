@@ -177,4 +177,18 @@ class UserTaskManager
                 ->find()
             ;
     }
+    
+    /**
+     * Remove all user's tasks ($user) for given $user_lesson
+     * @param \FOS\UserBundle\Propel\User $user
+     * @param \Smirik\CourseBundle\Model\UserLesson
+     * @return void
+     */
+    public function unsubscribe($user, $user_lesson)
+    {
+        UserTaskQuery::create()
+            ->filterByUserId($user->getId())
+            ->filterByLessonId($user_lesson->getLessonId())
+            ->delete();
+    }
 }
