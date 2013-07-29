@@ -1,9 +1,9 @@
 <table class="table table-striped">
-{% for course in my_courses %}
+{% for course in courses %}
             <tr>
                 <td width="265">
                     <a href="#" class="thumbnail">
-                        <img src="{{ asset('/bundles/smirikcourse/images/default.gif')|apply_filter('course_preview') }}" class="blue" alt="">
+                        <img src="{{ asset(course.logo)|apply_filter('course_preview') }}" class="blue" alt="">
                     </a>
                 </td>
                 <td>
