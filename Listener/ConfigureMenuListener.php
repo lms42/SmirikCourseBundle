@@ -21,7 +21,6 @@ class ConfigureMenuListener
     public function onMenuConfigure(ConfigureMenuEvent $event)
     {
         $menu = $event->getMenu();
-        $menu = $event->getMenu();
         $menu->addChild('admin.courses.menu');
         $menu['admin.courses.menu']->addChild('admin.courses.menu', array('route' => 'admin_courses_index'));
         $menu['admin.courses.menu']->addChild('admin.lessons.menu', array('route' => 'admin_lessons_index'));
@@ -37,13 +36,14 @@ class ConfigureMenuListener
         $menu = $event->getMenu();
         
         $user = $this->security_context->getToken()->getUser();
-        $id = false;
+
         if ($this->security_context->isGranted('ROLE_USER'))
         {
+            $key = 'Results';
+
             $id = $user->getId();
-            $menu->addChild('My cabinet');
-            $menu['My cabinet']->addChild('All courses', array('route' => 'course_index'));
-            $menu['My cabinet']->addChild('Courses results', array('route' => 'course_results'));
+            $menu->addChild($key, array('route' => 'account_my'));
+            $menu[$key]->addChild('Courses results', array('route' => 'course_results'));
             
             $courses = CourseQuery::create()
     			->useUserCourseQuery()
@@ -52,7 +52,7 @@ class ConfigureMenuListener
     			->orderByCreatedAt()
     			->find();
     		
-    		$node = 'My courses';
+    		$node = 'Courses';
         } else
         {
             $courses = CourseQuery::create()
@@ -61,18 +61,17 @@ class ConfigureMenuListener
             $node = 'Public courses';
         }
 
-		if (count($courses) > 0)
-		{
-		    $menu->addChild($node);
-		}
+        $menu->addChild($node);
+
 
 		foreach ($courses as $course)
 		{
 		    $menu[$node]->addChild($course->getTitle(), array('route' => 'course_show', 'routeParameters' => array('id' => $course->getId())));
 		}
-		
-		
-        
+
+        if ($this->security_context->isGranted('ROLE_USER')){
+            $menu[$node]->addChild('All courses', array('route' => 'course_index'));
+        }
     }
     
 }

@@ -2,12 +2,12 @@
 
 namespace Smirik\CourseBundle\Manager;
 
+use Smirik\CourseBundle\Model\TaskQuery;
 use Smirik\CourseBundle\Model\UserTaskQuery;
 use Smirik\CourseBundle\Model\UserTask;
 
 class TaskManager
 {
-
     /**
      * @param \Smirik\CourseBundle\Model\Lesson $lesson
      * @param \Smirik\CourseBundle\Model\Task $task
@@ -20,9 +20,10 @@ class TaskManager
             ->filterByLessonId($lesson->getId())
             ->filterByTaskId($task->getId())
             ->filterByUserId($user->getId())
-            ->findOne();
+            ->findOne()
+        ;
             
-        if (!$user_task) {
+        if ( ! $user_task) {
             $user_task = new UserTask();
             $user_task->setUserId($user->getId());
             $user_task->setTaskId($task->getId());
@@ -44,5 +45,5 @@ class TaskManager
         $question->save();
         return $question;
     }
-    
+
 }

@@ -10,11 +10,12 @@ class CourseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $transformer = new \Smirik\PropelAdminBundle\Form\DataTransformer\FileToTextTransformer();
         $builder
             ->add('title')
             ->add('description', 'ckeditor')
             ->add('type', 'choice', array('choices' => array(0 => 'Randomly', 1 => 'Сoherently')))
-            ->add('file')
+            ->add($builder->create('file', 'file', array('required' => false))->addModelTransformer($transformer))
             ->add('is_public')
             ->add('is_active')
         ;

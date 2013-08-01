@@ -4,91 +4,129 @@
 
 {% block header %}
     <a name="content"></a>
-    <h1>{{ lesson.title }}
-        <small>{{ lesson.course.title }}</small>
-    </h1>
+    {{ lesson.title }}
 {% endblock %}
 
-{% block left %}
-    <ul class="nav nav-list well">
-        <li class="nav-header">{{ 'Go to'|trans }}</li>
-        <li><a href="{{ path('course_show', {"id": lesson.courseId }) }}"><i class="icon-home"></i> {{ 'Back to course'|trans }}</a></li>
-        <li class="active"><a href="#content" data-toggle="tab"><i class="icon-chevron-right"></i> {{ 'Base content'|trans }}</a></li>
-        <li class="divider"></li>
-
-        <li class="nav-header">{{ 'Additional materials'|trans }}</li>
-        {% for text in additional_texts %}
-            <li><a href="#text{{ text.id }}" data-toggle="tab"><i class="icon-align-justify"></i> {{ text.title }}</a></li>
-        {% endfor %}
-        <li><a href="#urls" data-toggle="tab"><i class="icon-bookmark"></i> {{ 'Related links'|trans }}</a></li>
-        <li class="divider"></li>
-
-        {% if questions|length > 0 %}
-            <li><a href="#questions" data-toggle="tab"><i class="icon-question-sign"></i> {{ 'Related questions'|trans }}</a></li>
-        {% endif %}
-        <li><a href="#add_question" data-toggle="modal"><i class="icon-question-sign"></i> {{ 'Add question'|trans }}</a></li>
-        <li class="divider"></li>
-
-        <li><a href="#quiz" data-toggle="tab"><i class="icon-ok"></i> {{ 'Quizes'|trans }}</a></li>
-        <li class="divider"></li>
-
-        <li class="nav-header">{{ 'Tasks'|trans }}</li>
-        {% for task in tasks %}
-            <li><a href="#task{{ task.id }}" data-toggle="tab"><i class="icon-tasks"></i>
-                {% if task.id in user_tasks|keys and user_tasks[task.id].finished == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
-                {% if user_tasks[task.id] is defined %}
-                    {% if user_tasks[task.id].rejected %}<span class="badge badge-important">{{ '!'|trans }}</span>
-                    {% elseif (user_tasks[task.id].pending) %}<span class="badge badge-warning"><i class="icon-time"> </i></span>
-                    {% endif %}
-                {% endif %}
-            </a></li>
-        {% endfor %}
-        <li class="divider"></li>
-    </ul>
-
-    {% if status in (0..4) %}
-        <hr>
-        <div class="well">
-            {% if status == 2 %}
-                <a href="{{ path('lesson_action', {'action': 'finish', 'id': lesson.id }) }}" class="btn btn-large btn-primary">{{ 'Finish lesson'|trans }}</a><br/>
-            {% endif %}
-            {% if status == 3 %}
-                {{ 'Finish tasks to complete the lesson'|trans }}
-            {% endif %}
-            {% if status == 4 %}
-                <a href="{{ path('lesson_action', {'action': 'close', 'id': lesson.id }) }}" class="btn btn-large btn-primary">{{ 'Close lesson'|trans }}</a>
-            {% endif %}
-            {% if status > -1 and status < 2 %}
-                <a href="{{ path('lesson_action', {'action': 'start', 'id': lesson.id }) }}" class="btn btn-primary btn-large">{{ 'Start lesson'|trans }}</a><br/>
-            {% endif %}
-        </div>
-    {% endif %}
-
+{% block breadcrumbs %}
+    {% include "SmirikCoreBundle:Menu:breadcrumbs.html.twig" with {
+        items: [
+            {},
+            {label: "Курсы", uri: path("course_index")},
+            {label: lesson.course.title, uri: path("course_show", {id: lesson.course.id})},
+            {label: lesson.title, uri: "#"},
+        ]}
+    %}
 {% endblock %}
 
-{% block content %}
 
-    <div class="tab-content">
-        <div class="tab-pane active" id="content">
-            {% if mainslideshare %}
-                <h3>{{ mainslideshare.title }}</h3>
-                {{ mainslideshare.html|raw }}
-            {% endif %}
-            {% if maintext %}
-                {% include 'SmirikCourseBundle:Lesson/Content:text.html.twig' with {"text": maintext } %}
-            {% endif %}
-        </div>
-        {% for text in additional_texts %}
-            <div class="tab-pane" id="text{{ text.id }}">
-                {% include 'SmirikCourseBundle:Lesson/Content:text.html.twig' with {"text": text } %}
+{% block container %}
+
+<div class="container">
+    <div class="row-fluid">
+        <div class="span3">
+            
+            <div class="accordion stacked" id="accordion_affix">
+				<!-- first item -->
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            {{ 'Content'|trans }}
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body in" style="height: auto; ">
+                        <div class="accordion-inner widget">
+                            <ul class="icons-ul list-style">
+                                <li><i class="icon-li icon-chevron-right"></i><a href="#content" data-toggle="tab">{{ 'Base content'|trans }}</a></li>
+                                {% for text in additional_texts %}
+                                    <li><a href="#text{{ text.id }}" data-toggle="tab"><i class="icon-li icon-align-justify"></i> {{ text.title }}</a></li>
+                                {% endfor %}
+                                <li><i class="icon-li icon-bookmark"></i><a href="#urls" data-toggle="tab">{{ 'Related links'|trans }}</a></li>
+                                {% if questions|length > 0 %}
+                                <li><i class="icon-question-sign icon-li"></i><a href="#questions" data-toggle="tab">{{ 'Related questions'|trans }}</a></li>
+                                {% endif %}
+                                <li><i class="icon-question-sign icon-li"></i><a href="#add_question" data-toggle="modal">{{ 'Add question'|trans }}</a></li>
+                                <li><i class="icon-ok icon-li"></i><a href="#quiz" data-toggle="tab">{{ 'Quizes'|trans }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+				<!-- end first item -->
+
+				<!-- second item -->
+    			<div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">{{ 'Tasks'|trans }}</a>
+                    </div>
+
+                    <div id="collapseTwo" class="accordion-body in" style="height: auto; ">
+                        <div class="accordion-inner widget">
+                            <ul class="icons-ul list-style">
+                                {% for task in tasks %}
+                                    <li><i class="icon-tasks icon-li"></i><a href="#task{{ task.id }}" data-toggle="tab">
+                                    {% if task.id in user_tasks|keys and user_tasks[task.id].finished == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
+                                    {% if user_tasks[task.id] is defined %}
+                                    {% if user_tasks[task.id].rejected %}<span class="badge badge-important">{{ '!'|trans }}</span>
+                                    {% elseif (user_tasks[task.id].pending) %}<span class="badge badge-warning"><i class="icon-time"> </i></span>
+                                    {% endif %}
+                                    {% endif %}
+                                    </a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+				<!-- end second item -->
             </div>
-        {% endfor %}
 
-        {% include 'SmirikCourseBundle:Lesson/Tab:urls.html.twig' with {"urls": lesson.urlcontents } %}
-        {% include 'SmirikCourseBundle:Lesson/Tab:questions.html.twig' with {"questions": questions, "lesson_id": lesson.id } %}
-        {% include 'SmirikCourseBundle:Lesson/Tab:quiz.html.twig' with {"quiz": quiz, "users_quiz": users_quiz, "lesson": lesson } %}
-        {% include 'SmirikCourseBundle:Lesson/Tab:tasks.html.twig' with {"tasks": tasks, 'tasks_forms': tasks_forms, 'user_tasks': user_tasks, "lesson": lesson } %}
+            {% if status in (0..4) %}
+                <hr>
+                <div class="well">
+                    {% if status == 2 %}
+                        <a href="{{ path('lesson_action', {'action': 'finish', 'id': lesson.id }) }}" class="button large">{{ 'Finish lesson'|trans }}</a><br/>
+                    {% endif %}
+                    {% if status == 3 %}
+                        {{ 'Finish tasks to complete the lesson'|trans }}
+                    {% endif %}
+                    {% if status == 4 %}
+                        <a href="{{ path('lesson_action', {'action': 'close', 'id': lesson.id }) }}" class="button green large">{{ 'Close lesson'|trans }}</a>
+                    {% endif %}
+                    {% if status > -1 and status < 2 %}
+                        <a href="{{ path('lesson_action', {'action': 'start', 'id': lesson.id }) }}" class="button large">{{ 'Start lesson'|trans }}</a><br/>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="span9">
+            {% block content %}
+                <div class="tab-content no-border">
+                    <div class="tab-pane active" id="content">
+                        {% if mainslideshare %}
+                            <h3>{{ mainslideshare.title }}</h3>
+                            {{ mainslideshare.html|raw }}
+                        {% endif %}
+                        {% if maintext %}
+                            {% include 'SmirikCourseBundle:Lesson/Content:text.html.twig' with {"text": maintext } %}
+                        {% endif %}
+                    </div>
+                    {% for text in additional_texts %}
+                        <div class="tab-pane" id="text{{ text.id }}">
+                            {% include 'SmirikCourseBundle:Lesson/Content:text.html.twig' with {"text": text } %}
+                        </div>
+                    {% endfor %}
 
+                    {% include 'SmirikCourseBundle:Lesson/Tab:urls.html.twig' with {"urls": lesson.urlcontents } %}
+                    {% include 'SmirikCourseBundle:Lesson/Tab:questions.html.twig' with {"questions": questions, "lesson_id": lesson.id } %}
+                    {% include 'SmirikCourseBundle:Lesson/Tab:quiz.html.twig' with {"quiz": quiz, "users_quiz": users_quiz, "lesson": lesson } %}
+                    {% include 'SmirikCourseBundle:Lesson/Tab:tasks.html.twig' with {"tasks": tasks, 'tasks_forms': tasks_forms, 'user_tasks': user_tasks, "lesson": lesson } %}
+                </div>
 
+                <script type="text/javascript">
+                    $(function(){
+                        $("#affixed-menu-wrapper").affix();
+                    })
+                </script>
+            {% endblock %}
+        </div>
     </div>
+</div>
 {% endblock %}

@@ -81,5 +81,24 @@ class UserLessonManager
                 ->findOne()
             ;
     }
+    
+    /**
+     * Unsubscribe $user from all lessons related to $course
+     * @param \FOS\UserBundle\Propel\User $user
+     * @param \Smirik\CourseBundle\Model\Course
+     * @return void 
+     */
+    public function unsubscribe($user, $course)
+    {
+        $user_lessons = UserLessonQuery::create()
+            ->filterByCourseId($course->getId())
+            ->filterByUserId($user->getId())
+            ->find();
+
+        foreach($user_lessons as $user_lesson) {
+            $this->user_task_manager->unsubscribe($user, $user_lesson);
+            $user_lesson->delete();
+        }
+    }
 
 }

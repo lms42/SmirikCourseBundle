@@ -3,61 +3,40 @@
 {% block title %}{{ 'Courses'|trans }} {{ 'available'|trans }}{% endblock %}
 
 {% block header %}
-<h1>{{ 'Courses'|trans }} <small>{{ 'available'|trans }}</small></h1>
+    {{ 'Courses'|trans }} <small>{{ 'available'|trans }}</small>
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include "SmirikCoreBundle:Menu:breadcrumbs.html.twig" with {
+        items: [
+            {},
+            {label: "Мой кабинет", uri: path("account_my")},
+            {label: "Мои курсы", uri: "#"},
+        ]}
+    %}
 {% endblock %}
 
 {% block content %}
-{% if my_courses|length > 0 %}
-    <h3>{{ 'My courses'|trans }}</h3>
-    <div class="accordion" id="accordion1">
-    {% for course in my_courses %}
-        {% for item in course.usercourses %}
-            <div class="accordion-group">
-                <div class="accordion-heading">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#my_courses_{{ course.id }}">
-                    {{ course.title }}
-                    </a>
-                </div>
-                <div id="my_courses_{{ course.id }}" class="accordion-body collapse">
-                    <div class="accordion-inner">
-                        {{ course.description|raw }}
-                        {% if not item.isPassed %}
-                        <p>
-                            <strong>Дата начала</strong>: {{ item.startedAt('Y-m-d H:i') }}
-                        </p>
-                        {% endif %}
-                        
-                        {% if not item.isPassed %}<a href="{{ path('course_show', { "id": course.id }) }}" class="btn">{{ 'Continue'|trans }}</a>{% endif %}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success">{{ flashMessage|trans }}</div><br>
     {% endfor %}
-    </div>
-{% endif %}
- 
-{% if avaliable_courses|length > 0 %}
-  <h3>{{ 'Available courses'|trans }}</h3>
-  <div class="accordion" id="accordion2">
-  {% for course in avaliable_courses %}
-      <div class="accordion-group">
-          <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#my_courses_{{ course.id }}">
-              {{ course.title }}
-              </a>
-          </div>
-          <div id="my_courses_{{ course.id }}" class="accordion-body collapse">
-              <div class="accordion-inner">
-                  <p>
-                  {{ course.description|raw }}
-                  </p>
-                  <a href="{{ path('course_show', { "id": course.id }) }}" class="btn">{{ 'Start'|trans }}</a>
-              </div>
-          </div>
-      </div>
-  {% endfor %}
-  </div>
-{% endif %}
 
-  
+    <ul id="portfolio-filter" class="nav nav-tabs">
+        <li class="active">
+            <a href="#my-courses" data-toggle="pill">{{ 'My courses'|trans }} ({{ my_courses|length }})</a>
+        </li>
+        <li>
+            <a href="#available-courses" data-toggle="pill">{{ 'Available courses'|trans }} ({{ available_courses|length }})</a></li>
+    </ul><br>
+
+    <div class="pill-content">
+        <div id="my-courses" class="pill-pane active">
+            {% include "SmirikCourseBundle:Course/List:_courses.html.twig" with { 'courses': my_courses } %}
+        </div>
+
+        <div id="available-courses" class="pill-pane">
+            {% include "SmirikCourseBundle:Course/List:_courses.html.twig" with { 'courses': available_courses } %}
+        </div>
+    </div>
+
 {% endblock %}

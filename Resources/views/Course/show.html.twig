@@ -1,74 +1,123 @@
 {% extends 'SmirikCourseBundle::layout.html.twig' %}
 
-{% block title %}{{ course.title}} - {{ 'Course'|trans }}{% endblock %}
+{% block title %}
+    {{ course.title }} - {{ 'Course'|trans }}
+{% endblock %}
 
-{% block header %}<h2>{{ course.title}} <small>{{ ''|trans }}</small></h2>{% endblock %}
+{% block header %}
+    <small>{{ course.title }}</small>
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include "SmirikCoreBundle:Menu:breadcrumbs.html.twig" with {
+        items: [
+            {},
+            {label: "Курсы", uri: path("course_index")},
+            {label: course.title, uri: "#"},
+        ]}
+    %}
+{% endblock %}
 
 {% block content %}
-<blockquote>
-  {{ course.description|raw }}
-</blockquote>
-
-{% if not has_course %}
-  <p>
-  <a href="{{ path('course_start', {"id": course.id }) }}" class="btn btn-large btn-primary">{{ 'Start course'|trans }}</a>
-  </p>
-{% endif %}
-
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>{{ 'N'|trans }}</th>
-      <th>{{ 'Title'|trans }}</th>
-      <th>{{ 'Status'|trans }}</th>
-      <th>{{ 'Action'|trans }}</th>
-    </tr>
-  </thead>
-  {% for lesson in lessons %}
-    {% if lesson.id == last_available_id %}
-      {% set count = 1 %}
-    {% endif %}
-    {% if count == -1 %}
-      {% set count = 2 %}
-    {% endif %}
-    <tr {% if lesson.id in users_lessons|keys and users_lessons[lesson.id] == 3 %}class="success"{% elseif lesson.id in users_lessons|keys and users_lessons[lesson.id] == 1 %}class="info"{% endif %}>
-      <td>{{ loop.index }}</td>
-      <td>{{ lesson.title }}</td>
-      <td>
-        {% if lesson.id in users_lessons|keys %}
-          {% if users_lessons[lesson.id] == 1 %}
-            {{ 'Started'|trans }}
-          {% elseif users_lessons[lesson.id] == 2 %}
-            {{ 'Finished'|trans }}
-          {% else %}
-            {{ 'Passed'|trans }}
-          {% endif %}
-        {% else %}
-          {{ 'Not started'|trans }}
+    <blockquote class="relative">
+        {% if has_course %}
+            <p class="pull-right">
+                <a href="#revoke-subscription-modal"
+                   role="button"
+                   data-toggle="modal"
+                   class="button orange unsubscribe-from-course">
+                    {{ "Unsubscribe course"|trans }}
+                </a>
+            </p>
         {% endif %}
-      </td>
-      <td>
-        {% if has_course or course.isPublic %}
-          {% if lesson.id in users_lessons|keys and users_lessons[lesson.id] == 3 %}
-            <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Repeat'|trans }}</a>
-          {% elseif lesson.id in users_lessons|keys %}
-            <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Continue'|trans }}</a>
-          {% elseif count == 2 and user_id and has_course %}
-            <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Start lesson'|trans }}</a>
-          {% elseif course.isPublic and course.type == 0 %}
-            <a href="{{ path('lesson_index', {"id": lesson.id }) }}" class="btn">{{ 'Go to lesson'|trans }}</a>
-          {% else %}
-            {{ 'Cannot start now'|trans }}
-          {% endif %}
-        {% else %}
-          {{ 'Need assign to course'|trans }}
-        {% endif %}
-      </td>
-      {% if count > 0 %}
-        {% set count = count + 1 %}
-      {% endif %}
-    </tr>
-  {% endfor %}
-</table>
+        {{ course.description|raw }}
+    </blockquote>
 
+
+    {% if not has_course %}
+        <p>
+            <a href="{{ path('course_start', {"id": course.id }) }}" class="button large">
+                {{ 'Start course'|trans }}
+            </a>
+        </p>
+    {% endif %}
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>{{ 'N'|trans }}</th>
+            <th>{{ 'Title'|trans }}</th>
+            <th>{{ 'Status'|trans }}</th>
+            <th>{{ 'Action'|trans }}</th>
+        </tr>
+        </thead>
+        {% for lesson in lessons %}
+            {% if lesson.id == last_available_id %}
+                {% set count = 1 %}
+            {% endif %}
+            {% if count == -1 %}
+                {% set count = 2 %}
+            {% endif %}
+            <tr {% if lesson.id in users_lessons|keys and users_lessons[lesson.id] == 3 %}class="success"
+                {% elseif lesson.id in users_lessons|keys and users_lessons[lesson.id] == 1 %}class="info"{% endif %}>
+                <td>{{ loop.index }}</td>
+                <td>{{ lesson.title }}</td>
+                <td>
+                    {% if lesson.id in users_lessons|keys %}
+                        {% if users_lessons[lesson.id] == 1 %}
+                            {{ 'Started'|trans }}
+                        {% elseif users_lessons[lesson.id] == 2 %}
+                            {{ 'Finished'|trans }}
+                        {% else %}
+                            {{ 'Passed'|trans }}
+                        {% endif %}
+                    {% else %}
+                        {{ 'Not started'|trans }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if has_course or course.isPublic %}
+                        {% if lesson.id in users_lessons|keys and users_lessons[lesson.id] == 3 %}
+                            <a href="{{ path('lesson_index', {"id": lesson.id }) }}"
+                               class="button green">{{ 'Repeat'|trans }}</a>
+                        {% elseif lesson.id in users_lessons|keys %}
+                            <a href="{{ path('lesson_index', {"id": lesson.id }) }}"
+                               class="button yellow">{{ 'Continue'|trans }}</a>
+                        {% elseif count == 2 and user_id and has_course %}
+                            <a href="{{ path('lesson_index', {"id": lesson.id }) }}"
+                               class="button">{{ 'Start lesson'|trans }}</a>
+                        {% elseif course.isPublic and course.type == 0 %}
+                            <a href="{{ path('lesson_index', {"id": lesson.id }) }}"
+                               class="button">{{ 'Go to lesson'|trans }}</a>
+                        {% else %}
+                            {{ 'Cannot start now'|trans }}
+                        {% endif %}
+                    {% else %}
+                        {{ 'Need assign to course'|trans }}
+                    {% endif %}
+                </td>
+                {% if count > 0 %}
+                    {% set count = count + 1 %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="modal hide fade" role="dialog" id="revoke-subscription-modal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>{{ "Unsubscribe course"|trans }}</h3>
+        </div>
+        <div class="modal-body">
+            <p>{{ "You have chosen to unsubscribe from the course"|trans }}: <strong>{{ course.title }}</strong>.</p>
+            <p>{{ "All your data related to this course (lessons, tasks e.t.c.) would be deleted permanently"|trans }}.
+                {{ "Are you sure"|trans}}?
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">{{ "No-no-no"|trans }}</a>
+            <a href="{{ path("course_unsubscribe", {id: course.id}) }}" class="btn btn-danger">
+                {{ "Yes, i'm sure"|trans }}</a>
+        </div>
+    </div>
 {% endblock %}

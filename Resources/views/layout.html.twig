@@ -1,7 +1,15 @@
 {% extends '::base.html.twig' %}
 
 {% block javascripts %}
-{% javascripts '@SmirikCourseBundle/Resources/public/js/*' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
+    {% javascripts '@SmirikCourseBundle/Resources/public/js/*' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{  parent() }}
+
+    {% stylesheets '@SmirikCourseBundle/Resources/public/css/*' %}
+        <link href="{{ asset_url }}" rel="stylesheet" media="screen"/>
+    {% endstylesheets %}
 {% endblock %}

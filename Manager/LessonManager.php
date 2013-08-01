@@ -2,6 +2,7 @@
 
 namespace Smirik\CourseBundle\Manager;
 
+use Smirik\CourseBundle\Model\CourseQuery;
 use Smirik\QuizBundle\Model\UserQuizQuery;
 use Smirik\CourseBundle\Model\LessonQuestionQuery;
 use Smirik\QuizBundle\Model\QuizQuery;
@@ -65,7 +66,7 @@ class LessonManager
     }
 
     /**
-     * Get list of avaliable quizes with user data
+     * Get list of available quizes with user data
      * @param \Smirik\CourseBundle\Model\Lesson $lesson
      * @param $user
      * @return array
@@ -187,6 +188,37 @@ class LessonManager
     }
 
     /**
+     * Filtering opened lessons list. All or by specific Course for specified $user
+     * @param  \FOS\UserBundle\Propel\User|int    $user
+     * @param  Course|int  [$course=null]
+     * @return CourseQuery
+     */
+    public function filterByOpened($user, $course = null)
+    {
+        return
+            LessonQuery::create()
+                ->_if($course)
+                    ->filterById(is_object($course) ? $course->getId() : $course)
+                ->_endIf()
+                ->useUserLessonQuery()
+                    ->filterByUserId(is_object($user) ? $user->getId() : $user)
+                    ->filterByOpened()
+                ->endUse()
+            ;
+    }
+
+    /**
+     * Get opened lessons list. All or by Course
+     * @param  \FOS\UserBundle\Propel\User|int  $user
+     * @param  Course|int  [$course=null]
+     * @return Course[]
+     */
+    public function getOpened($user, $course = null)
+    {
+        return $this->filterByOpened($user, $course)->find();
+    }
+    
+    /**
      * @param $user
      * @param \Smirik\CourseBundle\Model\Course $course
      * @return array
@@ -223,7 +255,7 @@ class LessonManager
      * @param bool $join_user_lesson
      * @return mixed
      */
-    public function getLastAvaliableNumber($course, $user_id, $join_courses = false, $join_user_lesson = false)
+    public function getLastavailableNumber($course, $user_id, $join_courses = false, $join_user_lesson = false)
     {
         $last_lesson = LessonQuery::create()
             ->useUserLessonQuery()
@@ -310,11 +342,12 @@ class LessonManager
             LessonQuery::create('l')
                 ->filterByCourseId($user_course->getCourseId())
                 ->useUserLessonQuery()
-                ->filterByUserId($user_course->getUserId())
+                    ->filterByUserId($user_course->getUserId())
                 ->endUse()
                 ->joinWith('l.UserLesson')
                 ->orderBySortableRank()
-                ->find();
+                ->find()
+            ;
     }
 
     /**

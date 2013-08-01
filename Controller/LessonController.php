@@ -19,7 +19,6 @@ use Smirik\CourseBundle\Form\Type\UserTaskAnswerType;
  */
 class LessonController extends Controller
 {
-
     private function createTaskAnswersForms($content)
     {
         $forms = array();
@@ -107,6 +106,7 @@ class LessonController extends Controller
         if ('POST' == $request->getMethod()) {
             $form->submit($request);
             if ($form->isValid()) {
+                    
                 $user_task->save();
                 if ($this->getRequest()->isXmlHttpRequest()) {
                     return new Response('{"status": 1, "text": "'.json_encode($_POST).'" }');

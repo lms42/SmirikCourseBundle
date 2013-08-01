@@ -2,31 +2,31 @@
 
 namespace Smirik\CourseBundle\Manager;
 
+use Smirik\CourseBundle\Model\Course;
 use Smirik\CourseBundle\Model\UserCourseQuery;
 use Smirik\CourseBundle\Model\CourseQuery;
 use Smirik\CourseBundle\Model\UserCourse;
 
 class CourseManager
 {
-
     protected $lesson_manager;
     protected $user_quiz_manager;
     protected $user_task_manager;
 
     public function setManagers($lesson_manager, $user_quiz_manager, $user_task_manager)
     {
-        $this->lesson_manager    = $lesson_manager;
-        $this->user_quiz_manager = $user_quiz_manager;
-        $this->user_task_manager = $user_task_manager;
+        $this->lesson_manager      = $lesson_manager;
+        $this->user_quiz_manager   = $user_quiz_manager;
+        $this->user_task_manager   = $user_task_manager;
     }
 
     /**
-     * @param $user
-     * @return PropelObjectCollection
+     * @param  \FOS\UserBundle\Propel\User|int  $user
+     * @return Course[]|\PropelObjectCollection
      */
     public function my($user)
     {
-        $user_id = is_object($user) ? $user->getId() : false;
+        $user_id = is_object($user) ? $user->getId() : $user;
 
         return
             CourseQuery::create()
@@ -49,20 +49,33 @@ class CourseManager
     }
 
     /**
-     * @param $ids
-     * @return PropelObjectCollection
+     * @param  $except_ids
+     * @return \PropelObjectCollection|Course[]
      */
-    public function avaliable($ids)
+    public function available($except_ids)
     {
         return
             CourseQuery::create()
                 ->filterByIsPublic(true)
                 ->filterByIsActive(true)
                 ->filterByPid(null)
-                ->_if(count($ids) > 0)
-                ->filterById($ids, \Criteria::NOT_IN)
+                ->_if(count($except_ids) > 0)
+                    ->filterById($except_ids, \Criteria::NOT_IN)
                 ->_endIf()
-                ->find();
+                ->find()
+            ;
+    }
+
+    /**
+     * Get published courses which available for study (without already studied)
+     *
+     * @param  \FOS\UserBundle\Propel\User|int  $user
+     * @return \PropelObjectCollection|Course[]
+     */
+    public function getToStudy($user)
+    {
+        $ids = $this->my($user)->toKeyValue('PrimaryKey', 'Id');
+        return $this->available($ids);
     }
 
     /**
@@ -152,5 +165,5 @@ class CourseManager
             'user_quizes' => $user_quiz,
         );
     }
-
+    
 }

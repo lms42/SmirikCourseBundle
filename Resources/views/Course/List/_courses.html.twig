@@ -1,0 +1,20 @@
+<section id="team-members">
+    {% for course in courses %}
+	<article class="member">
+		<h3 class="member-name"><a href="{{ path('course_show', {'id': course.id }) }}">{{ course.title }}</a></h3>
+        <h4 class="member-position">{{ 'Course'|trans }}</h4>
+		<p class="member-bio">
+			{{ course.description|raw }}
+		</p>
+		<div class="member-avatar">
+            <img src="{{ asset(course.logo)|apply_filter('course_preview') }}" class="blue" alt="">
+		</div>
+	</article>
+    <hr>
+    {% else %}
+	<article class="member">
+        <p>{{ "You have no courses started"|trans }}</p>
+    </article>
+    {% endfor %}
+</section>
+		

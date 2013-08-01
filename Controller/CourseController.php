@@ -2,6 +2,12 @@
 
 namespace Smirik\CourseBundle\Controller;
 
+use FOS\UserBundle\Propel\User;
+use Smirik\CourseBundle\Model\Course;
+use Smirik\CourseBundle\Model\UserCourse;
+use Smirik\CourseBundle\Model\UserCourseQuery;
+use Smirik\CourseBundle\Model\UserLessonQuery;
+use Smirik\CourseBundle\Model\UserTaskQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -9,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Smirik\CourseBundle\Model\CourseQuery;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/courses")
@@ -26,11 +33,10 @@ class CourseController extends Controller
 
 		$my_courses = $cm->my($user);
 		$ids = $my_courses->getPrimaryKeys();
-
-		$avaliable_courses = $cm->avaliable($ids);
+		$available_courses = $cm->available($ids);
 
 		return array(
-			'avaliable_courses' => $avaliable_courses,
+			'available_courses' => $available_courses,
 			'my_courses'        => $my_courses,
 		);
 	}
@@ -52,6 +58,10 @@ class CourseController extends Controller
 		}
 		
 		$course = CourseQuery::create()->findPk($id);
+
+        if (!$course) {
+            throw new NotFoundHttpException;
+        }
 		
 		if (!$course->getIsPublic() && !$this->get('security.context')->isGranted('ROLE_USER'))
 		{
@@ -63,11 +73,11 @@ class CourseController extends Controller
 		$has_course        = $cm->hasUserStartedCourse($user_id, $course->getId());
 		$finish_course     = $cm->hasUserFinishedCourse($user_id, $course->getId());
 		$users_lessons     = $lm->getForUser($user_id, $course);
-		$last_avaliable    = $lm->getLastAvaliableNumber($course, $user_id);
+		$last_available    = $lm->getLastavailableNumber($course, $user_id);
 		$last_available_id = false;
-		if ($last_avaliable)
+		if ($last_available)
 		{
-    		$last_available_id = $last_avaliable->getId();
+    		$last_available_id = $last_available->getId();
 		}
 
 		$count = 0;
@@ -137,6 +147,28 @@ class CourseController extends Controller
         return array(
             'lessons' => $lessons,
         );
+    }
+
+    /**
+     * @Route("/{id}/unsubscribe", name="course_unsubscribe")
+     * @Template()
+     * @Secure(roles="ROLE_USER")
+     */
+    public function unsubscribeAction($id)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var Course $course */
+        $course = CourseQuery::create()->findPk($id);
+        if (!$course) {
+            throw $this->createNotFoundException('Course not found');
+        }
+        
+        $this->get('user_course.manager')->unsubscribe($user, $course);
+        $this->get('session')->getFlashBag()->add('notice', 'Course revoked');
+
+        return $this->redirect($this->generateUrl('course_index'));
     }
 	
 }

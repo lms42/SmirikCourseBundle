@@ -14,6 +14,9 @@ $(document).on('ready', function(e){
             form.find('.btn-close').trigger('click');
         }, 'json');
     }); 
+    $('#accordion_affix').collapse({
+      toggle: false
+    });
 });
 
 function assign_quiz_to_lesson(quiz_id, route, success_text)

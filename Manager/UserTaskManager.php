@@ -91,4 +91,104 @@ class UserTaskManager
         );
     }
 
+    /**
+     * Get latest completed tasks
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  int  [$limit=null]
+     * @return \Smirik\CourseBundle\Model\UserTask[]|\PropelObjectCollection
+     */
+    public function lastCompleted($user, $limit = null)
+    {
+        return $this->filterTasks($user)
+            ->filterByStatus(3)
+            ->orderByUpdatedAt(\Criteria::DESC)
+            ->limit($limit)
+            ->find();
+    }
+
+    /**
+     * Get latest completed tasks
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  int  [$limit=null]
+     * @return \Smirik\CourseBundle\Model\UserTask[]|\PropelObjectCollection
+     */
+    public function lastPending($user, $limit = null)
+    {
+        return $this->filterTasks($user)
+            ->filterByStatus(1)
+            ->orderByUpdatedAt(\Criteria::DESC)
+            ->limit($limit)
+            ->find();
+    }
+
+    /**
+     * Filter a tasks which need to perform (In Progress, Rejected)
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  \Smirik\CourseBundle\Model\Course|null  $course  (!) Not implemented
+     * @param  \Smirik\CourseBundle\Model\Lesson|null  $lesson
+     * @return \ModelCriteria|\Smirik\CourseBundle\Model\UserTaskQuery
+     */
+    public function filterTasks($user, $course = null, $lesson = null)
+    {
+        return
+            UserTaskQuery::create()
+                ->joinTask()
+                ->_if($user)
+                    ->filterByUserId(is_object($user) ? $user->getId() : $user)
+                ->_endif()
+                ->_if($lesson)
+                    ->filterByUserId(is_object($lesson) ? $lesson->getId() : $lesson)
+                ->_endif()
+            ;
+    }
+
+    /**
+     * Get a tasks which need to perform - to do (In Progress, Rejected)
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  \Smirik\CourseBundle\Model\Course|null  $course  (!) Not implemented
+     * @param  \Smirik\CourseBundle\Model\Lesson|null  $lesson
+     * @return \ModelCriteria|\Smirik\CourseBundle\Model\TaskQuery
+     */
+    public function todo($user, $course = null, $lesson = null)
+    {
+        return $this->filterTasks($user, $course, $lesson)
+            ->filterByTodo()
+            ->find();
+    }
+
+    /**
+     * Get a tasks which need to perform - to do (In Progress, Rejected)
+     *
+     * @param  \FOS\UserBundle\Propel\User|int         $user
+     * @param  integer  $limit
+     * @return \ModelCriteria|\Smirik\CourseBundle\Model\TaskQuery
+     */
+    public function latestUserTodo($user, $limit = null)
+    {
+        return $this->filterTasks($user, $course = null)
+                ->filterByTodo()
+                ->orderByStatus('desc')
+                ->orderByUpdatedAt(\Criteria::DESC)
+                ->limit($limit)
+                ->find()
+            ;
+    }
+    
+    /**
+     * Remove all user's tasks ($user) for given $user_lesson
+     * @param \FOS\UserBundle\Propel\User $user
+     * @param \Smirik\CourseBundle\Model\UserLesson
+     * @return void
+     */
+    public function unsubscribe($user, $user_lesson)
+    {
+        UserTaskQuery::create()
+            ->filterByUserId($user->getId())
+            ->filterByLessonId($user_lesson->getLessonId())
+            ->delete();
+    }
 }
