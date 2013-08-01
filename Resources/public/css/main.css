@@ -12,9 +12,3 @@ form.task-form input { width: 90%; }
 .relative{
     position: relative;
 }
-
-a.unsubscribe-from-course{
-    position: absolute;
-    top: 0;
-    right: 20px;
-}
