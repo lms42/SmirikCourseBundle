@@ -1,0 +1,13 @@
+<h4>{{ 'Courses progress'|trans }}</h4>
+<ul class="icons-ul">
+{% for course in courses %}
+    <li>
+        <i class="icon-li icon-minus"></i><a href="{{ path('course_show', {'id': course.id }) }}">{{ course.title }}</a>
+        <div class="progress progress-striped {% if progress[course.id] is defined and progress[course.id] == 100 %}progress-success{% endif %}">
+            <div class="bar" style="width: {% if progress[course.id] is defined %}{{ progress[course.id] }}{% endif %}%;"></div>
+        </div>
+    </li>
+{% else %}
+{{ 'No progress yet'|trans }}. <a href="{{ path('course_index') }}">{{ 'Start new course'|trans }}</a>.
+{% endfor %}
+</ul>

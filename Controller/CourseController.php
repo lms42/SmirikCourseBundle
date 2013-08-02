@@ -170,5 +170,20 @@ class CourseController extends Controller
 
         return $this->redirect($this->generateUrl('course_index'));
     }
+    
+    /**
+     * @Route("/progress", name="course_progress")
+     * @Template("SmirikCourseBundle:Course:_progress.html.twig")
+     * @Secure(roles="ROLE_USER")
+     */
+    public function progressAction()
+    {
+        $courses = $this->get('course.manager')->my($this->getUser());
+        $progress = $this->get('course.manager')->progress($courses, $this->getUser());
+        return array(
+            'courses'  => $courses,
+            'progress' => $progress,
+        );
+    }
 	
 }

@@ -130,6 +130,20 @@ class CourseManager
         $uc->setCourseId($course_id);
         $uc->save();
     }
+    
+    public function progress($courses, $user)
+    {
+        $count = $this->lesson_manager->count($courses);
+        $count_completed = $this->lesson_manager->countCompleted($courses, $user);
+        
+        $progress = array();
+        foreach ($count_completed as $course_id => $num)
+        {
+            $progress[$course_id] = round($num*1.0 / $count[$course_id] * 100);
+        }
+        
+        return $progress;
+    }
 
     /**
      * Get results of course: lessons, quizes, tasks e.t.c.

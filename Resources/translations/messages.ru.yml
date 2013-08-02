@@ -127,7 +127,8 @@ Quiz: Экзамен
 Score: Баллы
 pending: 'В ожидании'
 Success: Засчитано
-Written: __Written
+Asked: Заданные
+Accepted: Принятые
 Assign: Назначить
 Delete: Удалить
 Unknown: Unknown
@@ -143,3 +144,12 @@ Course revoked: Вы успешно отписались от курса.
 Completed tasks: Законченные задания
 No-no-no: Не-не-не
 Content: Содержание
+Courses progress: Прогресс по курсам
+No progress yet: Пока прогресса нет
+Start new course: Начать новый курс
+
+mark5: Отлично
+mark4: Хорошо
+mark3: Неплохо
+mark2: Слабо
+mark1: Тролль

@@ -344,7 +344,7 @@ class LessonManager
                 ->useUserLessonQuery()
                     ->filterByUserId($user_course->getUserId())
                 ->endUse()
-                ->joinWith('l.UserLesson')
+                ->leftJoinWith('l.UserLesson')
                 ->orderBySortableRank()
                 ->find()
             ;
@@ -380,5 +380,30 @@ class LessonManager
             ->find()
         ;
     }
+    
+    public function count($courses)
+    {
+        return LessonQuery::create()
+            ->select(array('CourseId', 'num'))
+            ->filterByCourseId($courses->getPrimaryKeys())
+            ->withColumn('COUNT(*)', 'num')
+            ->groupBy('CourseId')
+            ->find()
+            ->toKeyValue('CourseId', 'num')
+        ;
+    }
 
+    public function countCompleted($courses, $user)
+    {
+        return UserLessonQuery::create()
+            ->select(array('CourseId', 'num'))
+            ->filterByUserId($user->getId())
+            ->filterByCourseId($courses->getPrimaryKeys())
+            ->completed()
+            ->withColumn('COUNT(*)', 'num')
+            ->groupBy('CourseId')
+            ->find()
+            ->toKeyValue('CourseId', 'num')
+        ;
+    }
 }

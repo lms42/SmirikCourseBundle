@@ -9,7 +9,13 @@
                 {% if user_tasks[task.id].status == 1 %}<span class="label label-warning">{{ 'Pending'|trans }}</span>{% elseif user_tasks[task.id].status == 3 %}<span class="label label-success">{{ 'Accepted'|trans }}</span>{% elseif user_tasks[task.id].status == 0 %}<span class="label label-info">{{ 'In progress'|trans }}</span>{% elseif user_tasks[task.id].status == 2 %}<span class="label label-danger">{{ 'Rejected'|trans }}</span>{% else %}<span class="label label-info">{{ 'Failed'|trans }}</span>{% endif %}
             {% endif %}
     </h3>
-    <blockquote>{{ task.text|raw }}</blockquote>
+    
+    <div class="thumbnail stacked">
+        <blockquote>{{ task.text|raw }}</blockquote>
+        {% if user_tasks[task.id].status == 3 %}
+            <p class="ribbon"><span>{{ ('mark'~user_tasks[task.id].mark)|trans }}</span></p>
+        {% endif %}
+    </div>
     <hr>
     {% if task.id in user_tasks|keys %}
     <div class="row-fluid">
@@ -23,19 +29,21 @@
                 {{ form_row(tasks_forms[task.id].file) }}
             {% endif %}
             {{ form_row(tasks_forms[task.id]._token) }}
-            <div class="well">
+            <p>
                 <a href="{{ path('lesson_task_fail', {'id': task.lessonId, 'task_id': task.id }) }}" class="btn btn-danger">{{ 'Fail task'|trans }}</a>
                 <a href="#" class="btn task_form_submit" data-id="{{ task.id }}" data-form-id="task_form{{ task.id }}">{{ 'Save'|trans }}</a>
                 <button type="submit" href="#" class="btn btn-primary task_form_sent">{{ 'Send task'|trans }}</button>
-            </div>
+            </p>
           </form>
         {% else %}
           <div>
                 <strong>{{ 'Your Answer'|trans }}</strong>: 
-                <div class="well">
+                <p>
                   {{ user_tasks[task.id].text|raw }}<br />
-                </div>
-                <strong>{{ 'Url'|trans }}</strong>: {{ user_tasks[task.id].url }}
+                </p>
+                {% if user_tasks[task.id].url %}
+                    <strong>{{ 'Url'|trans }}</strong>: {{ user_tasks[task.id].url }}
+                {% endif %}
                 </p>
                 {% if user_tasks[task.id].status == 3 %}
                   <p>
