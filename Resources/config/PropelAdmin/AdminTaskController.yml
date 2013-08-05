@@ -39,6 +39,16 @@ columns:
             editable: true
             sortable: true
             filterable: true
+    solution:
+        label: Solution
+        name: solution
+        type: text
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: false
+            filterable: false
     file:
         label: File
         name: file

@@ -231,6 +231,7 @@
         <column name="title" type="varchar" size="200" required="true"/>
         <column name="text" type="longvarchar" required="false"/>
         <column name="file" type="varchar" size="200" required="false"/>
+        <column name="solution" type="longvarchar" required="false"/>
         <behavior name="timestampable"/>
         <behavior name="sortable">
             <parameter name="use_scope" value="true"/>

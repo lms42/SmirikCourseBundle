@@ -14,6 +14,7 @@
                 <li><a href="#texts" data-toggle="tab">{{ 'Texts'|trans }}</a></li>
                 <li><a href="#urls" data-toggle="tab">{{ 'Urls'|trans }}</a></li>
                 <li><a href="#slideshares" data-toggle="tab">{{ 'Slideshare'|trans }}</a></li>
+                <li><a href="#tasks" data-toggle="tab">{{ 'Tasks'|trans }}</a></li>
             </ul>
 
             <div class="tab-content">
@@ -66,6 +67,20 @@
                     <a data-form-template="{{ form_widget(form.slideshare_contents.vars.prototype)|e }}" class="btn add-form-slideshare" href="#">{{ 'Add'|trans }}</a>
                 </div>
 
+                <div class="tab-pane" id="tasks">
+                    {% for content in form.tasks %}
+                        <div class="form-content-task">
+                            <a class="btn btn-danger pull-right delete" href="#">{{ 'Delete'|trans }}</a>
+                            {{ form_row(content.title) }}
+                            {{ form_row(content.text) }}
+                            {{ form_row(content.solution) }}
+                            {{ form_rest(content) }}
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                    <a data-form-template="{{ form_widget(form.tasks.vars.prototype)|e }}" class="btn add-form-task" href="#">{{ 'Add'|trans }}</a>
+                </div>
+
                 {{ form_rest(form) }}
 
                 <script type="text/javascript" charset="utf-8">
@@ -90,6 +105,7 @@
                         bindAddForm('#texts', 'text');
                         bindAddForm('#urls', 'url');
                         bindAddForm('#slideshares', 'slideshare');
+                        bindAddForm('#tasks', 'task');
                     });
                 </script>
 
