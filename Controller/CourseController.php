@@ -65,7 +65,7 @@ class CourseController extends Controller
 		
 		if (!$course->getIsPublic() && !$this->get('security.context')->isGranted('ROLE_USER'))
 		{
-		    return $this->redirect($this->generateUrl('homepage'));
+		    return $this->redirect($this->generateUrl('fos_user_security_login'));
 		}
 		
 		$lessons = $course->getLessons();

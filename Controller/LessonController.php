@@ -164,12 +164,13 @@ class LessonController extends Controller
     {
         $user   = $this->getUser();
         $lesson = LessonQuery::create()->findPk($id);
-        $quiz	= QuizQuery::create()->findPk($quiz_id);
+        $quiz   = QuizQuery::create()->findPk($quiz_id);
         $uqm    = $this->get('user_quiz.manager');
         $ulm    = $this->get('user_lesson.manager');
         $lm     = $this->get('lesson.manager');
+        $status = $lm->getStatus($lesson, $user->getId());
 
-        if (!$quiz->getIsOpened()) {
+        if (!$quiz->getIsOpened() && ($status != 5)) {
             return $this->redirect($this->generateUrl('lesson_index', array('id' => $id)));
         }
 

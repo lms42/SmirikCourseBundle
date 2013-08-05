@@ -12,7 +12,7 @@
     
     <div class="thumbnail stacked">
         <blockquote>{{ task.text|raw }}</blockquote>
-        {% if user_tasks[task.id].status == 3 %}
+        {% if user_tasks[task.id] is defined and user_tasks[task.id].status == 3 %}
             <p class="ribbon"><span>{{ ('mark'~user_tasks[task.id].mark)|trans }}</span></p>
         {% endif %}
     </div>
@@ -31,8 +31,8 @@
             {{ form_row(tasks_forms[task.id]._token) }}
             <p>
                 <a href="{{ path('lesson_task_fail', {'id': task.lessonId, 'task_id': task.id }) }}" class="btn btn-danger">{{ 'Fail task'|trans }}</a>
-                <a href="#" class="btn task_form_submit" data-id="{{ task.id }}" data-form-id="task_form{{ task.id }}">{{ 'Save'|trans }}</a>
-                <button type="submit" href="#" class="btn btn-primary task_form_sent">{{ 'Send task'|trans }}</button>
+                <a href="#" id="link_task_save" class="btn task_form_submit" data-id="{{ task.id }}" data-form-id="task_form{{ task.id }}">{{ 'Save'|trans }}</a>
+                <button id="btn_task_submit" type="submit" href="#" class="btn btn-primary task_form_sent">{{ 'Send task'|trans }}</button>
             </p>
           </form>
         {% else %}
