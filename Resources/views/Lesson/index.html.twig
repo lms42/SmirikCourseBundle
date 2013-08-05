@@ -116,7 +116,7 @@
 
                     {% include 'SmirikCourseBundle:Lesson/Tab:urls.html.twig' with {"urls": lesson.urlcontents } %}
                     {% include 'SmirikCourseBundle:Lesson/Tab:questions.html.twig' with {"questions": questions, "lesson_id": lesson.id } %}
-                    {% include 'SmirikCourseBundle:Lesson/Tab:quiz.html.twig' with {"quiz": quiz, "users_quiz": users_quiz, "lesson": lesson } %}
+                    {% include 'SmirikCourseBundle:Lesson/Tab:quiz.html.twig' with {"quiz": quiz, "users_quiz": users_quiz, "lesson": lesson, 'status': status } %}
                     {% include 'SmirikCourseBundle:Lesson/Tab:tasks.html.twig' with {"tasks": tasks, 'tasks_forms': tasks_forms, 'user_tasks': user_tasks, "lesson": lesson } %}
                 </div>
 
