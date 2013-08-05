@@ -42,3 +42,4 @@ actions:
 templates:
     form:
         edit: SmirikCourseBundle:Admin/Lesson:edit.html.twig
+        new: SmirikCourseBundle:Admin/Lesson:new.html.twig
