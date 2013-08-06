@@ -61,11 +61,20 @@
         <div class="tab-pane" id="tasks">
             {% for content in form.tasks %}
                 <div class="form-content-task">
-                    <a class="btn btn-danger pull-right delete" href="#">{{ 'Delete'|trans }}</a>
-                    {{ form_row(content.title) }}
-                    {{ form_row(content.text) }}
-                    {{ form_row(content.solution) }}
-                    {{ form_rest(content) }}
+                    <div class="btn-group pull-right">
+                        <a class="btn btn-info i-switcher" href="#" data-target="#task-{{ loop.index }}">{{ 'Expand'|trans }}</a>
+                        <a class="btn btn-danger delete" href="#">{{ 'Delete'|trans }}</a>
+                    </div>
+
+
+                    <div><strong>{{ content.title.vars.value }}</strong></div>
+                    <div class="hide" id="task-{{ loop.index }}">
+                        {{ form_row(content.title) }}
+                        {{ form_row(content.text) }}
+                        {{ form_row(content.solution) }}
+                        {{ form_rest(content) }}
+                    </div>
+
                 </div>
                 <hr/>
             {% endfor %}
@@ -73,6 +82,30 @@
         </div>
 
         {{ form_rest(form) }}
+
+        <script type="text/javascript">
+            $(function(){
+                var swicherStates = {
+                    on: "{{ "Collapse"|trans }}",
+                    off: "{{ "Expand"|trans }}"
+                }
+
+                $(document).on("click", "a.i-switcher", function(e){
+                    e.preventDefault();
+
+                    var $target = $(e.target),
+                        $container = $($target.data("target"));
+
+                    if ($container.is(":visible")) {
+                        $container.hide();
+                        $target.text(swicherStates.off);
+                    } else {
+                        $container.show();
+                        $target.text(swicherStates.on);
+                    }
+                });
+            });
+        </script>
 
         <script type="text/javascript" charset="utf-8">
             $(document).ready(function () {
