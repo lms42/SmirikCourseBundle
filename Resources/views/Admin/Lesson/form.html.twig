@@ -27,6 +27,10 @@
                     <hr>
                 </div>
             {% endfor %}
+
+            {% if not form.text_contents|length %}
+                {% do  form.text_contents.setRendered() %}
+            {% endif %}
             <a data-form-template="{{ form_widget(form.text_contents.vars.prototype)|e }}" class="btn add-form-text" href="#">{{ 'Add'|trans }}</a>
         </div>
 
@@ -41,6 +45,10 @@
                     <hr/>
                 </div>
             {% endfor %}
+
+            {% if not form.url_contents|length %}
+                {% do  form.url_contents.setRendered() %}
+            {% endif %}
             <a data-form-template="{{ form_widget(form.url_contents.vars.prototype)|e }}" class="btn add-form-url" href="#">{{ 'Add'|trans }}</a>
         </div>
 
@@ -55,6 +63,11 @@
                 </div>
                 <hr/>
             {% endfor %}
+
+            {% if not form.slideshare_contents|length %}
+                {% do  form.slideshare_contents.setRendered() %}
+            {% endif %}
+
             <a data-form-template="{{ form_widget(form.slideshare_contents.vars.prototype)|e }}" class="btn add-form-slideshare" href="#">{{ 'Add'|trans }}</a>
         </div>
 
@@ -78,6 +91,10 @@
                 </div>
                 <hr/>
             {% endfor %}
+
+            {% if not form.tasks|length %}
+                {% do  form.tasks.setRendered() %}
+            {% endif %}
             <a data-form-template="{{ form_widget(form.tasks.vars.prototype)|e }}" class="btn add-form-task" href="#">{{ 'Add'|trans }}</a>
         </div>
 
