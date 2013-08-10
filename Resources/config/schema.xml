@@ -1,6 +1,7 @@
 <database name="default" namespace="Smirik\CourseBundle\Model" defaultIdMethod="native">
     <table name="courses" phpName="Course" idMethod="native">
         <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="user_id" type="integer" required="false"/>
         <column name="pid" type="integer" required="false"/>
         <column name="title" type="varchar" size="200" required="true"/>
         <column name="description" type="longvarchar" required="true"/>
@@ -15,10 +16,17 @@
         <index>
             <index-column name="pid"/>
         </index>
+        <foreign-key foreignTable="fos_user" onDelete="setnull">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="user_id"/>
+        </index>
     </table>
 
     <table name="lessons" phpName="Lesson" idMethod="native">
         <column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="user_id" type="integer" required="false"/>
         <column name="course_id" type="integer" required="false"/>
         <column name="title" type="varchar" size="255" required="true"/>
         <behavior name="timestampable"/>
@@ -31,6 +39,13 @@
         </foreign-key>
         <index>
             <index-column name="course_id"/>
+        </index>
+        
+        <foreign-key foreignTable="fos_user" onDelete="setnull">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <index>
+            <index-column name="user_id"/>
         </index>
     </table>
 
