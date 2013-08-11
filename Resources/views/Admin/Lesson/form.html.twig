@@ -1,135 +1,82 @@
-<div class="well">
-
     <ul class="nav nav-tabs" id="lesson_tab">
-        <li class="active"><a href="#home" data-toggle="tab">{{ 'General'|trans }}</a></li>
-        <li><a href="#texts" data-toggle="tab">{{ 'Texts'|trans }}</a></li>
-        <li><a href="#urls" data-toggle="tab">{{ 'Urls'|trans }}</a></li>
-        <li><a href="#slideshares" data-toggle="tab">{{ 'Slideshare'|trans }}</a></li>
-        <li><a href="#tasks" data-toggle="tab">{{ 'Tasks'|trans }}</a></li>
+        <li class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i> {{ 'General'|trans }}</a></li>
+        <li><a href="#texts" data-toggle="tab"><i class="icon-book"></i> {{ 'Texts'|trans }}</a></li>
+        <li><a href="#urls" data-toggle="tab"><i class="icon-share"></i> {{ 'Urls'|trans }}</a></li>
+        <li><a href="#slideshares" data-toggle="tab"><i class="icon-play-circle"></i> {{ 'Slideshare'|trans }}</a></li>
+        <li><a href="#tasks" data-toggle="tab"><i class="icon-tasks"></i> {{ 'Tasks'|trans }}</a></li>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content lesson-content">
 
         <div class="tab-pane active" id="home">
             {{ form_errors(form) }}
-
             {{ form_row(form.course) }}
             {{ form_row(form.title) }}
         </div>
+        
         <div class="tab-pane" id="texts">
-            {% for content in form.text_contents %}
-                <div class="form-content-text">
-                    <a class="btn btn-danger pull-right delete" href="#">{{ 'Delete'|trans }}</a>
-                    {{ form_row(content.title) }}
-                    {{ form_row(content.description) }}
-                    {{ form_row(content.text) }}
-                    {{ form_rest(content) }}
-                    <hr>
-                </div>
-            {% endfor %}
-
+            <div class="accordion" id="accordion-texts">
+                {% for content in form.text_contents %}
+                    {% include 'SmirikCourseBundle:Admin/Lesson/Form:text.html.twig' with {'index': loop.index, 'content': content } %}
+                {% endfor %}
+            </div>
+            
             {% if not form.text_contents|length %}
                 {% do  form.text_contents.setRendered() %}
             {% endif %}
-            <a data-form-template="{{ form_widget(form.text_contents.vars.prototype)|e }}" class="btn add-form-text" href="#">{{ 'Add'|trans }}</a>
+            
+            <a data-form-template="{{ form_widget(form.text_contents.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-text" href="#">{{ 'Add'|trans }}</a>
         </div>
 
         <div class="tab-pane" id="urls">
-            {% for content in form.url_contents %}
-                <div class="form-content-url">
-                    <a class="btn btn-danger pull-right delete" href="#">{{ 'Delete'|trans }}</a>
-                    {{ form_row(content.title) }}
-                    {{ form_row(content.url) }}
-                    {{ form_row(content.description) }}
-                    {{ form_rest(content) }}
-                    <hr/>
-                </div>
-            {% endfor %}
-
+            <div class="accordion" id="accordion-urls">
+                {% for content in form.url_contents %}
+                    {% include 'SmirikCourseBundle:Admin/Lesson/Form:url.html.twig' with {'index': loop.index, 'content': content } %}
+                {% endfor %}
+            </div>
+            
             {% if not form.url_contents|length %}
                 {% do  form.url_contents.setRendered() %}
             {% endif %}
-            <a data-form-template="{{ form_widget(form.url_contents.vars.prototype)|e }}" class="btn add-form-url" href="#">{{ 'Add'|trans }}</a>
+
+            <a data-form-template="{{ form_widget(form.url_contents.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-url" href="#"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
         </div>
 
         <div class="tab-pane" id="slideshares">
-            {% for content in form.slideshare_contents %}
-                <div class="form-content-slideshare">
-                    <a class="btn btn-danger pull-right delete" href="#">{{ 'Delete'|trans }}</a>
-                    {{ form_row(content.title) }}
-                    {{ form_row(content.url) }}
-                    {{ form_row(content.description) }}
-                    {{ form_rest(content) }}
-                </div>
-                <hr/>
-            {% endfor %}
-
+            <div class="accordion" id="accordion-slideshares">
+                {% for content in form.slideshare_contents %}
+                    {% include 'SmirikCourseBundle:Admin/Lesson/Form:slideshare.html.twig' with {'index': loop.index, 'content': content } %}
+                {% endfor %}
+            </div>
             {% if not form.slideshare_contents|length %}
-                {% do  form.slideshare_contents.setRendered() %}
+                {% do form.slideshare_contents.setRendered() %}
             {% endif %}
 
-            <a data-form-template="{{ form_widget(form.slideshare_contents.vars.prototype)|e }}" class="btn add-form-slideshare" href="#">{{ 'Add'|trans }}</a>
+            <a data-form-template="{{ form_widget(form.slideshare_contents.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-slideshare" href="#">{{ 'Add'|trans }}</a>
         </div>
 
         <div class="tab-pane" id="tasks">
-            {% for content in form.tasks %}
-                <div class="form-content-task">
-                    <div class="btn-group pull-right">
-                        <a class="btn btn-info i-switcher" href="#" data-target="#task-{{ loop.index }}">{{ 'Expand'|trans }}</a>
-                        <a class="btn btn-danger delete" href="#">{{ 'Delete'|trans }}</a>
-                    </div>
-
-
-                    <div><strong>{{ content.title.vars.value }}</strong></div>
-                    <div class="hide" id="task-{{ loop.index }}">
-                        {{ form_row(content.title) }}
-                        {{ form_row(content.text) }}
-                        {{ form_row(content.solution) }}
-                        {{ form_rest(content) }}
-                    </div>
-
-                </div>
-                <hr/>
-            {% endfor %}
+            <div class="accordion" id="accordion-tasks">
+                {% for content in form.tasks %}
+                    {% include 'SmirikCourseBundle:Admin/Lesson/Form:task.html.twig' with {'index': loop.index, 'content': content } %}
+                {% endfor %}
+            </div>
 
             {% if not form.tasks|length %}
-                {% do  form.tasks.setRendered() %}
+                {% do form.tasks.setRendered() %}
             {% endif %}
-            <a data-form-template="{{ form_widget(form.tasks.vars.prototype)|e }}" class="btn add-form-task" href="#">{{ 'Add'|trans }}</a>
+
+            <a data-form-template="{{ form_widget(form.tasks.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-task" href="#"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
         </div>
 
         {{ form_rest(form) }}
-
-        <script type="text/javascript">
-            $(function(){
-                var swicherStates = {
-                    on: "{{ "Collapse"|trans }}",
-                    off: "{{ "Expand"|trans }}"
-                }
-
-                $(document).on("click", "a.i-switcher", function(e){
-                    e.preventDefault();
-
-                    var $target = $(e.target),
-                        $container = $($target.data("target"));
-
-                    if ($container.is(":visible")) {
-                        $container.hide();
-                        $target.text(swicherStates.off);
-                    } else {
-                        $container.show();
-                        $target.text(swicherStates.on);
-                    }
-                });
-            });
-        </script>
 
         <script type="text/javascript" charset="utf-8">
             $(document).ready(function () {
                 var bindAddForm = function (parent, name) {
                     $('a.add-form-' + name).click(function (e) {
                         var parentFormText = $('.form-content-' + name);
-                        var deleteLink = $('<a>').addClass('btn btn-danger pull-right delete').attr('href', '#').html('{{ "Delete"|trans }}');
+                        var deleteLink = $('<a><i class="icon-remove"></i> ').addClass('btn btn-small btn-danger pull-right delete-new').attr('href', '#').html('{{ "Delete"|trans }}');
                         var clone = $(this).data('form-template');
                         var newForm = clone.replace(/__name__/g, parentFormText.length);
                         var newFormDiv = $('<div></div>').addClass('form-content-' + name).append(newForm);
@@ -139,6 +86,10 @@
                         return false;
                     });
                     $(document).on('click', '.form-content-' + name + ' a.delete', function (e) {
+                        $(this).parent().parent().parent().remove();
+                        return false;
+                    });
+                    $(document).on('click', '.form-content-' + name + ' a.delete-new', function (e) {
                         $(this).parent().remove();
                         return false;
                     });
@@ -151,4 +102,3 @@
         </script>
 
     </div>
-</div>

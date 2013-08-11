@@ -30,15 +30,16 @@ columns:
             sortable: true
             filterable: true
 actions:
-    create:
+    new:
         route: admin_lessons_new
-        extends: create
+        extends: new
     edit:
         route: admin_lessons_edit
         extends: edit
     delete:
         route: admin_lessons_delete
         extends: delete
+        
 templates:
     form:
         edit: SmirikCourseBundle:Admin/Lesson:edit.html.twig

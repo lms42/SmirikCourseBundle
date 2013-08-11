@@ -30,9 +30,9 @@ columns:
             sortable: true
             filterable: true
 actions:
-    create:
+    new:
         route: admin_users_tasks_reviews_new
-        extends: create
+        extends: new
     edit:
         route: admin_users_tasks_reviews_edit
         extends: edit

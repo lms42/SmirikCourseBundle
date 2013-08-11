@@ -2,15 +2,13 @@
 
 {% block content %}
 
-    {% block admin_action_edit_title %}
-        <h2>{{ object.title }}</h2>
-    {% endblock %}
-
     <form class="form form-horizontal" action="{{ path(routes.update, {"id": form.vars.value.id }) }}" method="post">
+        <legend>{{ object.title }}</legend>
         {%  include "SmirikCourseBundle:Admin/Lesson:form.html.twig" with { form: form, object: object} %}
         <div class="well">
             <a href="{{ path(routes.index) }}" class="btn">{{  'Back'|trans }}</a>
-            <button class="submit btn btn-primary">{{ 'Save'|trans }}</button>
+            <button name="save" class="submit btn btn-primary">{{ 'Save'|trans }}</button>
+            <button name="save_and_return" class="submit btn btn-primary">{{ 'Save and return'|trans }}</button>
         </div>
     </form>
 {% endblock %}

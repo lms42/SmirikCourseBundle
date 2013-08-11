@@ -71,9 +71,9 @@ columns:
             sortable: true
             filterable: true
 actions:
-    create:
+    new:
         route: admin_courses_new
-        extends: create
+        extends: new
     edit:
         route: admin_courses_edit
         extends: edit
