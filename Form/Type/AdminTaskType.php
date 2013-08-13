@@ -6,15 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TaskType extends AbstractType
+class AdminTaskType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('lesson', 'model', array(
-                'class' => 'Smirik\CourseBundle\Model\Lesson',
-            ))
             ->add('title')
             ->add('text', 'ckeditor')
             ->add('solution', 'ckeditor')

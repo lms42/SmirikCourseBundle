@@ -3,13 +3,17 @@
 {% block title %}{{ 'Courses results'|trans }}{% endblock %}
 
 {% block breadcrumbs %}
-    {% include "SmirikCoreBundle:Menu:breadcrumbs.html.twig" with {
-        items: [
-            {},
-            {label: "Мой кабинет", uri: path("account_my")},
-            {label: "Результаты курсов", uri: "#"},
-        ]}
-    %}
+    <ul class="pull-right breadcrumb">
+        <li>
+            <a href="{{ path("homepage") }}" title="dashboard">Главная</a>
+            <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="{{ path("account_my") }}">Результаты</a>
+            <span class="divider">/</span>
+        </li>
+        <li>{{ "Курсы"|trans }}</li>
+    </ul>
 {% endblock %}
 
 {% block header %}
@@ -19,7 +23,7 @@
 {% block content %}
 
   {% for user_course in users_courses %}
-    <h3>{{ user_course.course.title }}</h3>
+    <h3><a href="{{ path('course_show', {'id': user_course.courseId}) }}">{{ user_course.course.title }}</a></h3>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -34,8 +38,8 @@
           <th>{{ 'In progress'|trans }}</th>
           <th>{{ 'Draft'|trans }}</th>
           <th>{{ 'Mark'|trans }}</th>
-          <th>{{ 'Written'|trans }}</th>
-          <th>{{ 'Visible questions'|trans }}</th>
+          <th>{{ 'Asked'|trans }}</th>
+          <th>{{ 'Accepted'|trans }}</th>
         </tr>
       </thead>
       {% for lesson in courses_lessons[user_course.courseId] %}

@@ -96,12 +96,13 @@ actions:
     accept:
         label:   Process
         name:    process
-        builder: ajax_object
+        builder: chain
         route:   admin_users_tasks_accept
         options:
             route_with_id: true
             confirmation: false
         getter:  getStatus
+        setter:  setStatus
         data:
             - { key: 0, text: 'In progress' }
             - { key: 1, text: 'Pending' }
@@ -109,14 +110,11 @@ actions:
             - { key: 3, text: 'Accepted' }
             - { key: 4, text: 'Failed' }
             - { key: default, text: 'Reject' }
-        
-# 'accept' => new AjaxObjectAction(array(0 => 'В работе', 1 => 'Проверить', 2 => 'Отклонено', '3' => 'Принято', 'default' => 'Отклонить'), 'status', 'admin_users_tasks_accept', true),
-    create:
+        template:
+            list: SmirikCourseBundle:Admin/Action:process.html.twig
+    new:
         route: admin_users_tasks_new
-        extends: create
-    # edit:
-    #     route: admin_users_tasks_edit
-    #     extends: edit
+        extends: new
     delete:
         route: admin_users_tasks_delete
         extends: delete

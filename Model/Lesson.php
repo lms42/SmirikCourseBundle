@@ -147,5 +147,5 @@ class Lesson extends BaseLesson
 		}
 		return false;
 	}
-	
+    
 }

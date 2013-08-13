@@ -9,7 +9,11 @@
         <blockquote>{{ user_task.task.text|striptags|raw }}</blockquote>
         <h4>{{ 'Answer'|trans }}</h4>
         <p>
-            {{ user_task.text|striptags('<br>')|raw }}
+            {% if user_task.text|length %}
+                {{ user_task.text|striptags('<br>')|raw }}
+            {% else %}
+                {{ 'No answer presented'|trans }}
+            {% endif %}
         </p>
     </p>
 </div>

@@ -39,6 +39,16 @@ columns:
             editable: true
             sortable: true
             filterable: true
+    solution:
+        label: Solution
+        name: solution
+        type: text
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: false
+            filterable: false
     file:
         label: File
         name: file
@@ -50,9 +60,9 @@ columns:
             sortable: true
             filterable: true
 actions:
-    create:
+    new:
         route: admin_tasks_new
-        extends: create
+        extends: new
     edit:
         route: admin_tasks_edit
         extends: edit

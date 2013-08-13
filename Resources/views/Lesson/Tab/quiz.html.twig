@@ -17,6 +17,8 @@
             {{ 'Quiz is completed'|trans }}
           {% elseif (item.isOpened) %}
             <a href="{{ path('lesson_quiz', {"id": lesson.id, 'quiz_id': item.id }) }}" class="btn">{{ 'Start'|trans }}</a>
+          {% elseif (status == 5) %}
+              <a href="{{ path('lesson_quiz', {"id": lesson.id, 'quiz_id': item.id }) }}" class="btn">{{ 'Start'|trans }}</a>
           {% else %}
             {{ 'Manual assign is forbidden'|trans }}
           {% endif %}

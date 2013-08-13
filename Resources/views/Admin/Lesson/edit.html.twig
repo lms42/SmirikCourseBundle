@@ -2,102 +2,13 @@
 
 {% block content %}
 
-    {% block admin_action_edit_title %}
-        <h2>{{ object.title }}</h2>
-    {% endblock %}
-
     <form class="form form-horizontal" action="{{ path(routes.update, {"id": form.vars.value.id }) }}" method="post">
-        <div class="well">
-
-            <ul class="nav nav-tabs" id="lesson_tab">
-                <li class="active"><a href="#home" data-toggle="tab">{{ 'General'|trans }}</a></li>
-                <li><a href="#texts" data-toggle="tab">{{ 'Texts'|trans }}</a></li>
-                <li><a href="#urls" data-toggle="tab">{{ 'Urls'|trans }}</a></li>
-                <li><a href="#slideshares" data-toggle="tab">{{ 'Slideshare'|trans }}</a></li>
-            </ul>
-
-            <div class="tab-content">
-
-                <div class="tab-pane active" id="home">
-                    {{ form_errors(form) }}
-
-                    {{ form_row(form.course) }}
-                    {{ form_row(form.title) }}
-                </div>
-                <div class="tab-pane" id="texts">
-                    {% for content in form.text_contents %}
-                        <div class="form-content-text">
-                            <a class="btn btn-danger pull-right delete" href="#">{{ 'Delete'|trans }}</a>
-                            {{ form_row(content.title) }}
-                            {{ form_row(content.description) }}
-                            {{ form_row(content.text) }}
-                            {{ form_rest(content) }}
-                            <hr>
-                        </div>
-                    {% endfor %}
-                    <a data-form-template="{{ form_widget(form.text_contents.vars.prototype)|e }}" class="btn add-form-text" href="#">{{ 'Add'|trans }}</a>
-                </div>
-
-                <div class="tab-pane" id="urls">
-                    {% for content in form.url_contents %}
-                        <div class="form-content-url">
-                            <a class="btn btn-danger pull-right delete" href="#">{{ 'Delete'|trans }}</a>
-                            {{ form_row(content.title) }}
-                            {{ form_row(content.url) }}
-                            {{ form_row(content.description) }}
-                            {{ form_rest(content) }}
-                            <hr/>
-                        </div>
-                    {% endfor %}
-                    <a data-form-template="{{ form_widget(form.url_contents.vars.prototype)|e }}" class="btn add-form-url" href="#">{{ 'Add'|trans }}</a>
-                </div>
-
-                <div class="tab-pane" id="slideshares">
-                    {% for content in form.slideshare_contents %}
-                        <div class="form-content-slideshare">
-                            <a class="btn btn-danger pull-right delete" href="#">{{ 'Delete'|trans }}</a>
-                            {{ form_row(content.title) }}
-                            {{ form_row(content.url) }}
-                            {{ form_row(content.description) }}
-                            {{ form_rest(content) }}
-                        </div>
-                        <hr/>
-                    {% endfor %}
-                    <a data-form-template="{{ form_widget(form.slideshare_contents.vars.prototype)|e }}" class="btn add-form-slideshare" href="#">{{ 'Add'|trans }}</a>
-                </div>
-
-                {{ form_rest(form) }}
-
-                <script type="text/javascript" charset="utf-8">
-                    $(document).ready(function () {
-                        var bindAddForm = function (parent, name) {
-                            $('a.add-form-' + name).click(function (e) {
-                                var parentFormText = $('.form-content-' + name);
-                                var deleteLink = $('<a>').addClass('btn btn-danger pull-right delete').attr('href', '#').html('{{ "Delete"|trans }}');
-                                var clone = $(this).data('form-template');
-                                var newForm = clone.replace(/__name__/g, parentFormText.length);
-                                var newFormDiv = $('<div></div>').addClass('form-content-' + name).append(newForm);
-                                newFormDiv.prepend(deleteLink);
-                                $(parent).append(newFormDiv);
-                                $(parent).append(this);
-                                return false;
-                            });
-                            $(document).on('click', '.form-content-' + name + ' a.delete', function (e) {
-                                $(this).parent().remove();
-                                return false;
-                            });
-                        }
-                        bindAddForm('#texts', 'text');
-                        bindAddForm('#urls', 'url');
-                        bindAddForm('#slideshares', 'slideshare');
-                    });
-                </script>
-
-            </div>
-        </div>
+        <legend>{{ object.title }}</legend>
+        {%  include "SmirikCourseBundle:Admin/Lesson:form.html.twig" with { form: form, object: object} %}
         <div class="well">
             <a href="{{ path(routes.index) }}" class="btn">{{  'Back'|trans }}</a>
-            <button class="submit btn btn-primary">{{ 'Save'|trans }}</button>
+            <button name="save" class="submit btn btn-primary">{{ 'Save'|trans }}</button>
+            <button name="save_and_return" class="submit btn btn-primary">{{ 'Save and return'|trans }}</button>
         </div>
     </form>
 {% endblock %}

@@ -1,0 +1,8 @@
+<td class="center propel-admin-action">
+    {% if false %}
+    <a href="/admin/users_tasks/1411/accept?data=0" class="ajax_action btn input-block-level">
+            В работе
+        </a>
+    {% endif %}
+    <a href="{{ path(action.route, { 'id': item.id, 'data': 0 }) }}" class="btn ajax_action btn input-block-level">{{ action.label|trans }}</a>
+</td>

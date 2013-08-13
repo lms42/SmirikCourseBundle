@@ -10,4 +10,13 @@ class UserLessonQuery extends BaseUserLessonQuery
     {
         return $this->filterByIsClosed(0);
     }
+    
+    public function completed()
+    {
+        return $this
+            ->filterByIsPassed(true)
+            ->filterByIsClosed(true)
+        ;
+    }
+    
 }

@@ -1,0 +1,16 @@
+{% extends layout %}
+
+{% block content %}
+
+    {% block admin_action_edit_title %}
+        <h2>{{ object.title }}</h2>
+    {% endblock %}
+
+    <form class="form form-horizontal" action="{{ path(routes.new) }}" method="post">
+        {%  include "SmirikCourseBundle:Admin/Lesson:form.html.twig" with { form: form, object: object} %}
+        <div class="well">
+            <a href="{{ path(routes.index) }}" class="btn">{{  'Back'|trans }}</a>
+            <button class="submit btn btn-primary">{{ 'Save'|trans }}</button>
+        </div>
+    </form>
+{% endblock %}
