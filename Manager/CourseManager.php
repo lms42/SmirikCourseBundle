@@ -43,6 +43,8 @@ class CourseManager
     public function getAll()
     {
         return CourseQuery::create()
+            ->active()
+            ->open()
             ->limit(100)
             ->find()
         ;
@@ -56,6 +58,7 @@ class CourseManager
     {
         return
             CourseQuery::create()
+                ->active()
                 ->filterByIsPublic(true)
                 ->filterByIsActive(true)
                 ->filterByPid(null)

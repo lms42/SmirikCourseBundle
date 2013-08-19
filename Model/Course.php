@@ -21,5 +21,5 @@ class Course extends BaseCourse
         }
         return '/bundles/smirikcourse/images/default.gif';
     }
-	
+    
 }

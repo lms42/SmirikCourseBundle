@@ -68,7 +68,7 @@ class CourseController extends Controller
 		    return $this->redirect($this->generateUrl('fos_user_security_login'));
 		}
 		
-		$lessons = $course->getLessons();
+		$lessons = $lm->getLessons($course);
 			
 		$has_course        = $cm->hasUserStartedCourse($user_id, $course->getId());
 		$finish_course     = $cm->hasUserFinishedCourse($user_id, $course->getId());

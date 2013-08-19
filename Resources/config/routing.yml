@@ -1,4 +1,3 @@
-
 admin_courses_index:
   pattern: /courses
   defaults: { _controller: SmirikCourseBundle:AdminCourse:index, page: 1 }
@@ -25,6 +24,10 @@ admin_courses_new:
   pattern: /courses/new
   defaults: { _controller: SmirikCourseBundle:AdminCourse:new }
 
+admin_courses_publish:
+  pattern: /courses/publish
+  defaults: { _controller: SmirikCourseBundle:AdminCourse:publish }
+
 admin_lessons_index:
   pattern: /lessons
   defaults: { _controller: SmirikCourseBundle:AdminLesson:index, page: 1 }
@@ -50,6 +53,10 @@ admin_lessons_delete:
 admin_lessons_new:
   pattern: /lessons/new
   defaults: { _controller: SmirikCourseBundle:AdminLesson:new }
+
+admin_lessons_publish:
+  pattern: /lessons/publish
+  defaults: { _controller: SmirikCourseBundle:AdminLesson:publish }
 
 admin_lessons_questions_index:
   pattern: /lessons_questions

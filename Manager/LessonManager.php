@@ -188,35 +188,24 @@ class LessonManager
     }
 
     /**
-     * Filtering opened lessons list. All or by specific Course for specified $user
-     * @param  \FOS\UserBundle\Propel\User|int    $user
-     * @param  Course|int  [$course=null]
-     * @return CourseQuery
-     */
-    public function filterByOpened($user, $course = null)
-    {
-        return
-            LessonQuery::create()
-                ->_if($course)
-                    ->filterById(is_object($course) ? $course->getId() : $course)
-                ->_endIf()
-                ->useUserLessonQuery()
-                    ->filterByUserId(is_object($user) ? $user->getId() : $user)
-                    ->filterByOpened()
-                ->endUse()
-            ;
-    }
-
-    /**
-     * Get opened lessons list. All or by Course
+     * Get open lessons list. All or by Course
      * @param  \FOS\UserBundle\Propel\User|int  $user
      * @param  Course|int  [$course=null]
      * @return Course[]
      */
-    public function getOpened($user, $course = null)
+    public function getOpenLessons($user, $course = null)
     {
-        return $this->filterByOpened($user, $course)->find();
+        return LessonQuery::create()->openForUser($user, $course)->find();
     }
+    
+    public function getLessons($course)
+    {
+        return LessonQuery::create()
+            ->filterPublished()
+            ->filterByCourseId($course->getId())
+            ->find()
+        ;
+    } 
     
     /**
      * @param $user
@@ -406,4 +395,5 @@ class LessonManager
             ->toKeyValue('CourseId', 'num')
         ;
     }
+    
 }

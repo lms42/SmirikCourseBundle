@@ -29,7 +29,20 @@ columns:
             editable: true
             sortable: true
             filterable: true
+    is_active:
+        label: 'Is active'
+        name: is_active
+        type: boolean
+        builder: simple
+        options:
+            listable: false
+            editable: true
+            sortable: true
+            filterable: true
 actions:
+    is_active:
+        route:   admin_lessons_publish
+        extends: publish
     new:
         route: admin_lessons_new
         extends: new
