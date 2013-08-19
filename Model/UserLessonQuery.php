@@ -6,7 +6,7 @@ use Smirik\CourseBundle\Model\om\BaseUserLessonQuery;
 
 class UserLessonQuery extends BaseUserLessonQuery
 {
-    public function filterByOpened()
+    public function open()
     {
         return $this->filterByIsClosed(0);
     }

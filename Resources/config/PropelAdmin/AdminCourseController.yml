@@ -35,7 +35,7 @@ columns:
         type: boolean
         builder: simple
         options:
-            listable: true
+            listable: false
             editable: true
             sortable: true
             filterable: true
@@ -66,11 +66,14 @@ columns:
         type: boolean
         builder: simple
         options:
-            listable: true
+            listable: false
             editable: true
             sortable: true
             filterable: true
 actions:
+    is_active:
+        route:   admin_courses_publish
+        extends: publish
     new:
         route: admin_courses_new
         extends: new

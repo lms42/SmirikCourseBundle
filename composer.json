@@ -1,8 +1,8 @@
 {
-    "name": "smirik/course-bundle",
+    "name": "lms42/course-bundle",
     "description": "Course and lesson management for LMS.",
     "keywords": ["course", "lesson", "lms"],
-    "homepage": "https://4xxi.com",
+    "homepage": "https://lms42.com",
     "type": "symfony-bundle",
     "license": "CC-BY-NC-SA",
     "authors": [
