@@ -8,7 +8,6 @@
         <column name="type" type="integer" required="false" default="1"/>
         <column name="file" type="varchar" size="100" required="false"/>
         <column name="is_public" type="boolean" size="1" required="false"/>
-        <column name="is_active" type="boolean" size="1" required="false"/>
         <behavior name="timestampable"/>
         <foreign-key foreignTable="courses">
             <reference local="pid" foreign="id"/>
@@ -22,6 +21,13 @@
         <index>
             <index-column name="user_id"/>
         </index>
+        <behavior name="publishable">
+            <parameter name="is_published_column" value="is_active" />
+            <parameter name="published_by_default" value="false" />
+            <parameter name="include_unpublished" value="true" />
+            <!-- timeframe support -->
+            <parameter name="with_timeframe" value="false" />
+        </behavior>
     </table>
 
     <table name="lessons" phpName="Lesson" idMethod="native">
@@ -47,6 +53,13 @@
         <index>
             <index-column name="user_id"/>
         </index>
+        <behavior name="publishable">
+            <parameter name="is_published_column" value="is_active" />
+            <parameter name="published_by_default" value="true" />
+            <parameter name="include_unpublished" value="true" />
+            <!-- timeframe support -->
+            <parameter name="with_timeframe" value="false" />
+        </behavior>
     </table>
 
     <table name="users_courses" phpName="UserCourse" idMethod="native">
