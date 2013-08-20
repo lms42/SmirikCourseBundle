@@ -26,8 +26,8 @@ class ImportCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $file  = $input->getOption('file');
-        $debug = $input->getOption('dry-run', false);
+        $file    = $input->getOption('file');
+        $dry_run = $input->getOption('dry-run', false);
 
         $file = realpath($this->getContainer()->get('kernel')->getRootDir().'/../'.$file);
         
@@ -37,7 +37,7 @@ class ImportCommand extends ContainerAwareCommand
         }
         
         $data = file_get_contents($file);
-        $res = $this->getContainer()->get('course.importer')->import($data, $debug, $output);
+        $res = $this->getContainer()->get('course.importer')->import($data, $dry_run);
         $output->writeln('<info>All data were added.</info>');
 
     }
