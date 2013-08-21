@@ -15,6 +15,7 @@ class TaskTransformer
                 ->findOneOrCreate()
             ;
             $task->setTitle($row[2]);
+            $task->setRightAnswer($row[5]);
             $task->setSolution($row[6]);
             $task->save();
         } catch (Exception $e) {
