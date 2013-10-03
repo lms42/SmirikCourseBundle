@@ -2,6 +2,7 @@
 
 namespace Smirik\CourseBundle\Form\Type;
 
+use Smirik\PropelAdminBundle\Form\DataTransformer\FileToTextTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,7 +16,9 @@ class AdminTaskType extends AbstractType
             ->add('title')
             ->add('text', 'ckeditor')
             ->add('solution', 'ckeditor')
-            ->add('file', 'file', array('required' => false))
+            ->add(
+                $builder->create('file', 'file', array('required' => false))->addViewTransformer(new FileToTextTransformer())
+            )
         ;
     }
 
