@@ -5,6 +5,8 @@ namespace Smirik\CourseBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use Smirik\CourseBundle\Manager\UserLessonManager;
+use Smirik\CourseBundle\Manager\UserTaskManager;
 use Symfony\Component\HttpFoundation\Response;
 use Smirik\CourseBundle\Model\UserTask;
 use Smirik\CourseBundle\Model\UserTaskReview;
@@ -15,7 +17,7 @@ use Smirik\CourseBundle\Controller\Base\AdminUserTaskController as BaseControlle
 
 class AdminUserTaskController extends BaseController
 {
-	
+
 	/**
 	 * @Route("/admin/users_tasks/{id}/accept", name="admin_users_tasks_accept")
 	 */
@@ -35,7 +37,7 @@ class AdminUserTaskController extends BaseController
 		  'user_task' => $user_task,
 		));
 	}
-	
+
 	/**
 	 * @Route("/admin/users_tasks/{id}/save_review", name="admin_users_tasks_save_review")
 	 */
@@ -57,17 +59,36 @@ class AdminUserTaskController extends BaseController
         		$user_task_review->setText($comment);
         		$user_task_review->save();
 		    }
-            
+
 		    if ($action == 'accept')
 		    {
 		        $user_task->setAccepted();
 		        $user_task->setMark($mark);
+
+                // Close lesson if no tasks left to perform
+                /** @var UserTaskManager $service */
+                $service = $this->get('user_task.manager');
+                $tasksRemaining = $service->todo(
+                    $user_task->getUser(),
+                    null,
+                    $user_task->getLesson()
+                );
+
+                if (count($tasksRemaining) == 1) {
+                    /** @var UserLessonManager $service */
+                    $service = $this->get('user_lesson.manager');
+                    $service->close(
+                        $user_task->getUser(),
+                        $user_task->getLesson()
+                    );
+                }
+
 		    } elseif ($action == 'reject')
 		    {
 		        $user_task->setRejected();
 		    }
 		    $user_task->save();
-		    
+
 		    $data = array('result' => $id);
 		    return new Response(json_encode($data));
 		}

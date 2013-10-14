@@ -2,6 +2,8 @@
 
 namespace Smirik\CourseBundle\Manager;
 
+use FOS\UserBundle\Propel\User;
+use Smirik\CourseBundle\Model\Lesson;
 use Smirik\CourseBundle\Model\UserLessonQuery;
 use Smirik\CourseBundle\Model\UserLesson;
 
@@ -14,16 +16,16 @@ class UserLessonManager
     {
         $this->user_task_manager = $user_task_manager;
     }
-    
+
     public function getByLesson($user, $lesson)
     {
-        return 
+        return
             UserLessonQuery::create()
                 ->filterByUserId($user->getId())
                 ->filterByLessonId($lesson->getId())
                 ->findOne();
     }
-    
+
     /**
      * Create user lesson (start button)
      * @param  integer                          $user_id
@@ -39,7 +41,7 @@ class UserLessonManager
 
         return $user_lesson->save();
     }
-    
+
     public function action($user, $lesson, $action)
     {
         $user_lesson = $this->getByLesson($user, $lesson);
@@ -81,12 +83,12 @@ class UserLessonManager
                 ->findOne()
             ;
     }
-    
+
     /**
      * Unsubscribe $user from all lessons related to $course
      * @param \FOS\UserBundle\Propel\User $user
      * @param \Smirik\CourseBundle\Model\Course
-     * @return void 
+     * @return void
      */
     public function unsubscribe($user, $course)
     {
@@ -98,6 +100,20 @@ class UserLessonManager
         foreach($user_lessons as $user_lesson) {
             $this->user_task_manager->unsubscribe($user, $user_lesson);
             $user_lesson->delete();
+        }
+    }
+
+    function close(User $user, Lesson $lesson)
+    {
+        /** @var UserLesson $entity */
+        $entity = UserLessonQuery::create()
+            ->filterByUser($user)
+            ->filterByLesson($lesson)
+            ->findOne()
+        ;
+
+        if ($entity) {
+            $entity->close();
         }
     }
 
