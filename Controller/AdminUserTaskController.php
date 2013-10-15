@@ -5,13 +5,9 @@ namespace Smirik\CourseBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Smirik\CourseBundle\Manager\UserLessonManager;
-use Smirik\CourseBundle\Manager\UserTaskManager;
 use Symfony\Component\HttpFoundation\Response;
-use Smirik\CourseBundle\Model\UserTask;
 use Smirik\CourseBundle\Model\UserTaskReview;
 use Smirik\CourseBundle\Model\UserTaskQuery;
-use Smirik\CourseBundle\Form\Type\UserTaskReviewRejectType;
 
 use Smirik\CourseBundle\Controller\Base\AdminUserTaskController as BaseController;
 
@@ -65,23 +61,7 @@ class AdminUserTaskController extends BaseController
 		        $user_task->setAccepted();
 		        $user_task->setMark($mark);
 
-                // Close lesson if no tasks left to perform
-                /** @var UserTaskManager $service */
-                $service = $this->get('user_task.manager');
-                $tasksRemaining = $service->todo(
-                    $user_task->getUser(),
-                    null,
-                    $user_task->getLesson()
-                );
-
-                if (count($tasksRemaining) == 1) {
-                    /** @var UserLessonManager $service */
-                    $service = $this->get('user_lesson.manager');
-                    $service->close(
-                        $user_task->getUser(),
-                        $user_task->getLesson()
-                    );
-                }
+                $this->get('user_lesson.manager')->onTaskAccepted($user_task);
 
 		    } elseif ($action == 'reject')
 		    {
