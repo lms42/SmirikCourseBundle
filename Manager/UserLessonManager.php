@@ -2,28 +2,31 @@
 
 namespace Smirik\CourseBundle\Manager;
 
+use FOS\UserBundle\Propel\User;
+use Smirik\CourseBundle\Model\Lesson;
 use Smirik\CourseBundle\Model\UserLessonQuery;
 use Smirik\CourseBundle\Model\UserLesson;
+use Smirik\CourseBundle\Model\UserTask;
 
 class UserLessonManager
 {
-
+    /** @var  UserTaskManager */
     protected $user_task_manager;
 
     public function setManagers($user_task_manager)
     {
         $this->user_task_manager = $user_task_manager;
     }
-    
+
     public function getByLesson($user, $lesson)
     {
-        return 
+        return
             UserLessonQuery::create()
                 ->filterByUserId($user->getId())
                 ->filterByLessonId($lesson->getId())
                 ->findOne();
     }
-    
+
     /**
      * Create user lesson (start button)
      * @param  integer                          $user_id
@@ -39,7 +42,7 @@ class UserLessonManager
 
         return $user_lesson->save();
     }
-    
+
     public function action($user, $lesson, $action)
     {
         $user_lesson = $this->getByLesson($user, $lesson);
@@ -81,12 +84,12 @@ class UserLessonManager
                 ->findOne()
             ;
     }
-    
+
     /**
      * Unsubscribe $user from all lessons related to $course
      * @param \FOS\UserBundle\Propel\User $user
      * @param \Smirik\CourseBundle\Model\Course
-     * @return void 
+     * @return void
      */
     public function unsubscribe($user, $course)
     {
@@ -101,4 +104,38 @@ class UserLessonManager
         }
     }
 
+    function close(User $user, Lesson $lesson)
+    {
+        /** @var UserLesson $user_lesson */
+        $user_lesson = UserLessonQuery::create()
+            ->filterByUser($user)
+            ->filterByLesson($lesson)
+            ->findOne()
+        ;
+
+        if ($user_lesson) {
+            $user_lesson->close();
+        }
+    }
+
+    /**
+     * Close lesson if no tasks left to perform
+     *
+     * @param UserTask $task
+     */
+    function onTaskAccepted(UserTask $task)
+    {
+        $tasksRemaining = $this->user_task_manager->todo(
+            $task->getUser(),
+            null,
+            $task->getLesson()
+        );
+
+        if (count($tasksRemaining) == 1) {
+            $this->close(
+                $task->getUser(),
+                $task->getLesson()
+            );
+        }
+    }
 }

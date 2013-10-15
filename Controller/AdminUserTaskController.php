@@ -6,16 +6,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\HttpFoundation\Response;
-use Smirik\CourseBundle\Model\UserTask;
 use Smirik\CourseBundle\Model\UserTaskReview;
 use Smirik\CourseBundle\Model\UserTaskQuery;
-use Smirik\CourseBundle\Form\Type\UserTaskReviewRejectType;
 
 use Smirik\CourseBundle\Controller\Base\AdminUserTaskController as BaseController;
 
 class AdminUserTaskController extends BaseController
 {
-	
+
 	/**
 	 * @Route("/admin/users_tasks/{id}/accept", name="admin_users_tasks_accept")
 	 */
@@ -35,7 +33,7 @@ class AdminUserTaskController extends BaseController
 		  'user_task' => $user_task,
 		));
 	}
-	
+
 	/**
 	 * @Route("/admin/users_tasks/{id}/save_review", name="admin_users_tasks_save_review")
 	 */
@@ -57,17 +55,20 @@ class AdminUserTaskController extends BaseController
         		$user_task_review->setText($comment);
         		$user_task_review->save();
 		    }
-            
+
 		    if ($action == 'accept')
 		    {
 		        $user_task->setAccepted();
 		        $user_task->setMark($mark);
+
+                $this->get('user_lesson.manager')->onTaskAccepted($user_task);
+
 		    } elseif ($action == 'reject')
 		    {
 		        $user_task->setRejected();
 		    }
 		    $user_task->save();
-		    
+
 		    $data = array('result' => $id);
 		    return new Response(json_encode($data));
 		}

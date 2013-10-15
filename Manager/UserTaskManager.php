@@ -140,7 +140,7 @@ class UserTaskManager
                     ->filterByUserId(is_object($user) ? $user->getId() : $user)
                 ->_endif()
                 ->_if($lesson)
-                    ->filterByUserId(is_object($lesson) ? $lesson->getId() : $lesson)
+                    ->filterByLessonId(is_object($lesson) ? $lesson->getId() : $lesson)
                 ->_endif()
             ;
     }
@@ -151,7 +151,7 @@ class UserTaskManager
      * @param  \FOS\UserBundle\Propel\User|int         $user
      * @param  \Smirik\CourseBundle\Model\Course|null  $course  (!) Not implemented
      * @param  \Smirik\CourseBundle\Model\Lesson|null  $lesson
-     * @return \ModelCriteria|\Smirik\CourseBundle\Model\TaskQuery
+     * @return \PropelObjectCollection
      */
     public function todo($user, $course = null, $lesson = null)
     {
@@ -177,7 +177,7 @@ class UserTaskManager
                 ->find()
             ;
     }
-    
+
     /**
      * Remove all user's tasks ($user) for given $user_lesson
      * @param \FOS\UserBundle\Propel\User $user
