@@ -5,9 +5,17 @@ namespace Smirik\CourseBundle\Manager;
 use Smirik\CourseBundle\Model\TaskQuery;
 use Smirik\CourseBundle\Model\UserTaskQuery;
 use Smirik\CourseBundle\Model\UserTask;
+use Smirik\CourseBundle\Model\UserTaskReview;
 
 class UserTaskManager
 {
+    
+    protected $user_lesson_manager;
+    
+    public function setManagers($user_lesson_manager)
+    {
+        $this->user_lesson_manager = $user_lesson_manager;
+    }
 
     /**
      * Creates user tasks for given lesson
@@ -191,4 +199,31 @@ class UserTaskManager
             ->filterByLessonId($user_lesson->getLessonId())
             ->delete();
     }
+    
+    /**
+     * Add review to UserTask
+     * @return \Smirik\CourseBundle\Model\UserTask $user_task
+     */
+    public function estimate($user, $user_task, $comment, $mark = 1, $action = 'rejected')
+    {
+	    if ($comment && ($comment != ''))
+	    {
+    		$user_task_review = new UserTaskReview();
+    		$user_task_review->setUserTaskId($user_task->getId());
+    		$user_task_review->setUserId($user->getId());
+    		$user_task_review->setText($comment);
+    		$user_task_review->save();
+        }
+        
+	    if ($action == 'accept') {
+	        $user_task->accept();
+	        $user_task->setMark($mark);
+    	    $user_task->save();
+            $this->user_lesson_manager->action($user_task->getUser(), $user_task->getLesson(), 'close');
+	    } elseif ($action == 'reject') {
+	        $user_task->reject();
+    	    $user_task->save();
+	    }
+    }
+    
 }

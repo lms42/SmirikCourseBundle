@@ -98,7 +98,7 @@ class Lesson extends BaseLesson
 		$ul = UserLessonQuery::create()
 			->filterByUserId($user_id)
 			->filterByLessonId($this->getId())
-			->filterByIsPassed(true)
+			/* ->filterByIsPassed(true) */
 			->filterByIsClosed(false)
 			->findOne();
 		

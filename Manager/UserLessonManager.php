@@ -52,6 +52,7 @@ class UserLessonManager
                 $user_lesson->finish();
             } elseif ($action == 'close') {
                 if ($lesson->canBeClosedByUser($user->getId())) {
+                    $user_lesson->finish();
                     $user_lesson->close();
                 }
             }

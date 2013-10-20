@@ -38,6 +38,31 @@ class UserTaskQuery extends BaseUserTaskQuery
 				->orderByTitle($order)
 			->endUse();
 	}
+    
+	public function filterByName($text, $scope = null)
+	{
+		return $this
+			->useUserQuery()
+                ->useProfileQuery()
+				    ->filterByLastName($text, $scope)
+                    ->_or()
+				    ->filterByFirstName($text, $scope)
+                ->endUse()
+                ->_or()
+                ->filterByUsername($text, $scope)
+			->endUse();
+	}
+	
+	public function orderByName($order)
+	{
+		return $this
+		    ->useUserQuery()
+                ->useProfileQuery()
+                    ->orderByLastName($order)
+                    ->orderByFirstName($order)
+                ->endUse()
+			->endUse();
+	}
 
 	public function filterByUser($text, $scope = null)
 	{
