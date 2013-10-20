@@ -72,6 +72,7 @@ class LessonController extends Controller
             'lesson'           => $lesson,
             'maintext'         => $content['main_text'],
             'mainslideshare'   => $content['main_slideshare'],
+            'youtube'          => $content['youtube'],
             'additional_texts' => $content['additional_texts'],
             'questions'        => $content['questions'],
             'quiz'             => $content['quiz'],
@@ -80,16 +81,45 @@ class LessonController extends Controller
             'tasks'            => $content['tasks'],
             'tasks_forms'      => $forms,
             'user_tasks'       => $content['user_tasks'],
+
         );
     }
+    
+    /**
+     * @Route("/{id}/task/{task_id}", name="lesson_task")
+     * @ParamConverter("lesson", options={ "mapping"={ "id" : "id" }})
+     * @ParamConverter("task", options={ "mapping"={ "task_id" : "id" }})
+     * @Secure(roles="ROLE_USER")
+     * @Template()
+     */
+    public function taskAction(\Smirik\CourseBundle\Model\Lesson $lesson, \Smirik\CourseBundle\Model\Task $task)
+    {
+        $user    = $this->getUser();
+        $request = $this->getRequest();
 
+        $user_task   = $this->get('task.manager')->findOrCreate($lesson, $task, $user);
+        $tasks_array = $this->get('lesson.manager')->getTasks($lesson, $user->getId());
+        $nearby      = $this->get('task.manager')->findNearby($task, $tasks_array['tasks']);
+        
+        $form = $this->createForm(new UserTaskAnswerType('UserTaskAnswer'.$task->getId()), $user_task);
+        return array(
+            'form'       => $form->createView(),
+            'lesson'     => $lesson,
+            'task'       => $task,
+            'user_task'  => $user_task,
+            'nearby'     => $nearby,
+            'tasks'      => $tasks_array['tasks'],
+            'user_tasks' => $tasks_array['user_tasks'],
+        );
+    }
+    
     /**
      * @Route("/{id}/task/{task_id}/save", name="lesson_task_save")
      * @ParamConverter("lesson", options={ "mapping"={ "id" : "id" }})
      * @ParamConverter("task", options={ "mapping"={ "task_id" : "id" }})
      * @Secure(roles="ROLE_USER")
      */
-    public function taskAction(\Smirik\CourseBundle\Model\Lesson $lesson, \Smirik\CourseBundle\Model\Task $task)
+    public function taskSaveAction(\Smirik\CourseBundle\Model\Lesson $lesson, \Smirik\CourseBundle\Model\Task $task)
     {
         $user    = $this->getUser();
         $request = $this->getRequest();
@@ -152,6 +182,7 @@ class LessonController extends Controller
         $user_task    = $task_manager->findOrCreate($lesson, $task, $user);
         $user_task->fail();
         $user_task->save();
+        $this->get('user_lesson.manager')->action($this->getUser(), $lesson, 'close');
         return $this->redirect($this->generateUrl('lesson_index', array('id' => $lesson->getId())));
     }
 

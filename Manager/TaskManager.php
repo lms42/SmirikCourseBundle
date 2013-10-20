@@ -45,5 +45,51 @@ class TaskManager
         $question->save();
         return $question;
     }
+    
+    /**
+     * Find previous & next tasks in $collection 
+     * @param \Smirik\CourseBundle\Model\Task
+     * @param \PropelObjectCollection
+     * @return array
+     */
+    public function findNearby($task, $collection)
+    {
+        $empty_response = array(
+            'previous' => false,
+            'next' => false,
+        );
+
+        $ids = array();
+        foreach ($collection as $elem) {
+            $ids[] = $elem->getId();
+        }
+        
+        $num = count($ids);
+        if (!in_array($task->getId(), $ids) || ($num == 1)) {
+            return $empty_response;
+        }
+        
+        $pos = array_search($task->getId(), $ids);
+        
+        if ($pos == 0) {
+            return array(
+                'previous' => false,
+                'next' => $ids[1],
+            );
+        }
+        
+        if ($pos == $num - 1) {
+            return array(
+                'previous' => $ids[$pos-1],
+                'next' => false,
+            );
+        }
+        
+        return array(
+            'previous' => $ids[$pos-1],
+            'next' => $ids[$pos+1],
+        );
+        
+    }
 
 }

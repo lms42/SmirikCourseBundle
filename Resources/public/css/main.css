@@ -1,5 +1,5 @@
-form.task-form textarea { width: 90%; height: 200px; }
-form.task-form input { width: 90%; }
+form.task-form textarea { width: 95%; height: 200px; }
+form.task-form input { width: 95%; }
 .min-w270{
     min-width: 270px;
 }
@@ -12,3 +12,23 @@ form.task-form input { width: 90%; }
 .relative{
     position: relative;
 }
+
+.embed-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16/9 ratio */
+    padding-top: 30px; /* IE6 workaround*/
+    height: 0;
+    overflow: hidden;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+li div.progress { margin-bottom: 0px; }

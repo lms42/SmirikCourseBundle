@@ -1,0 +1,12 @@
+<div>
+    {% if user_task.status == 3 %}
+        <h2>{{ 'Mark'|trans }}: {{ user_task.mark }}</h2>
+    {% endif %}
+    <strong>{{ 'Your Answer'|trans }}</strong>: 
+    <p>
+        {{ user_task.text|raw }}<br />
+    </p>
+    {% if user_task.url %}
+        <strong>{{ 'Url'|trans }}</strong>: {{ user_task.url }}
+    {% endif %}
+</div>

@@ -15,6 +15,8 @@ services:
         class: Smirik\CourseBundle\Manager\TaskManager
     user_task.manager:
         class: Smirik\CourseBundle\Manager\UserTaskManager
+        calls:
+            - [ setManagers, [ "@user_lesson.manager" ] ]
     user_lesson.manager:
         class: Smirik\CourseBundle\Manager\UserLessonManager
         calls:

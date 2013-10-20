@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Smirik\CourseBundle\Model\UserTask;
 use Smirik\CourseBundle\Model\UserTaskReview;
 use Smirik\CourseBundle\Model\UserTaskQuery;
@@ -39,7 +40,7 @@ class AdminUserTaskController extends BaseController
 	/**
 	 * @Route("/admin/users_tasks/{id}/save_review", name="admin_users_tasks_save_review")
 	 */
-	public function saveReviewAction($id)
+	public function saveReviewAction(UserTask $user_task)
 	{
 	    if ($this->getRequest()->isXmlHttpRequest())
 		{
@@ -47,32 +48,12 @@ class AdminUserTaskController extends BaseController
 		    $comment = $this->getRequest()->request->get('comment', false);
 		    $action  = $this->getRequest()->request->get('action', false);
 		    $user = $this->getUser();
-    		$user_task = UserTaskQuery::create()->findPk($id);
-		    if ($comment && $comment != '')
-		    {
-
-        		$user_task_review = new UserTaskReview();
-        		$user_task_review->setUserTaskId($id);
-        		$user_task_review->setUserId($user->getId());
-        		$user_task_review->setText($comment);
-        		$user_task_review->save();
-		    }
             
-		    if ($action == 'accept')
-		    {
-		        $user_task->setAccepted();
-		        $user_task->setMark($mark);
-		    } elseif ($action == 'reject')
-		    {
-		        $user_task->setRejected();
-		    }
-		    $user_task->save();
+            $this->get('user_task.manager')->estimate($user, $user_task, $comment, $mark, $action);
 		    
-		    $data = array('result' => $id);
-		    return new Response(json_encode($data));
+            return new JsonResponse(array('result' => $user_task->getId()));
 		}
-	    $data = array('result' => false);
-		return new Response(json_encode($data));
+        return new JsonResponse(array('result' => false));
 	}
 
 }

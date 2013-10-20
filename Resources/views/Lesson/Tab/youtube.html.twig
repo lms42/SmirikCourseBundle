@@ -1,0 +1,11 @@
+<h3>{{ youtube.title}}</h3>
+{% if youtube.description %}
+    <blockquote>{{ youtube.description|raw }}</blockquote>
+{% endif %}
+<p>
+    {% if youtube.embedCode %}
+        <div class="embed-container">
+            <iframe width="640" src="http://www.youtube.com/embed/{{ youtube.embedCode }}?rel=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+    {% endif %}
+</p>

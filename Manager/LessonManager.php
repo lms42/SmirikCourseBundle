@@ -46,6 +46,19 @@ class LessonManager
             'main_slideshare' => $main_slideshare,
         );
     }
+    
+    /**
+     * Get youtube objects.
+     * @param \Smirik\CourseBundle\Model\Lesson $lesson
+     * @return array
+     */
+    private function getYoutube($lesson)
+    {
+        $youtube = $lesson->getYoutubeContents();
+        return array(
+            'youtube' => $youtube,
+        );
+    }
 
     /**
      * Get list of questions to the lesson
@@ -104,7 +117,7 @@ class LessonManager
      * @param $user
      * @return array
      */
-    private function getTasks($lesson, $user_id)
+    public function getTasks($lesson, $user_id)
     {
         $tasks = TaskQuery::create()
             ->filterByLessonId($lesson->getId())
@@ -139,11 +152,13 @@ class LessonManager
     {
         $text_response       = $this->getText($lesson);
         $slideshare_response = $this->getSlideshare($lesson);
+        $youtube_response    = $this->getYoutube($lesson);
         $questions_response  = $this->getQuestions($lesson);
         $quiz_response       = $this->getQuiz($lesson, $user_id);
         $tasks_response      = $this->getTasks($lesson, $user_id);
 
-        $response = array_merge($text_response, $slideshare_response, $questions_response, $quiz_response, $tasks_response);
+        $response = array_merge($text_response, $slideshare_response, $youtube_response, $questions_response, $quiz_response, $tasks_response);
+        
         return $response;
     }
 

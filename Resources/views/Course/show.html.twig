@@ -88,7 +88,7 @@
                             <a href="{{ path('lesson_index', {"id": lesson.id }) }}"
                                class="button yellow">{{ 'Continue'|trans }}</a>
                         {% elseif count == 2 and user_id and has_course %}
-                            <a href="{{ path('lesson_index', {"id": lesson.id }) }}"
+                            <a href="{{ path('lesson_action', {"id": lesson.id, "action": "start" }) }}"
                                class="button">{{ 'Start lesson'|trans }}</a>
                         {% elseif course.isPublic and course.type == 0 %}
                             <a href="{{ path('lesson_index', {"id": lesson.id }) }}"

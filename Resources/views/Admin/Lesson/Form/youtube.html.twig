@@ -1,0 +1,20 @@
+<div class="form-content-youtube">
+    <div class="accordion-group" id="youtube-{{ loop.index }}">
+        <div class="accordion-heading">
+            <div class="pull-right remove">
+                <a class="btn btn-small btn-danger delete" href="#"><i class="icon-remove"></i> {{ 'Delete'|trans }}</a>
+            </div>
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-youtube" href="#collapse-youtube-{{ loop.index }}">
+                <strong>{{ content.title.vars.value }}</strong>
+            </a>
+        </div>
+        <div id="collapse-youtube-{{ loop.index }}" class="accordion-body collapse">
+            <div class="accordion-inner">
+                {{ form_row(content.title) }}
+                {{ form_row(content.url) }}
+                {{ form_row(content.description) }}
+                {{ form_rest(content) }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<div id="save-alert-{{ task.id }}" class="alert alert-success hide">
+    {{ 'Answer is saved'|trans }}!
+</div>
+
+<div class="thumbnail stacked">
+    <blockquote>
+        {{ task.text|raw }}
+        {% if task.file %}
+            <hr>
+            <a href="{{ asset(task.file) }}" target="_blank">
+            {% if task.guessExtension in ['avi', 'doc', 'flv', 'gif', 'jpg', 'pdf', 'png', 'ppt', 'psd', 'zip', 'rar', 'xls', 'xlsx'] %}
+                <img src="{{ asset('/bundles/smirikpropeladmin/images/file/'~task.guessExtension~'.png') }}">{{ 'Download attachment'|trans }}</a>
+            {% else %}
+                <img src="{{ asset('/bundles/smirikpropeladmin/images/file/file.png') }}">{{ 'Download attachment'|trans }}</a>
+            {% endif %}
+            
+        {% endif %}
+    </blockquote>
+    {% if user_task is defined and user_task.status == 3 %}
+        <p class="ribbon"><span>{{ ('mark'~user_task.mark)|trans }}</span></p>
+    {% endif %}
+</div>
+
+<hr>
+
+{% if task.id in user_tasks|keys %}
+    <div class="row-fluid">
+        <div class="span9">
+            {% if user_task.status == 0 or user_task.status == 2  %}
+                {% include 'SmirikCourseBundle:Lesson/Task:_answer_form.html.twig' with {'form': form, 'task': task } %}
+            {% else %}
+                {% include 'SmirikCourseBundle:Lesson/Task:_answer.html.twig' with {'user_task': user_task } %}
+            {% endif %}
+        </div>
+        
+        <div class="span3">
+            <h4>{{ 'Reviews'|trans }}</h4>
+            {% for review in user_task.UserTaskReviews %}
+                <div class="alert">
+                    {{ review.text|raw }} <br><small>{{ time_diff(review.createdAt) }}</small>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+{% else %}
+    {{ 'Not available'|trans }}
+{% endif %}

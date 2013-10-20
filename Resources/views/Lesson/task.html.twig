@@ -1,0 +1,59 @@
+{% extends 'SmirikCourseBundle::layout.html.twig' %}
+
+{% block title %}{{ task.title }} - {{ lesson.title}}{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts
+        '@SmirikAdminBundle/Resources/public/js/mathquill-0.9.2/mathquill.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@SmirikAdminBundle/Resources/public/js/mathquill-0.9.2/mathquill.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block header %}
+    <a name="content"></a>
+    {{ task.title }} {% if user_task %}
+        {% if user_task.status == 1 %}<span class="label label-warning">{{ 'Pending'|trans }}</span>{% elseif user_task.status == 3 %}<span class="label label-success">{{ 'Accepted'|trans }}</span>{% elseif user_task.status == 0 %}<span class="label label-info">{{ 'In progress'|trans }}</span>{% elseif user_task.status == 2 %}<span class="label label-important">{{ 'Rejected'|trans }}</span>{% else %}<span class="label label-info">{{ 'Failed'|trans }}</span>{% endif %}
+    {% endif %}
+
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include "SmirikCoreBundle:Menu:breadcrumbs.html.twig" with {
+        items: [
+            {},
+            {label: "Курсы", uri: path("course_index")},
+            {label: lesson.course.title, uri: path("course_show", {id: lesson.courseId})},
+            {label: lesson.title, uri: path('lesson_index', {id: lesson.id })},
+            {label: task.title, uri: "#"},
+        ]}
+    %}
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="row-fluid">
+            <ul class="pager">
+              <li class="previous{% if not nearby.previous %} disabled{% endif %}">
+                <a href="{% if nearby.previous %}{{ path('lesson_task', {'id': lesson.id, 'task_id': nearby.previous}) }}{% else %}#{% endif %}">&larr; {{ 'Previous task'|trans }}</a>
+              </li>
+              <li class="next{% if not nearby.next %} disabled{% endif %}">
+                <a href="{% if nearby.next %}{{ path('lesson_task', {'id': lesson.id, 'task_id': nearby.next}) }}{% else %}#{% endif %}">{{ 'Next task'|trans }} &rarr;</a>
+              </li>
+            </ul>
+            {% include 'SmirikCourseBundle:Lesson/Task:_task.html.twig' with {'task': task, 'user_task': user_task, 'form': form, 'lesson': lesson} %}
+        </div>
+    </div>
+    
+{% endblock %}

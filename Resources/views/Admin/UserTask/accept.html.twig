@@ -10,7 +10,7 @@
         <h4>{{ 'Answer'|trans }}</h4>
         <p>
             {% if user_task.text|length %}
-                {{ user_task.text|striptags('<br>')|raw }}
+                {{ user_task.text|raw }}
             {% else %}
                 {{ 'No answer presented'|trans }}
             {% endif %}

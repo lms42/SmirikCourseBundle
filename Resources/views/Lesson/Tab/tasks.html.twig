@@ -23,11 +23,8 @@
         {% if user_tasks[task.id].status == 0 or user_tasks[task.id].status == 2  %}
           <form class="form-horizontal task-form" action="{{ path('lesson_task_save', {'id': task.lessonId, 'task_id': task.id }) }}" {{ form_enctype(tasks_forms[task.id]) }} method="post" id="task_form{{ task.id }}">
             {{ form_errors(tasks_forms[task.id]) }}
-            {{ form_row(tasks_forms[task.id].text) }} 
-            {{ form_row(tasks_forms[task.id].url) }}
-            {% if false %}
-                {{ form_row(tasks_forms[task.id].file) }}
-            {% endif %}
+            {{ form_errors(tasks_forms[task.id].text) }} 
+            {{ form_widget(tasks_forms[task.id].text) }} 
             {{ form_row(tasks_forms[task.id]._token) }}
             <p>
                 <a href="{{ path('lesson_task_fail', {'id': task.lessonId, 'task_id': task.id }) }}" class="btn btn-danger">{{ 'Fail task'|trans }}</a>

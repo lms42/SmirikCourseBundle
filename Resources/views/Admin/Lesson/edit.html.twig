@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form class="form form-horizontal" action="{{ path(routes.update, {"id": form.vars.value.id }) }}" method="post">
+    <form class="form form-horizontal" action="{{ path(routes.update, {"id": form.vars.value.id }) }}" {{ form_enctype(form) }} method="post">
         <legend>{{ object.title }}</legend>
         {%  include "SmirikCourseBundle:Admin/Lesson:form.html.twig" with { form: form, object: object} %}
         <div class="well">
