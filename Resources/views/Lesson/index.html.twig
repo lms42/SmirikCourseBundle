@@ -41,7 +41,10 @@
                                     <li><a href="#text{{ maintext.id }}" data-toggle="tab"><i class="icon-li icon-align-justify"></i> {{ maintext.title }}</a></li>
                                 {% endif %}
                                 {% for text in additional_texts %}
-                                    <li><a href="#text{{ text.id }}" data-toggle="tab"><i class="icon-li icon-align-justify"></i> {{ text.title }}</a></li>
+                                    <li><i class="icon-li icon-align-justify"></i><a href="#text{{ text.id }}" class="lesson-ajax-tab" data-toggle="tab">{{ text.title }}</a></li>
+                                {% endfor %}
+                                {% for video in youtube %}
+                                    <li><i class="icon-li icon-play"></i><a href="#youtube{{ video.id }}" class="lesson-ajax-tab" data-toggle="tab">{{ video.title }}</a></li>
                                 {% endfor %}
                                 <li><i class="icon-li icon-bookmark"></i><a href="#urls" data-toggle="tab">{{ 'Related links'|trans }}</a></li>
                                 {% if questions|length > 0 %}
@@ -61,11 +64,11 @@
                         <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">{{ 'Tasks'|trans }}</a>
                     </div>
 
-                    <div id="collapseTwo" class="accordion-body in" style="height: auto; ">
+                    <div style="height: auto; ">
                         <div class="accordion-inner widget">
                             <ul class="icons-ul list-style">
                                 {% for task in tasks %}
-                                    <li><i class="icon-tasks icon-li"></i><a href="#task{{ task.id }}" data-toggle="tab">
+                                    <li><i class="icon-tasks icon-li"></i><a href="{{ path('lesson_task', {'id': lesson.id, 'task_id': task.id}) }}" class="lesson-ajax-tab" target="_blank">
                                     {% if task.id in user_tasks|keys and user_tasks[task.id].finished == 3 %}<strike>{{ task.title }}</strike>{% else %}{{ task.title }}{% endif %}
                                     {% if user_tasks[task.id] is defined %}
                                     {% if user_tasks[task.id].rejected %}<span class="badge badge-important">{{ '!'|trans }}</span>
@@ -121,10 +124,15 @@
                         </div>
                     {% endfor %}
 
+                    {% for video in youtube %}
+                        <div class="tab-pane" id="youtube{{ video.id }}">
+                            {% include 'SmirikCourseBundle:Lesson/Tab:youtube.html.twig' with {"youtube": video } %}
+                        </div>
+                    {% endfor %}
+
                     {% include 'SmirikCourseBundle:Lesson/Tab:urls.html.twig' with {"urls": lesson.urlcontents } %}
                     {% include 'SmirikCourseBundle:Lesson/Tab:questions.html.twig' with {"questions": questions, "lesson_id": lesson.id } %}
                     {% include 'SmirikCourseBundle:Lesson/Tab:quiz.html.twig' with {"quiz": quiz, "users_quiz": users_quiz, "lesson": lesson, 'status': status } %}
-                    {% include 'SmirikCourseBundle:Lesson/Tab:tasks.html.twig' with {"tasks": tasks, 'tasks_forms': tasks_forms, 'user_tasks': user_tasks, "lesson": lesson } %}
                 </div>
 
                 <script type="text/javascript">

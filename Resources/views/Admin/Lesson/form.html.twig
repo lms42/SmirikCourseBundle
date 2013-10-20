@@ -3,6 +3,7 @@
         <li><a href="#texts" data-toggle="tab"><i class="icon-book"></i> {{ 'Texts'|trans }}</a></li>
         <li><a href="#urls" data-toggle="tab"><i class="icon-share"></i> {{ 'Urls'|trans }}</a></li>
         <li><a href="#slideshares" data-toggle="tab"><i class="icon-play-circle"></i> {{ 'Slideshare'|trans }}</a></li>
+        <li><a href="#youtube" data-toggle="tab"><i class="icon-play-circle"></i> {{ 'Youtube'|trans }}</a></li>
         <li><a href="#tasks" data-toggle="tab"><i class="icon-tasks"></i> {{ 'Tasks'|trans }}</a></li>
     </ul>
 
@@ -25,7 +26,7 @@
                 {% do  form.text_contents.setRendered() %}
             {% endif %}
             
-            <a data-form-template="{{ form_widget(form.text_contents.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-text" href="#">{{ 'Add'|trans }}</a>
+            <a data-form-template="{{ form_widget(form.text_contents.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-text" href="#"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
         </div>
 
         <div class="tab-pane" id="urls">
@@ -52,9 +53,22 @@
                 {% do form.slideshare_contents.setRendered() %}
             {% endif %}
 
-            <a data-form-template="{{ form_widget(form.slideshare_contents.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-slideshare" href="#">{{ 'Add'|trans }}</a>
+            <a data-form-template="{{ form_widget(form.slideshare_contents.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-slideshare" href="#"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
         </div>
 
+        <div class="tab-pane" id="youtube">
+            <div class="accordion" id="accordion-youtube">
+                {% for content in form.youtube_contents %}
+                    {% include 'SmirikCourseBundle:Admin/Lesson/Form:youtube.html.twig' with {'index': loop.index, 'content': content } %}
+                {% endfor %}
+            </div>
+            {% if not form.youtube_contents|length %}
+                {% do form.youtube_contents.setRendered() %}
+            {% endif %}
+
+            <a data-form-template="{{ form_widget(form.youtube_contents.vars.prototype)|e }}" class="btn add-lesson-content-form add-form-youtube" href="#"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
+        </div>
+        
         <div class="tab-pane" id="tasks">
             <div class="accordion" id="accordion-tasks">
                 {% for content in form.tasks %}
@@ -97,6 +111,7 @@
                 bindAddForm('#texts', 'text');
                 bindAddForm('#urls', 'url');
                 bindAddForm('#slideshares', 'slideshare');
+                bindAddForm('#youtube', 'youtube');
                 bindAddForm('#tasks', 'task');
             });
         </script>

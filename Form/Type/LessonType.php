@@ -33,6 +33,12 @@ class LessonType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ))
+            ->add('youtube_contents', 'collection', array(
+                'type'         => new YoutubeContentType(),
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
             ->add('tasks', 'collection', array(
                 'type'         => new AdminTaskType(),
                 'allow_add'    => true,

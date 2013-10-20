@@ -25,7 +25,7 @@ class UserTaskAnswerType extends AbstractType
                             'transformers'                 => array('strip_js', 'strip_css', 'strip_comments'),
                             'toolbar'                      => array('basicstyles', 'paragraph', 'links'),
                             'toolbar_groups'               => array(
-                                'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat', 'mathedit'),
+                                'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat', 'mathedit', 'syntaxhighlight'),
                                 'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
                                 'links' => array('Link','Unlink','Anchor'),
                             ),

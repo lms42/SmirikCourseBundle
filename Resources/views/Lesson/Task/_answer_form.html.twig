@@ -1,0 +1,27 @@
+<form class="form-horizontal task-form" action="{{ path('lesson_task_save', {'id': task.lessonId, 'task_id': task.id }) }}" {{ form_enctype(form) }} method="post" id="task_form{{ task.id }}">
+    {{ form_errors(form) }}
+    {{ form_errors(form.text) }} 
+    {{ form_widget(form.text) }} 
+    {{ form_row(form._token) }}
+    <hr>
+    <div class="well">
+        <div class="btn-group">
+            <a href="{{ path('lesson_task_fail', {'id': task.lessonId, 'task_id': task.id }) }}" class="btn btn-danger">{{ 'Fail task'|trans }}</a>
+            <a href="#" id="link_task_save" class="btn task_form_submit" data-id="{{ task.id }}" data-form-id="task_form{{ task.id }}">{{ 'Save'|trans }}</a>
+            <button id="btn_task_submit" type="submit" href="#" class="btn btn-primary task_form_sent">{{ 'Send task'|trans }}</button>
+        </div>
+    </div>
+</form>
+
+<script language="Javascript">
+$(document).ready(function() {
+	$('a.task_form_submit').click(function (e) {
+        var form = $('#' + $(this).data('form-id'));
+        for ( instance in CKEDITOR.instances )
+            CKEDITOR.instances[instance].updateElement();
+        console.log(form.serialize());
+        $.post(form.attr('action'), form.serialize(),function(data){}, 'json');
+        $('#save-alert-'+$(this).data('id')).show();
+	});
+});
+</script>
