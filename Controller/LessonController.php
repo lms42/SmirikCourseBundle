@@ -58,9 +58,13 @@ class LessonController extends Controller
         $lesson_manager = $this->get('lesson.manager');
         $content        = $lesson_manager->getContent($lesson, $user_id);
         $status         = $lesson_manager->getStatus($lesson, $user_id);
-
+        
         if ($status == -2) {
             return $this->redirect($this->generateUrl('course_show', array('id' => $lesson->getCourseId())));
+        }
+        
+        if (($status < 0) && ($cm->hasUserStartedCourse($user_id, $course->getId()))) {
+            $user_lesson = $this->get('user_lesson.manager')->create($user, $lesson);
         }
 
         $forms = $this->createTaskAnswersForms($content);
@@ -98,6 +102,14 @@ class LessonController extends Controller
         $request = $this->getRequest();
 
         $user_task   = $this->get('task.manager')->findOrCreate($lesson, $task, $user);
+        if ($user_task->isNew() && $this->get('course.manager')->hasUserStartedCourse($user->getId(), $lesson->getCourseId())) {
+            $status = $this->get('lesson.manager')->getStatus($lesson, $user->getId());
+            if ($status < 0) {
+                $user_lesson = $this->get('user_lesson.manager')->create($user, $lesson);
+            }
+            $user_task->save();
+        }
+        
         $tasks_array = $this->get('lesson.manager')->getTasks($lesson, $user->getId());
         $nearby      = $this->get('task.manager')->findNearby($task, $tasks_array['tasks']);
         

@@ -23,7 +23,7 @@ class TaskManager
             ->findOne()
         ;
             
-        if ( ! $user_task) {
+        if (!$user_task) {
             $user_task = new UserTask();
             $user_task->setUserId($user->getId());
             $user_task->setTaskId($task->getId());
