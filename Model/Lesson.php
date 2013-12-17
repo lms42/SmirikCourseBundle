@@ -66,6 +66,17 @@ class Lesson extends BaseLesson
 		{
 			return true;
 		}
+        
+        $has_course = UserCourseQuery::create()
+            ->filterByUserId($user_id)
+            ->filterByCourseId($this->getCourseId())
+            ->findOne()
+        ;
+        
+        if (!is_object($has_course)) {
+            return false;
+        }
+            
 		
 		$next = LessonQuery::create()
 			->filterByCourseId($this->getCourseId())

@@ -37,6 +37,7 @@ Save: Сохранить
 'In progress': 'В работе'
 'In Progress': 'В работе'
 Pending: Проверяется
+Pending tasks: Задания на проверке
 Failed: Провалено
 Reviews: Рецензия
 'Your Answer': 'Ваш ответ'
@@ -163,3 +164,5 @@ Back to lesson: Назад к уроку
 Previous task: Предыдущее задание
 Next task: Следующее задание
 Download attachment: Скачать приложение
+
+Lessons: Уроки
