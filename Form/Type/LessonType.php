@@ -15,6 +15,7 @@ class LessonType extends AbstractType
                 'class' => 'Smirik\CourseBundle\Model\Course',
             ))
             ->add('title')
+            ->add('sortable_rank')
             ->add('text_contents', 'collection', array(
                 'type'         => new TextContentType(),
                 'allow_add'    => true,

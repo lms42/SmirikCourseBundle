@@ -218,6 +218,7 @@ class LessonManager
         return LessonQuery::create()
             ->filterPublished()
             ->filterByCourseId($course->getId())
+            ->orderBySortableRank()
             ->find()
         ;
     } 
